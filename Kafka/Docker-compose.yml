@@ -1,0 +1,14 @@
+version: '3'
+services:
+  kafka:
+    container_name: 'kafka'
+    image: spotify/kafka
+    ports:
+      - "2181:2181" #Zookeper port
+      - "9092:9092" #Kafka port
+    networks:
+      - network1
+
+networks:
+  network1:
+    driver: bridge
