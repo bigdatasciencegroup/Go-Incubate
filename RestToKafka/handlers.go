@@ -3,7 +3,6 @@ package main
 import (
 	"document"
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -16,7 +15,7 @@ func makeMuxRouter() http.Handler {
 	// muxRouter.HandleFunc("/definition/", handlerGetWordByID).Methods("GET")
 	// muxRouter.HandleFunc("/definition", handlerGetWord).Methods("GET")
 	muxRouter.HandleFunc("/definition", handlerPostWord).Methods("POST")
-	muxRouter.HandleFunc("/definition", handlerPutWord).Methods("PUT")
+	// muxRouter.HandleFunc("/definition", handlerPutWord).Methods("PUT")
 	return muxRouter
 }
 
@@ -49,7 +48,11 @@ func handlerPostWord(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	word.ID = bson.NewObjectId()
-	err := dictionary.Insert(word)
+
+	// Send data to Kafka
+	saveJobToKafka(word)
+	// err := dictionary.Insert(word)
+
 	switch {
 	case mgo.IsDup(err):
 		respondWithError(w, http.StatusConflict, err.Error())
@@ -61,9 +64,9 @@ func handlerPostWord(w http.ResponseWriter, r *http.Request) {
 	respondWithJSON(w, http.StatusCreated, word)
 }
 
-func handlerPutWord(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Not implemented yet putdef")
-}
+// func handlerPutWord(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Fprintln(w, "Not implemented yet putdef")
+// }
 
 func respondWithError(w http.ResponseWriter, code int, msg string) {
 	respondWithJSON(w, code, map[string]string{"error": msg})
