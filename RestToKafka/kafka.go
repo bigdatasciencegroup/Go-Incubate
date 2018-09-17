@@ -22,7 +22,7 @@ func saveJobToKafka(job Job) {
 	}
 
 	// Produce messages to topic (asynchronously)
-	topic := "jobs-topic1"
+	topic := "jobNewWords"
 	for _, word := range []string{jobString} {
 		p.Produce(&kafka.Message{
 			TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny},
