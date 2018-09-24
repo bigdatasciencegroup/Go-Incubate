@@ -6,9 +6,14 @@ services:
     image: spotify/kafka
     ports:
       - "2181:2181" #Zookeeper
-      - "9092:9092" #Mongo
+      - "9092:9092" #Kafka
     networks:
       - network1
+    environment:
+      - ADVERTISED_HOST=127.0.0.1 #192.168.99.100 when using DockerToolbox
+      - ADVERTISED_PORT=9092
+      - NUM_PARTITIONS=10
+      - TOPICNAME=kafka-first-topic
   dictionary:
     container_name: 'dictionary'
     image: dictionaryapi
