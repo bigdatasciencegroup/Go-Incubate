@@ -49,21 +49,30 @@ func main() {
 	ds := &dataStore{}
 	addFakeData(ds)
 
-	kafkaConn := os.Getenv("ADVERTISED_HOST") + ":" + os.Getenv("ADVERTISED_PORT")
-	producer, err := kafkasw.createKafkaProducer(kafkaConn)
+	brokers := []string{os.Getenv("ADVERTISED_HOST") + ":" + os.Getenv("ADVERTISED_PORT")}
+	producer, err := kafkasw.CreateKafkaProducer(brokers)
 	if err != nil {
 		log.Fatal("Failed to connect to Kafka")
 	}
 
 	//Ensures that the topic has been created in kafka
 	producer.Input() <- &sarama.ProducerMessage{
-		Key:       sarama.StringEncoder("init"),
-		Topic:     topicName,
+		Key: sarama.StringEncoder("init"),
+		// Value:     sarama.StringEncoder("First Message"),
+		Topic:     os.Getenv("TOPICNAME"),
 		Timestamp: time.Now(),
+	}
+	log.Println("Creating Topic...")
+	time.Sleep(1 * time.Second)
+
+	consumerGroup := kafkasw.ConsumerGroup{
+		GroupName: "group.testing",
+		Topics:    []string{"TOPICNAME"},
+		Zookeeper: []string{os.Getenv("ADVERTISED_HOST") + ":" + os.Getenv("ZOOKEEPER_PORT")},
 	}
 
 	go func() {
-		consumeMessages("127.0.0.1:2181", msgHandler(ds))
+		kafkasw.ConsumeMessages(consumerGroup, msgHandler(ds))
 	}()
 
 	if err := run(); err != nil {

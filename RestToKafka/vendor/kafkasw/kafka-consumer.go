@@ -10,25 +10,37 @@ import (
 	"github.com/wvanbergen/kafka/consumergroup"
 )
 
-const consumerGroup = "group.testing"
-
 type messageHandler func(*sarama.ConsumerMessage) error
 
-func consumeMessages(zookeeperConn string, handler messageHandler) {
+//ConsumerGroup contains the consumer connection parameters
+type ConsumerGroup struct {
+	GroupName string   //ConsumerGroup name
+	Topics    []string //Topic name
+	Zookeeper []string //Zookeeper IP:Port address
+}
+
+//ConsumeMessages creates consumer group to consume the messages
+func ConsumeMessages(consumerGroup ConsumerGroup, handler messageHandler) {
 	log.Println("Starting Consumer")
 	config := consumergroup.NewConfig()
 	config.Offsets.Initial = sarama.OffsetOldest
 	config.Offsets.ProcessingTimeout = 10 * time.Second
 
-	consumer, err := consumergroup.JoinConsumerGroup(consumerGroup, []string{topicName}, []string{zookeeperConn}, config)
+	consumer, err := consumergroup.JoinConsumerGroup(
+		consumerGroup.GroupName,
+		consumerGroup.Topics,
+		consumerGroup.Zookeeper,
+		config)
 	if err != nil {
 		log.Fatal("Failed to join consumer group", consumerGroup, err)
 	}
 
+	//Relay incoming signals to channel 'c'
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 	signal.Notify(c, os.Kill)
 
+	//Terminate the consumer gracefully upon receiving a kill signal.
 	go func() {
 		<-c
 		if err := consumer.Close(); err != nil {
@@ -39,6 +51,7 @@ func consumeMessages(zookeeperConn string, handler messageHandler) {
 		os.Exit(0)
 	}()
 
+	//Read from the Errors() channel to avoid producer deadlock
 	go func() {
 		for err := range consumer.Errors() {
 			log.Println(err)
