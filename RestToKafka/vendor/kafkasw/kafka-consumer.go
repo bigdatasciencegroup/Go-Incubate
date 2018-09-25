@@ -12,27 +12,28 @@ import (
 
 type messageHandler func(*sarama.ConsumerMessage) error
 
-//ConsumerGroup contains the consumer connection parameters
-type ConsumerGroup struct {
+//ConsumerParam contains the consumer connection properties
+type ConsumerParam struct {
 	GroupName string   //ConsumerGroup name
 	Topics    []string //Topic name
-	Zookeeper []string //Zookeeper IP:Port address
+	Zookeeper []string //Zookeeper 'IP:Port' address
 }
 
 //ConsumeMessages creates consumer group to consume the messages
-func ConsumeMessages(consumerGroup ConsumerGroup, handler messageHandler) {
+func ConsumeMessages(consumerParam ConsumerParam, handler messageHandler) {
 	log.Println("Starting Consumer")
 	config := consumergroup.NewConfig()
 	config.Offsets.Initial = sarama.OffsetOldest
 	config.Offsets.ProcessingTimeout = 10 * time.Second
 
+	//Create a consumer within a consumer group
 	consumer, err := consumergroup.JoinConsumerGroup(
-		consumerGroup.GroupName,
-		consumerGroup.Topics,
-		consumerGroup.Zookeeper,
+		consumerParam.GroupName,
+		consumerParam.Topics,
+		consumerParam.Zookeeper,
 		config)
 	if err != nil {
-		log.Fatal("Failed to join consumer group", consumerGroup, err)
+		log.Fatal("Failed to join consumer group", consumerParam.GroupName, err)
 	}
 
 	//Relay incoming signals to channel 'c'
@@ -51,22 +52,25 @@ func ConsumeMessages(consumerGroup ConsumerGroup, handler messageHandler) {
 		os.Exit(0)
 	}()
 
-	//Read from the Errors() channel to avoid producer deadlock
+	//Read from the Errors() channel to avoid consumer deadlock
 	go func() {
 		for err := range consumer.Errors() {
 			log.Println(err)
 		}
 	}()
 
+	//Consume messages from Kafka
 	log.Println("Waiting for messages")
 	for message := range consumer.Messages() {
 		log.Printf("Topic: %s\t Partition: %v\t Offset: %v\n", message.Topic, message.Partition, message.Offset)
 
+		//Handle the message
 		e := handler(message)
 		if e != nil {
 			log.Fatal(e)
 			consumer.Close()
 		} else {
+			//Mark the message as processed
 			consumer.CommitUpto(message)
 		}
 	}

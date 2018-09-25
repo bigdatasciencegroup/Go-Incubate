@@ -1,6 +1,8 @@
 package main
 
 import (
+	"document"
+	"encoding/json"
 	"fmt"
 	"io"
 	"kafkasw"
@@ -31,16 +33,20 @@ func init() {
 
 //Results is data store
 type dataStore struct {
-	data map[string]map[string]int
+	data map[string]map[string]document.Word
 }
 
 func addFakeData(ds *dataStore) {
-	user1 := make(map[string]int)
-	user1["Golang"] = 3
-
-	user1["Kafka"] = 2
-
-	ds.data = make(map[string]map[string]int)
+	user1 := make(map[string]document.Word)
+	user1["Golang"] = document.Word{
+		Value:   "Hello",
+		Meaning: "Greeting",
+	}
+	user1["Kafka"] = document.Word{
+		Value:   "ByeBye",
+		Meaning: "Greeting",
+	}
+	ds.data = make(map[string]map[string]document.Word)
 	ds.data["user1"] = user1
 }
 
@@ -57,22 +63,21 @@ func main() {
 
 	//Ensures that the topic has been created in kafka
 	producer.Input() <- &sarama.ProducerMessage{
-		Key: sarama.StringEncoder("init"),
-		// Value:     sarama.StringEncoder("First Message"),
+		Key:       sarama.StringEncoder("init"),
 		Topic:     os.Getenv("TOPICNAME"),
 		Timestamp: time.Now(),
 	}
 	log.Println("Creating Topic...")
 	time.Sleep(1 * time.Second)
 
-	consumerGroup := kafkasw.ConsumerGroup{
+	ConsumerParam := kafkasw.ConsumerParam{
 		GroupName: "group.testing",
 		Topics:    []string{"TOPICNAME"},
 		Zookeeper: []string{os.Getenv("ADVERTISED_HOST") + ":" + os.Getenv("ZOOKEEPER_PORT")},
 	}
 
 	go func() {
-		kafkasw.ConsumeMessages(consumerGroup, msgHandler(ds))
+		kafkasw.ConsumeMessages(ConsumerParam, msgHandler(ds))
 	}()
 
 	if err := run(); err != nil {
@@ -104,4 +109,33 @@ func checkError(err error) bool {
 		return true
 	}
 	return false
+}
+
+func msgHandler(ds *dataStore) func(m *sarama.ConsumerMessage) error {
+	return func(m *sarama.ConsumerMessage) error {
+		// Empty body means it is an init message
+		if len(m.Value) == 0 {
+			return nil
+		}
+
+		word := &document.Word{}
+		e := json.Unmarshal(m.Value, word)
+
+		if e != nil {
+			return e
+		}
+
+		//Simulate processing time
+		time.Sleep(1 * time.Second)
+		log.Printf("Adding skill %s to user %s", skillMsg.SkillName, skillMsg.ProfileID)
+
+		score := skillScore{
+			SkillName:  skillMsg.SkillName,
+			Score:      rand.Float32() * 100,
+			LastScored: time.Now(),
+		}
+
+		ds.WriteData(skillMsg.ProfileID, score)
+		return nil
+	}
 }
