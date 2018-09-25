@@ -32,28 +32,25 @@ func init() {
 }
 
 //Results is data store
-type dataStore struct {
-	data map[string]map[string]document.Word
-}
+type dataStore map[int]document.Word
 
 func addFakeData(ds *dataStore) {
-	user1 := make(map[string]document.Word)
-	user1["Golang"] = document.Word{
+	user1 := document.Word{
 		Value:   "Hello",
 		Meaning: "Greeting",
 	}
-	user1["Kafka"] = document.Word{
+	user2 := document.Word{
 		Value:   "ByeBye",
 		Meaning: "Greeting",
 	}
-	ds.data = make(map[string]map[string]document.Word)
-	ds.data["user1"] = user1
+	(*ds)[5] = user1
+	(*ds)[10] = user2
 }
 
 func main() {
 
-	ds := &dataStore{}
-	addFakeData(ds)
+	ds := make(dataStore)
+	addFakeData(&ds)
 
 	brokers := []string{os.Getenv("ADVERTISED_HOST") + ":" + os.Getenv("ADVERTISED_PORT")}
 	producer, err := kafkasw.CreateKafkaProducer(brokers)
@@ -77,7 +74,7 @@ func main() {
 	}
 
 	go func() {
-		kafkasw.ConsumeMessages(ConsumerParam, msgHandler(ds))
+		kafkasw.ConsumeMessages(ConsumerParam, msgHandler(&ds))
 	}()
 
 	if err := run(); err != nil {
@@ -112,30 +109,37 @@ func checkError(err error) bool {
 }
 
 func msgHandler(ds *dataStore) func(m *sarama.ConsumerMessage) error {
+	var ind = 0
 	return func(m *sarama.ConsumerMessage) error {
 		// Empty body means it is an init message
 		if len(m.Value) == 0 {
 			return nil
 		}
 
+		//Read message into 'word' struct
 		word := &document.Word{}
 		e := json.Unmarshal(m.Value, word)
-
 		if e != nil {
 			return e
 		}
 
 		//Simulate processing time
 		time.Sleep(1 * time.Second)
-		log.Printf("Adding skill %s to user %s", skillMsg.SkillName, skillMsg.ProfileID)
+		log.Printf("Adding word %s to user %s", word.Value, word.Value)
 
-		score := skillScore{
-			SkillName:  skillMsg.SkillName,
-			Score:      rand.Float32() * 100,
-			LastScored: time.Now(),
-		}
+		//Write data
+		(*ds)[ind] = *word
+		ind++
 
-		ds.WriteData(skillMsg.ProfileID, score)
 		return nil
 	}
+}
+
+func (ds *dataStore) ReadData(ind int, val string) (document.Word, bool) {
+	word, ok := (*ds)[ind]
+	if !ok {
+		return document.Word{}, false
+	}
+
+	return word, true
 }
