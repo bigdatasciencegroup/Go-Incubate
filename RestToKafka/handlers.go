@@ -12,7 +12,7 @@ import (
 
 func makeMuxRouter() http.Handler {
 	muxRouter := mux.NewRouter()
-	// muxRouter.HandleFunc("/definition/", handlerGetWordByID).Methods("GET")
+	muxRouter.HandleFunc("/definition/", handlerGetWordByID).Methods("GET")
 	// muxRouter.HandleFunc("/definition", handlerGetWord).Methods("GET")
 	muxRouter.HandleFunc("/definition", handlerPostWord).Methods("POST")
 	// muxRouter.HandleFunc("/definition", handlerPutWord).Methods("PUT")
@@ -20,23 +20,23 @@ func makeMuxRouter() http.Handler {
 }
 
 // func handlerGetWord(w http.ResponseWriter, r *http.Request) {
-// 	movies, err := dictionary.FindAll()
+// 	words, err := dictionary.FindAll()
 // 	if err != nil {
 // 		respondWithError(w, http.StatusInternalServerError, err.Error())
 // 		return
 // 	}
-// 	respondWithJSON(w, http.StatusOK, movies)
+// 	respondWithJSON(w, http.StatusOK, words)
 // }
 
-// func handlerGetWordByID(w http.ResponseWriter, r *http.Request) {
-// 	query := r.URL.Query()
-// 	word, err := dictionary.FindByValue(query.Get("word"))
-// 	if err != nil {
-// 		respondWithError(w, http.StatusInternalServerError, err.Error())
-// 		return
-// 	}
-// 	respondWithJSON(w, http.StatusOK, word)
-// }
+func handlerGetWordByID(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	word, err := ds[query.Get("word")]
+	if err != true {
+		respondWithError(w, http.StatusInternalServerError, "Not available")
+		return
+	}
+	respondWithJSON(w, http.StatusOK, word)
+}
 
 func handlerPostWord(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
@@ -63,10 +63,6 @@ func handlerPostWord(w http.ResponseWriter, r *http.Request) {
 	}
 	respondWithJSON(w, http.StatusCreated, word)
 }
-
-// func handlerPutWord(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Fprintln(w, "Not implemented yet putdef")
-// }
 
 func respondWithError(w http.ResponseWriter, code int, msg string) {
 	respondWithJSON(w, code, map[string]string{"error": msg})

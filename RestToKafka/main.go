@@ -32,7 +32,7 @@ func init() {
 }
 
 //Results is data store
-type dataStore map[int]document.Word
+type dataStore map[string]document.Word
 
 func addFakeData(ds *dataStore) {
 	user1 := document.Word{
@@ -43,13 +43,14 @@ func addFakeData(ds *dataStore) {
 		Value:   "ByeBye",
 		Meaning: "Greeting",
 	}
-	(*ds)[5] = user1
-	(*ds)[10] = user2
+	(*ds)["user1"] = user1
+	(*ds)["user2"] = user2
 }
+
+var ds = make(dataStore)
 
 func main() {
 
-	ds := make(dataStore)
 	addFakeData(&ds)
 
 	brokers := []string{os.Getenv("ADVERTISED_HOST") + ":" + os.Getenv("ADVERTISED_PORT")}
@@ -109,7 +110,6 @@ func checkError(err error) bool {
 }
 
 func msgHandler(ds *dataStore) func(m *sarama.ConsumerMessage) error {
-	var ind = 0
 	return func(m *sarama.ConsumerMessage) error {
 		// Empty body means it is an init message
 		if len(m.Value) == 0 {
@@ -128,15 +128,14 @@ func msgHandler(ds *dataStore) func(m *sarama.ConsumerMessage) error {
 		log.Printf("Adding word %s to user %s", word.Value, word.Value)
 
 		//Write data
-		(*ds)[ind] = *word
-		ind++
+		(*ds)[word.Value] = *word
 
 		return nil
 	}
 }
 
-func (ds *dataStore) ReadData(ind int, val string) (document.Word, bool) {
-	word, ok := (*ds)[ind]
+func (ds *dataStore) ReadData(val string) (document.Word, bool) {
+	word, ok := (*ds)[val]
 	if !ok {
 		return document.Word{}, false
 	}
