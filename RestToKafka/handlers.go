@@ -4,9 +4,11 @@ import (
 	"document"
 	"encoding/json"
 	"net/http"
+	"os"
+
+	"github.com/Shopify/sarama"
 
 	"github.com/gorilla/mux"
-	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -14,6 +16,7 @@ func makeMuxRouter() http.Handler {
 	muxRouter := mux.NewRouter()
 	muxRouter.HandleFunc("/definition/", handlerGetWordByID).Methods("GET")
 	// muxRouter.HandleFunc("/definition", handlerGetWord).Methods("GET")
+	// muxRouter.HandleFunc("/definition", handlerPostWord).Methods("POST")
 	muxRouter.HandleFunc("/definition", handlerPostWord).Methods("POST")
 	// muxRouter.HandleFunc("/definition", handlerPutWord).Methods("PUT")
 	return muxRouter
@@ -50,17 +53,24 @@ func handlerPostWord(w http.ResponseWriter, r *http.Request) {
 	word.ID = bson.NewObjectId()
 
 	// Send data to Kafka
-	saveJobToKafka(word)
+	ch := producer.Input()
+	wordBytes, _ := json.MarshalIndent(word, "", " ")
+	msg := &sarama.ProducerMessage{
+		Topic: os.Getenv("TOPICNAME"),
+		Key:   sarama.StringEncoder(word.Value),
+		Value: sarama.ByteEncoder(wordBytes),
+	}
+
+	ch <- msg
+
+	// word.ID = bson.NewObjectId()
 	// err := dictionary.Insert(word)
 
-	switch {
-	case mgo.IsDup(err):
-		respondWithError(w, http.StatusConflict, err.Error())
-		return
-	case err != nil:
-		respondWithError(w, http.StatusInternalServerError, err.Error())
+	if _, ok := ds[word.Value]; ok {
+		respondWithError(w, http.StatusConflict, "Duplicate entry")
 		return
 	}
+
 	respondWithJSON(w, http.StatusCreated, word)
 }
 

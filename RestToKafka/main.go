@@ -48,6 +48,7 @@ func addFakeData(ds *dataStore) {
 }
 
 var ds = make(dataStore)
+var producer sarama.AsyncProducer
 
 func main() {
 
@@ -70,7 +71,7 @@ func main() {
 
 	ConsumerParam := kafkasw.ConsumerParam{
 		GroupName: "group.testing",
-		Topics:    []string{"TOPICNAME"},
+		Topics:    []string{os.Getenv("TOPICNAME")},
 		Zookeeper: []string{os.Getenv("ADVERTISED_HOST") + ":" + os.Getenv("ZOOKEEPER_PORT")},
 	}
 
@@ -132,13 +133,4 @@ func msgHandler(ds *dataStore) func(m *sarama.ConsumerMessage) error {
 
 		return nil
 	}
-}
-
-func (ds *dataStore) ReadData(val string) (document.Word, bool) {
-	word, ok := (*ds)[val]
-	if !ok {
-		return document.Word{}, false
-	}
-
-	return word, true
 }
