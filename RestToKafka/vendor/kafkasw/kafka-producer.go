@@ -14,11 +14,11 @@ func CreateKafkaProducer(brokers []string) (sarama.AsyncProducer, error) {
 	config.Producer.RequiredAcks = sarama.WaitForLocal
 	config.Producer.Compression = sarama.CompressionNone
 	producer, err := sarama.NewAsyncProducer(brokers, config)
-
+	log.Println("testing 1.6")
 	if err != nil {
 		return nil, err
 	}
-
+	log.Println("testing1.75")
 	//Relay incoming signals to channel 'c'
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)

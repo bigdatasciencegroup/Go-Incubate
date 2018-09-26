@@ -3,13 +3,14 @@ package main
 import (
 	"document"
 	"encoding/json"
+	"log"
 	"net/http"
 	"os"
 
 	"github.com/Shopify/sarama"
 
 	"github.com/gorilla/mux"
-	"gopkg.in/mgo.v2/bson"
+	// "gopkg.in/mgo.v2/bson"
 )
 
 func makeMuxRouter() http.Handler {
@@ -33,9 +34,11 @@ func makeMuxRouter() http.Handler {
 
 func handlerGetWordByID(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
+	log.Println(query.Get("word"))
 	word, err := ds[query.Get("word")]
+	log.Println("Queried--->", word)
 	if err != true {
-		respondWithError(w, http.StatusInternalServerError, "Not available")
+		respondWithError(w, http.StatusInternalServerError, "Not cannot be found available")
 		return
 	}
 	respondWithJSON(w, http.StatusOK, word)
@@ -46,11 +49,13 @@ func handlerPostWord(w http.ResponseWriter, r *http.Request) {
 
 	var word document.Word
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&word); err != nil {
+	err := decoder.Decode(&word)
+	log.Println(word)
+	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
-	word.ID = bson.NewObjectId()
+	//word.ID = bson.NewObjectId()
 
 	// Send data to Kafka
 	ch := producer.Input()

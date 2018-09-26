@@ -7,7 +7,6 @@ import (
 	"io"
 	"kafkasw"
 	"log"
-	"math/rand"
 	"net/http"
 	"os"
 	"time"
@@ -27,8 +26,6 @@ func init() {
 		log.Fatal(err)
 	}
 
-	// Seed for fake skill score
-	rand.Seed(time.Now().Unix())
 }
 
 //Results is data store
@@ -47,19 +44,26 @@ func addFakeData(ds *dataStore) {
 	(*ds)["user2"] = user2
 }
 
-var ds = make(dataStore)
+var ds dataStore
 var producer sarama.AsyncProducer
 
 func main() {
 
+	ds = make(dataStore)
 	addFakeData(&ds)
 
-	brokers := []string{os.Getenv("ADVERTISED_HOST") + ":" + os.Getenv("ADVERTISED_PORT")}
+	brokers := []string{os.Getenv("SPEC_PORT")}
+	log.Println("Hi testing1")
+	time.Sleep(10 * time.Second)
+	log.Println("Hi testing1.5")
+	log.Println(brokers)
+	// brokers := []string{os.Getenv("ADVERTISED_HOST") + ":" + os.Getenv("ADVERTISED_PORT")}
 	producer, err := kafkasw.CreateKafkaProducer(brokers)
 	if err != nil {
+		fmt.Println("---", err.Error())
 		log.Fatal("Failed to connect to Kafka")
 	}
-
+	log.Println("Hi testing2")
 	//Ensures that the topic has been created in kafka
 	producer.Input() <- &sarama.ProducerMessage{
 		Key:       sarama.StringEncoder("init"),
@@ -68,11 +72,12 @@ func main() {
 	}
 	log.Println("Creating Topic...")
 	time.Sleep(1 * time.Second)
-
+	log.Println("Hi testing3")
+	log.Println(os.Getenv("SPEC_ZOOKEEPER_PORT"))
 	ConsumerParam := kafkasw.ConsumerParam{
 		GroupName: "group.testing",
 		Topics:    []string{os.Getenv("TOPICNAME")},
-		Zookeeper: []string{os.Getenv("ADVERTISED_HOST") + ":" + os.Getenv("ZOOKEEPER_PORT")},
+		Zookeeper: []string{os.Getenv("SPEC_ZOOKEEPER_PORT")},
 	}
 
 	go func() {
