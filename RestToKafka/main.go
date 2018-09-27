@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database"
 	"document"
 	"encoding/json"
 	"fmt"
@@ -13,6 +14,7 @@ import (
 
 	"github.com/Shopify/sarama"
 	"github.com/joho/godotenv"
+	mgo "gopkg.in/mgo.v2"
 )
 
 //Hooks that may be overridden for testing
@@ -33,33 +35,32 @@ type dataStore map[string]document.Word
 
 var ds dataStore
 var producer sarama.AsyncProducer
+var dictionary = database.Dictionary{}
 
 func main() {
 
-	ds = make(dataStore)
+	// ds = make(dataStore)
+
+	//Connect to database
+	dictionary.Session = dictionary.Connect()
+	//Ensure database index is unique
+	dictionary.EnsureIndex([]string{"value"})
 
 	//Create a Kafka producer
 	var brokers = []string{os.Getenv("SPEC_KAFKA_PORT")}
 	var err error
 	producer, err = kafkasw.CreateKafkaProducer(brokers)
 	if err != nil {
-		fmt.Println("---", err.Error())
-		log.Fatal("Failed to connect to Kafka")
+		log.Fatal("Failed to connect to Kafka. Error:", err.Error())
 	}
 
-	// //Ensures that the topic has been created in kafka
-	// producer.Input() <- &sarama.ProducerMessage{
-	// 	Key:       sarama.StringEncoder("init"),
-	// 	Topic:     os.Getenv("TOPICNAME"),
-	// 	Timestamp: time.Now(),
-	// }
 	// log.Println("Creating Topic...")
-	// time.Sleep(5 * time.Second)
+	// time.Sleep(1 * time.Second)
 
 	//Create Kafka consumer
 	ConsumerParam := kafkasw.ConsumerParam{
-		GroupName: "group.testing",
-		Topics:    []string{os.Getenv("TOPICNAME")},
+		GroupName: "databaseWriter",
+		Topics:    []string{os.Getenv("TOPICNAMEPOST")},
 		Zookeeper: []string{os.Getenv("SPEC_ZOOKEEPER_PORT")},
 	}
 	go func() {
@@ -109,15 +110,23 @@ func msgHandler(ds *dataStore) func(m *sarama.ConsumerMessage) error {
 
 		//Read message into 'word' struct
 		word := &document.Word{}
-		e := json.Unmarshal(m.Value, word)
-		if e != nil {
-			return e
+		err := json.Unmarshal(m.Value, word)
+		if err != nil {
+			return err
 		}
 
-		//Write data into database
-		(*ds)[word.Value] = *word
+		// //Write data into database
+		// (*ds)[word.Value] = *word
+		// fmt.Println(ds)
 
-		fmt.Println(ds)
+		//Write data into database
+		err = dictionary.Insert(*word)
+		switch {
+		case mgo.IsDup(err):
+			log.Println("Key has been duplicated !!! --", err.Error())
+		case err != nil:
+			log.Println("Other error inside msg hnadle", err.Error())
+		}
 
 		return nil
 	}

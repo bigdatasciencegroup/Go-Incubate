@@ -55,11 +55,11 @@ func ConsumeMessages(consumerParam ConsumerParam, handler messageHandler) {
 	//Read from the Errors() channel to avoid consumer deadlock
 	go func() {
 		for err := range consumer.Errors() {
-			log.Println(err)
+			log.Println("Deadlock", err)
 		}
 	}()
 
-	//Consume messages from Kafka
+	//Consume messages from Kafka queue
 	log.Println("Waiting for messages")
 	for message := range consumer.Messages() {
 		log.Printf("Topic: %s\t Partition: %v\t Offset: %v\n", message.Topic, message.Partition, message.Offset)
@@ -67,7 +67,7 @@ func ConsumeMessages(consumerParam ConsumerParam, handler messageHandler) {
 		//Handle the message
 		e := handler(message)
 		if e != nil {
-			log.Fatal(e)
+			log.Fatal("from inside kaf cons", e)
 			consumer.Close()
 		} else {
 			//Mark the message as processed

@@ -1,6 +1,15 @@
 ---
 version: '3'
 services:
+  mongo:
+    container_name: 'mongo'
+    image: mongo
+    # ports:
+      # - "27017:27017"
+    networks:
+      - network1
+    volumes:
+      - "mongodata:/data/db"   
   kafka:
     container_name: 'kafka'
     image: spotify/kafka
@@ -13,6 +22,8 @@ services:
       - ADVERTISED_HOST=127.0.0.1 #192.168.99.100 when using DockerToolbox
       - ADVERTISED_PORT=9092 #Kafka
       - NUM_PARTITIONS=10
+    volumes:
+      - "kafkadata:/data/kafka"  
   # resttokafka:
   #   container_name: 'resttokafka'
   #   image: resttokafka
@@ -30,6 +41,9 @@ services:
   #     - SPEC_PORT=kafka:9092
   #     - SPEC_ZOOKEEPER_PORT=kafka:9092
 
+volumes:
+  mongodata:
+  kafkadata:
 networks:
   network1:
     driver: bridge
