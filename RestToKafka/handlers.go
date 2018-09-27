@@ -3,14 +3,14 @@ package main
 import (
 	"document"
 	"encoding/json"
-	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/Shopify/sarama"
+	"gopkg.in/mgo.v2/bson"
 
 	"github.com/gorilla/mux"
-	// "gopkg.in/mgo.v2/bson"
 )
 
 func makeMuxRouter() http.Handler {
@@ -34,9 +34,7 @@ func makeMuxRouter() http.Handler {
 
 func handlerGetWordByID(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	log.Println(query.Get("word"))
 	word, err := ds[query.Get("word")]
-	log.Println("Queried--->", word)
 	if err != true {
 		respondWithError(w, http.StatusInternalServerError, "Not cannot be found available")
 		return
@@ -47,29 +45,27 @@ func handlerGetWordByID(w http.ResponseWriter, r *http.Request) {
 func handlerPostWord(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	var word document.Word
+	//Decode the received post
+	word := &document.Word{}
 	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&word)
-	log.Println(word)
+	err := decoder.Decode(word)
 	if err != nil {
-		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
+		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	//word.ID = bson.NewObjectId()
+	word.ID = bson.NewObjectId()
 
-	// Send data to Kafka
-	ch := producer.Input()
-	wordBytes, _ := json.MarshalIndent(word, "", " ")
+	//Prepare message to be sent to Kafka
+	wordBytes, _ := json.Marshal(*word)
 	msg := &sarama.ProducerMessage{
-		Topic: os.Getenv("TOPICNAME"),
-		Key:   sarama.StringEncoder(word.Value),
-		Value: sarama.ByteEncoder(wordBytes),
+		Topic:     os.Getenv("TOPICNAME"),
+		Key:       sarama.StringEncoder(word.Value),
+		Value:     sarama.ByteEncoder(wordBytes),
+		Timestamp: time.Now(),
 	}
 
-	ch <- msg
-
-	// word.ID = bson.NewObjectId()
-	// err := dictionary.Insert(word)
+	//Send message into Kafka queue
+	producer.Input() <- msg
 
 	if _, ok := ds[word.Value]; ok {
 		respondWithError(w, http.StatusConflict, "Duplicate entry")

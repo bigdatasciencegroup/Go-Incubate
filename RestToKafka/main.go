@@ -31,65 +31,49 @@ func init() {
 //Results is data store
 type dataStore map[string]document.Word
 
-func addFakeData(ds *dataStore) {
-	user1 := document.Word{
-		Value:   "Hello",
-		Meaning: "Greeting",
-	}
-	user2 := document.Word{
-		Value:   "ByeBye",
-		Meaning: "Greeting",
-	}
-	(*ds)["user1"] = user1
-	(*ds)["user2"] = user2
-}
-
 var ds dataStore
 var producer sarama.AsyncProducer
 
 func main() {
 
 	ds = make(dataStore)
-	addFakeData(&ds)
 
-	brokers := []string{os.Getenv("SPEC_PORT")}
-	log.Println("Hi testing1")
-	time.Sleep(10 * time.Second)
-	log.Println("Hi testing1.5")
-	log.Println(brokers)
-	// brokers := []string{os.Getenv("ADVERTISED_HOST") + ":" + os.Getenv("ADVERTISED_PORT")}
-	producer, err := kafkasw.CreateKafkaProducer(brokers)
+	//Create a Kafka producer
+	var brokers = []string{os.Getenv("SPEC_KAFKA_PORT")}
+	var err error
+	producer, err = kafkasw.CreateKafkaProducer(brokers)
 	if err != nil {
 		fmt.Println("---", err.Error())
 		log.Fatal("Failed to connect to Kafka")
 	}
-	log.Println("Hi testing2")
-	//Ensures that the topic has been created in kafka
-	producer.Input() <- &sarama.ProducerMessage{
-		Key:       sarama.StringEncoder("init"),
-		Topic:     os.Getenv("TOPICNAME"),
-		Timestamp: time.Now(),
-	}
-	log.Println("Creating Topic...")
-	time.Sleep(1 * time.Second)
-	log.Println("Hi testing3")
-	log.Println(os.Getenv("SPEC_ZOOKEEPER_PORT"))
+
+	// //Ensures that the topic has been created in kafka
+	// producer.Input() <- &sarama.ProducerMessage{
+	// 	Key:       sarama.StringEncoder("init"),
+	// 	Topic:     os.Getenv("TOPICNAME"),
+	// 	Timestamp: time.Now(),
+	// }
+	// log.Println("Creating Topic...")
+	// time.Sleep(5 * time.Second)
+
+	//Create Kafka consumer
 	ConsumerParam := kafkasw.ConsumerParam{
 		GroupName: "group.testing",
 		Topics:    []string{os.Getenv("TOPICNAME")},
 		Zookeeper: []string{os.Getenv("SPEC_ZOOKEEPER_PORT")},
 	}
-
 	go func() {
 		kafkasw.ConsumeMessages(ConsumerParam, msgHandler(&ds))
 	}()
 
+	//Run the REST API server
 	if err := run(); err != nil {
 		log.Fatal(err.Error())
 	}
 
 }
 
+//Create and run REST API server
 func run() error {
 	mux := makeMuxRouter()
 	httpAddr := os.Getenv("LISTENINGADDR")
@@ -115,6 +99,7 @@ func checkError(err error) bool {
 	return false
 }
 
+//Consumer message handler
 func msgHandler(ds *dataStore) func(m *sarama.ConsumerMessage) error {
 	return func(m *sarama.ConsumerMessage) error {
 		// Empty body means it is an init message
@@ -129,12 +114,10 @@ func msgHandler(ds *dataStore) func(m *sarama.ConsumerMessage) error {
 			return e
 		}
 
-		//Simulate processing time
-		time.Sleep(1 * time.Second)
-		log.Printf("Adding word %s to user %s", word.Value, word.Value)
-
-		//Write data
+		//Write data into database
 		(*ds)[word.Value] = *word
+
+		fmt.Println(ds)
 
 		return nil
 	}
