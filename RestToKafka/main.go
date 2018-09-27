@@ -54,15 +54,26 @@ func main() {
 		log.Fatal("Failed to connect to Kafka. Error:", err.Error())
 	}
 
-	// log.Println("Creating Topic...")
-	// time.Sleep(1 * time.Second)
+	//If a consumer accesses the topic before it is created,
+	//a 'missing node' error will be thrown
+	//Hence, ensure that the topic has been created in Kafka queue
+	//by sending an 'init' message and waiting for a short 1 sec
+	log.Print("Creating Topic...")
+	producer.Input() <- &sarama.ProducerMessage{
+		Key:       sarama.StringEncoder("init"),
+		Topic:     os.Getenv("TOPICNAMEPOST"),
+		Timestamp: time.Now(),
+	}
+	time.Sleep(1 * time.Second)
+	log.Print(" ...done")
 
-	//Create Kafka consumer
+	//Set up the Kafka consumer parameter
 	ConsumerParam := kafkasw.ConsumerParam{
 		GroupName: "databaseWriter",
 		Topics:    []string{os.Getenv("TOPICNAMEPOST")},
 		Zookeeper: []string{os.Getenv("SPEC_ZOOKEEPER_PORT")},
 	}
+	//Run the consumer
 	go func() {
 		kafkasw.ConsumeMessages(ConsumerParam, msgHandler(&ds))
 	}()

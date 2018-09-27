@@ -26,7 +26,7 @@ type Dictionary struct {
 //Connect connects to the database
 func (dictionary Dictionary) Connect() *mgo.Session {
 	info := &mgo.DialInfo{
-		Addrs:    []string{os.Getenv("SERVER")},
+		Addrs:    []string{os.Getenv("SPEC_MONGO_PORT")},
 		Timeout:  60 * time.Second,
 		Database: os.Getenv("DATABASENAME"),
 	}

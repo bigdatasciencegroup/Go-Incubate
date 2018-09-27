@@ -4,12 +4,12 @@ services:
   mongo:
     container_name: 'mongo'
     image: mongo
-    # ports:
-      # - "27017:27017"
+    ports:
+      - "47017:27017"
     networks:
       - network1
     volumes:
-      - "mongodata:/data/db"   
+      - "mongodata:/data/db" #Volume location on `Host:Container` machine   
   kafka:
     container_name: 'kafka'
     image: spotify/kafka
@@ -21,9 +21,7 @@ services:
     environment:
       - ADVERTISED_HOST=127.0.0.1 #192.168.99.100 when using DockerToolbox
       - ADVERTISED_PORT=9092 #Kafka
-      - NUM_PARTITIONS=10
-    volumes:
-      - "kafkadata:/data/kafka"  
+      - NUM_PARTITIONS=10 #Number of partitions for each topic in Kafka
   # resttokafka:
   #   container_name: 'resttokafka'
   #   image: resttokafka
@@ -42,8 +40,10 @@ services:
   #     - SPEC_ZOOKEEPER_PORT=kafka:9092
 
 volumes:
-  mongodata:
-  kafkadata:
+  # Volume location on host machine is not specified. 
+  # Docker will create and manage these named volumes in a part of the host filesystem 
+  # which is managed by Docker (i.e., /var/lib/docker/volumes/ on Linux).
+  mongodata: 
 networks:
   network1:
     driver: bridge
