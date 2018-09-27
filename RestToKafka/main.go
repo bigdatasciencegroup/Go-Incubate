@@ -53,7 +53,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Failed to connect to Kafka. Error:", err.Error())
 	}
-
+	log.Println("SUCCECECECECECECE")
 	//If a consumer accesses the topic before it is created,
 	//a 'missing node' error will be thrown
 	//Hence, ensure that the topic has been created in Kafka queue
