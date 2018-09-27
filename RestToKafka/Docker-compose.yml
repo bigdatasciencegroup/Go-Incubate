@@ -13,9 +13,9 @@ services:
   kafka:
     container_name: 'kafka'
     image: spotify/kafka
-    # ports:
-    #   - "2181:2181" #Zookeeper
-    #   - "9092:9092" #Kafka
+    ports:
+      - "2181:2181" #Zookeeper
+      - "9092:9092" #Kafka
     networks:
       - network1
     environment:
@@ -37,9 +37,9 @@ services:
       - DATABASENAME = "dictionary"
       - TOPICNAMEPOST= POSTdictionary
       # - TOPICNAMEGET= GETdictionary
-      - SPEC_KAFKA_PORT="kafka:9092"
-      - SPEC_ZOOKEEPER_PORT="kafka:2181"
-      - SPEC_MONGO_PORT="mongo:27017"
+      - SPEC_KAFKA_PORT=127.0.0.1:9092
+      - SPEC_ZOOKEEPER_PORT=127.0.0.1:2181
+      - SPEC_MONGO_PORT=mongo:27017
 
 volumes:
   # Volume location on host machine is not specified. 

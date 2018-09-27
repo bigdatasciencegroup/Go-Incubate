@@ -32,7 +32,7 @@ func (dictionary Dictionary) Connect() *mgo.Session {
 	}
 	session, err := mgo.DialWithInfo(info)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Database dial error:", err)
 	}
 	db = session.DB(dictionary.DatabaseName)
 	return session

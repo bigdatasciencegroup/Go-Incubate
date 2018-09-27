@@ -45,9 +45,9 @@ func main() {
 	dictionary.Session = dictionary.Connect()
 	//Ensure database index is unique
 	dictionary.EnsureIndex([]string{"value"})
-
 	//Create a Kafka producer
 	var brokers = []string{os.Getenv("SPEC_KAFKA_PORT")}
+	fmt.Println("Succesfully establish database connection at:", brokers)
 	var err error
 	producer, err = kafkasw.CreateKafkaProducer(brokers)
 	if err != nil {
