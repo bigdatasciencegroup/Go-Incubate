@@ -59,6 +59,7 @@ func main() {
 	//Hence, ensure that the topic has been created in Kafka queue
 	//by sending an 'init' message and waiting for a short 1 sec
 	log.Print("Creating Topic...")
+	// time.Sleep(5 * time.Second)
 	producer.Input() <- &sarama.ProducerMessage{
 		Key:       sarama.StringEncoder("init"),
 		Topic:     os.Getenv("TOPICNAMEPOST"),
