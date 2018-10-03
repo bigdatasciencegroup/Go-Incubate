@@ -58,7 +58,7 @@ func handlerPostWord(w http.ResponseWriter, r *http.Request) {
 	//Prepare message to be sent to Kafka
 	wordBytes, _ := json.Marshal(*word)
 	msg := &sarama.ProducerMessage{
-		Topic:     os.Getenv("TOPICNAMEPOST"),
+		Topic:     os.Getenv("TOPICNAME_POST"),
 		Key:       sarama.StringEncoder(word.Value),
 		Value:     sarama.ByteEncoder(wordBytes),
 		Timestamp: time.Now(),

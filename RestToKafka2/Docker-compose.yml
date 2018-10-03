@@ -5,7 +5,7 @@ services:
     container_name: 'mongo'
     image: mongo
     ports:
-      - "47017:27017"
+      - "27017:27017"
     networks:
       - network1
     volumes:
@@ -35,11 +35,11 @@ services:
     environment:
       - LISTENINGADDR = 8080
       - DATABASENAME = "dictionary"
-      - TOPICNAMEPOST= POSTdictionary
-      # - TOPICNAMEGET= GETdictionary
+      - TOPICNAME_POST= POSTdictionary
+      # - TOPICNAME_GET= GETdictionary
       - SPEC_KAFKA_PORT=kafka:9092
       - SPEC_ZOOKEEPER_PORT=kafka:2181
-      - SPEC_MONGO_PORT=mongo:47017
+      - SPEC_MONGO_PORT=mongo:27017
 
 volumes:
   # Volume location on host machine is not specified. 

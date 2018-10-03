@@ -47,13 +47,13 @@ func main() {
 	dictionary.EnsureIndex([]string{"value"})
 	//Create a Kafka producer
 	var brokers = []string{os.Getenv("SPEC_KAFKA_PORT")}
-	fmt.Println("Succesfully establish database connection at:", brokers)
+
 	var err error
 	producer, err = kafkasw.CreateKafkaProducer(brokers)
 	if err != nil {
 		log.Fatal("Failed to connect to Kafka. Error:", err.Error())
 	}
-	log.Println("SUCCECECECECECECE")
+
 	//If a consumer accesses the topic before it is created,
 	//a 'missing node' error will be thrown
 	//Hence, ensure that the topic has been created in Kafka queue
@@ -61,7 +61,7 @@ func main() {
 	log.Print("Creating Topic...")
 	producer.Input() <- &sarama.ProducerMessage{
 		Key:       sarama.StringEncoder("init"),
-		Topic:     os.Getenv("TOPICNAMEPOST"),
+		Topic:     os.Getenv("TOPICNAME_POST"),
 		Timestamp: time.Now(),
 	}
 	time.Sleep(1 * time.Second)
@@ -70,7 +70,7 @@ func main() {
 	//Set up the Kafka consumer parameter
 	ConsumerParam := kafkasw.ConsumerParam{
 		GroupName: "databaseWriter",
-		Topics:    []string{os.Getenv("TOPICNAMEPOST")},
+		Topics:    []string{os.Getenv("TOPICNAME_POST")},
 		Zookeeper: []string{os.Getenv("SPEC_ZOOKEEPER_PORT")},
 	}
 	//Run the consumer
@@ -134,7 +134,7 @@ func msgHandler(ds *dataStore) func(m *sarama.ConsumerMessage) error {
 		err = dictionary.Insert(*word)
 		switch {
 		case mgo.IsDup(err):
-			log.Println("Key has been duplicated !!! --", err.Error())
+			log.Println("Key has been duplicated !!! ", err.Error())
 		case err != nil:
 			log.Println("Other error inside msg hnadle", err.Error())
 		}
