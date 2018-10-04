@@ -14,33 +14,33 @@ import (
 
 func makeMuxRouter() http.Handler {
 	muxRouter := mux.NewRouter()
-	muxRouter.HandleFunc("/definition/", handlerGetWordByID).Methods("GET")
-	muxRouter.HandleFunc("/definition", handlerGetWord).Methods("GET")
+	// muxRouter.HandleFunc("/definition/", handlerGetWordByID).Methods("GET")
+	// muxRouter.HandleFunc("/definition", handlerGetWord).Methods("GET")
 	muxRouter.HandleFunc("/definition", handlerPostWord).Methods("POST")
 	muxRouter.HandleFunc("/definition", handlerPostWord).Methods("POST")
 	// muxRouter.HandleFunc("/definition", handlerPutWord).Methods("PUT")
 	return muxRouter
 }
 
-func handlerGetWord(w http.ResponseWriter, r *http.Request) {
-	words, err := dictionary.FindAll()
-	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-	respondWithJSON(w, http.StatusOK, words)
-}
+// func handlerGetWord(w http.ResponseWriter, r *http.Request) {
+// 	words, err := dictionary.FindAll()
+// 	if err != nil {
+// 		respondWithError(w, http.StatusInternalServerError, err.Error())
+// 		return
+// 	}
+// 	respondWithJSON(w, http.StatusOK, words)
+// }
 
-func handlerGetWordByID(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query()
-	word, err := dictionary.FindByValue(query.Get("word"))
-	// word, err := ds[query.Get("word")]
-	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-	respondWithJSON(w, http.StatusOK, word)
-}
+// func handlerGetWordByID(w http.ResponseWriter, r *http.Request) {
+// 	query := r.URL.Query()
+// 	word, err := dictionary.FindByValue(query.Get("word"))
+// 	// word, err := ds[query.Get("word")]
+// 	if err != nil {
+// 		respondWithError(w, http.StatusInternalServerError, err.Error())
+// 		return
+// 	}
+// 	respondWithJSON(w, http.StatusOK, word)
+// }
 
 func handlerPostWord(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
