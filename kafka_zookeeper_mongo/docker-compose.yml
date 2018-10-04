@@ -23,9 +23,9 @@ services:
     networks:
       - dockerNet
     environment:
-      - KAFKA_ADVERTISED_HOST_NAME=kafka
-      - KAFKA_DEFAULT_REPLICATION_FACTOR=3 #Default replication factor for topic
-      - KAFKA_NUM_PARTITIONS=5 #Default number of log partitions per topic
+      # - KAFKA_ADVERTISED_HOST_NAME=kafka
+      # - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_NUM_PARTITIONS=5 #Number of log partitions per topic
       - ZOOKEEPER_IP=zookeeper
     volumes:
       - "kafka-data:/data" #Path where Kafka's data is stored 
@@ -50,10 +50,3 @@ volumes:
 networks:
   dockerNet:
     driver: bridge
-
-# When docker-compose is run in Windows 10 with Hyper-V
-# go to "localhost:8080/definition" to see the output.
-# When docker-compose is run using Docker Toolbox
-# go to "192.168.99.100:8080/definition" to see the output.
-# "192.168.99.100" is the ip address of your docker-machine.
-# Execute `$ docker-machine ip` to get ip address of your docker-machine.
