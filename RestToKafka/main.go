@@ -39,6 +39,10 @@ var dictionary = database.Dictionary{}
 
 func main() {
 
+	//verbose debugging (comment this line to disabled verbose sarama logging)
+	sarama.Logger = log.New(os.Stdout, "[sarama] ", log.LstdFlags)
+	log.Println("SUCCECECECECECECE")
+
 	// ds = make(dataStore)
 
 	//Connect to database
@@ -47,19 +51,19 @@ func main() {
 	dictionary.EnsureIndex([]string{"value"})
 	//Create a Kafka producer
 	var brokers = []string{os.Getenv("SPEC_KAFKA_PORT")}
-	fmt.Println("Succesfully establish database connection at:", brokers)
+	// fmt.Println("Succesfully establish database connection at:", brokers)
 	var err error
 	producer, err = kafkasw.CreateKafkaProducer(brokers)
 	if err != nil {
 		log.Fatal("Failed to connect to Kafka. Error:", err.Error())
 	}
-	log.Println("SUCCECECECECECECE")
+	// log.Println("SUCCECECECECECECE")
 	//If a consumer accesses the topic before it is created,
 	//a 'missing node' error will be thrown
 	//Hence, ensure that the topic has been created in Kafka queue
 	//by sending an 'init' message and waiting for a short 1 sec
 	log.Print("Creating Topic...")
-	// time.Sleep(5 * time.Second)
+	time.Sleep(1 * time.Second)
 	producer.Input() <- &sarama.ProducerMessage{
 		Key:       sarama.StringEncoder("init"),
 		Topic:     os.Getenv("TOPICNAMEPOST"),

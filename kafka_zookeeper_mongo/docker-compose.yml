@@ -1,0 +1,59 @@
+---
+version: '3'
+services:
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - dockerNet
+    volumes:
+      - "mongo-data:/data/db" #Volume location on `Host:Container` machine   
+
+  kafka:
+    image: ches/kafka
+    container_name: kafka
+    depends_on:
+      - zookeeper 
+    ports:
+      - "9092:9092" #Kafka broker
+      - "7203:7203" #JMX
+    networks:
+      - dockerNet
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3 #Default replication factor for topic
+      - KAFKA_NUM_PARTITIONS=5 #Default number of log partitions per topic
+      - ZOOKEEPER_IP=zookeeper
+    volumes:
+      - "kafka-data:/data" #Path where Kafka's data is stored 
+      - "kafka-logs:/logs" #Path where Kafka's logs will be written   
+
+  zookeeper:
+    image: jplock/zookeeper
+    container_name: zookeeper   
+    restart: unless-stopped 
+    ports:
+      - "2181:2181" #Zookeeper
+    networks:
+      - dockerNet
+
+volumes:
+  # Volume location on host machine is not specified. 
+  # Docker will create and manage these named volumes in a part of the host filesystem 
+  # which is managed by Docker (i.e., /var/lib/docker/volumes/ on Linux).
+  mongo-data: 
+  kafka-data:
+  kafka-logs:
+networks:
+  dockerNet:
+    driver: bridge
+
+# When docker-compose is run in Windows 10 with Hyper-V
+# go to "localhost:8080/definition" to see the output.
+# When docker-compose is run using Docker Toolbox
+# go to "192.168.99.100:8080/definition" to see the output.
+# "192.168.99.100" is the ip address of your docker-machine.
+# Execute `$ docker-machine ip` to get ip address of your docker-machine.
