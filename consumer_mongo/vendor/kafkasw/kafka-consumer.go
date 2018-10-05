@@ -33,7 +33,7 @@ func ConsumeMessages(consumerParam ConsumerParam, handler messageHandler) {
 		consumerParam.Zookeeper,
 		config)
 	if err != nil {
-		log.Fatal("Failed to join consumer group", consumerParam.GroupName, err)
+		log.Fatal("Failed to join consumer group: ", consumerParam.GroupName, err)
 	}
 
 	//Relay incoming signals to channel 'c'
@@ -45,7 +45,7 @@ func ConsumeMessages(consumerParam ConsumerParam, handler messageHandler) {
 	go func() {
 		<-c
 		if err := consumer.Close(); err != nil {
-			log.Println("Error closing the consumer", err)
+			log.Println("Error closing the consumer: ", err)
 		}
 
 		log.Println("Consumer closed")
@@ -64,14 +64,18 @@ func ConsumeMessages(consumerParam ConsumerParam, handler messageHandler) {
 	for message := range consumer.Messages() {
 		log.Printf("Topic: %s\t Partition: %v\t Offset: %v\n", message.Topic, message.Partition, message.Offset)
 
-		//Handle the message
-		e := handler(message)
-		if e != nil {
-			log.Fatal("from inside kaf cons", e)
-			consumer.Close()
-		} else {
-			//Mark the message as processed
-			consumer.CommitUpto(message)
+		// Only take messages from subscribed topic
+		switch message.Topic {
+		case consumerParam.Topics[0]:
+			//Handle the message
+			e := handler(message)
+			if e != nil {
+				log.Fatal("Error in handling consumed message: ", e)
+				consumer.Close()
+			} else {
+				//Mark the message as processed
+				consumer.CommitUpto(message)
+			}
 		}
 	}
 }

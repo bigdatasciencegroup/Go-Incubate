@@ -2,13 +2,13 @@
 # # installed and a workspace (GOPATH) configure at /go.
 # FROM golang:latest
 
-# #Author label
+# # Author label
 # LABEL Author Adaickalavan Meiyappan
 
-# #Copy the local package files (from development computer) to the container's workspace (docker image)
+# # Copy the local package files (from development computer) to the container's workspace (docker image)
 # COPY . /go/src/app 
 
-# #Install dependencies
+# # Install dependencies
 # RUN go get github.com/Shopify/sarama
 # RUN go get github.com/joho/godotenv
 # RUN go get github.com/gorilla/mux
@@ -19,9 +19,7 @@
 # # BUild the app command inside the container
 # RUN go install app
 
-# #Run the app command by default when the container starts
+# # Run the app command by default when the container starts
 # ENTRYPOINT /go/bin/app
 
 FROM golang:onbuild
-
-COPY .etc/hosts /etc/hosts

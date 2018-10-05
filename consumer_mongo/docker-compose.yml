@@ -2,18 +2,16 @@
 version: '3'
 services:
 
-  producer_rest:
-    image: producer_rest
-    container_name: producer_rest   
+  consumer_mongo:
+    image: consumer_mongo
+    container_name: consumer_mongo   
     ports:
-      - "8080:8080" #REST port
+      - "27017:27017" #MongoDB port
     environment:
-      - LISTENINGADDR=8080
-      - DATABASENAME=dictionary
+      - DATABASE_NAME=dictionary
       - TOPICNAME_POST=POSTdictionary
-      - SPEC_KAFKA_PORT=kafka:9092
-      # - SPEC_ZOOKEEPER_PORT=2181
-      - SPEC_MONGO_PORT=mongo:27017  
+      - ZOOKEEPER_PORT=zookeeper:2181
+      - MONGO_PORT=mongo:27017  
     networks:
       - kafka_zookeeper_mongo_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other,

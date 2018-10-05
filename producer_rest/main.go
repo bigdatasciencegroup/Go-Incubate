@@ -25,6 +25,7 @@ func init() {
 	}
 }
 
+// Instantiate a producer
 var producer sarama.AsyncProducer
 
 func main() {
@@ -42,9 +43,9 @@ func main() {
 	}
 
 	//If a consumer accesses the topic before it is created,
-	//a 'missing node' error will be thrown
+	//a 'missing node' error will be thrown.
 	//Hence, ensure that the topic has been created in Kafka queue
-	//by sending an 'init' message and waiting for a short 1 sec
+	//by sending an 'init' message and waiting for a short 1 sec.
 	log.Print("Creating Topic...")
 	producer.Input() <- &sarama.ProducerMessage{
 		Key:       sarama.StringEncoder("init"),
@@ -64,7 +65,7 @@ func main() {
 //Create and run REST API server
 func run() error {
 	mux := makeMuxRouter()
-	httpAddr := os.Getenv("LISTENINGADDR")
+	httpAddr := os.Getenv("LISTENING_ADDR")
 	log.Println("Listening on ", httpAddr)
 	s := &http.Server{
 		Addr:           ":" + httpAddr,

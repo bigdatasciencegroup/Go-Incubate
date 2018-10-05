@@ -23,4 +23,3 @@
 # ENTRYPOINT /go/bin/app
 
 FROM golang:onbuild
-

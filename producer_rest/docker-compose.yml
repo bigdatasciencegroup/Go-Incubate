@@ -8,8 +8,7 @@ services:
     ports:
       - "8080:8080" #REST port
     environment:
-      - LISTENINGADDR=8080
-      - DATABASENAME=dictionary
+      - LISTENING_ADDR=8080
       - TOPICNAME_POST=POSTdictionary
       - KAFKA_PORT=kafka:9092
       # - SPEC_ZOOKEEPER_PORT=2181
