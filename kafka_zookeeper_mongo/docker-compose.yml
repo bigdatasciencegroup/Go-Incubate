@@ -2,6 +2,7 @@
 version: '3'
 services:
 
+  #Mongo database
   mongo:
     image: mongo
     container_name: mongo
@@ -12,6 +13,7 @@ services:
     volumes:
       - "mongo-data:/data/db" #Volume location on `Host:Container` machine   
 
+  #Kafka
   kafka:
     image: ches/kafka
     container_name: kafka
@@ -31,6 +33,7 @@ services:
       - "kafka-data:/data" #Path where Kafka's data is stored 
       - "kafka-logs:/logs" #Path where Kafka's logs will be written   
 
+  #Zookeeper
   zookeeper:
     image: jplock/zookeeper
     container_name: zookeeper   
