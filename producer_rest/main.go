@@ -3,13 +3,13 @@ package main
 import (
 	"fmt"
 	"io"
-	"kafkasw"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/Shopify/sarama"
+	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/kafkapc"
 	"github.com/joho/godotenv"
 )
 
@@ -37,7 +37,7 @@ func main() {
 	var brokers = []string{os.Getenv("KAFKA_PORT")}
 
 	var err error
-	producer, err = kafkasw.CreateKafkaProducer(brokers)
+	producer, err = kafkapc.CreateKafkaProducer(brokers)
 	if err != nil {
 		log.Fatal("Failed to connect to Kafka. Error:", err.Error())
 	}

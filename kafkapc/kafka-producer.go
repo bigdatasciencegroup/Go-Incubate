@@ -1,4 +1,4 @@
-package kafkasw
+package kafkapc
 
 import (
 	"log"
@@ -33,7 +33,7 @@ func CreateKafkaProducer(brokers []string) (sarama.AsyncProducer, error) {
 			log.Fatal("Error closing async producer:", err)
 		}
 
-		log.Println("Async Producer closed")
+		log.Println("Async Producer closed.")
 		os.Exit(1)
 	}()
 

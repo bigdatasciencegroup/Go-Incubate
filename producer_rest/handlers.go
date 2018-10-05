@@ -1,13 +1,13 @@
 package main
 
 import (
-	"document"
 	"encoding/json"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/Shopify/sarama"
+	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/document"
 	"github.com/gorilla/mux"
 	"gopkg.in/mgo.v2/bson"
 )

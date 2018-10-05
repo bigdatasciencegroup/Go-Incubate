@@ -2,6 +2,7 @@
 version: '3'
 services:
 
+  #Consumer to obtain data from Kafka queue and write into MongoDB
   consumer_mongo:
     image: consumer_mongo
     container_name: consumer_mongo   

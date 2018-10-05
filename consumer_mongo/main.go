@@ -1,15 +1,15 @@
 package main
 
 import (
-	"database"
-	"document"
 	"encoding/json"
 	"io"
-	"kafkasw"
 	"log"
 	"os"
 
 	"github.com/Shopify/sarama"
+	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/database"
+	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/document"
+	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/kafkapc"
 	"github.com/joho/godotenv"
 	mgo "gopkg.in/mgo.v2"
 )
@@ -32,6 +32,8 @@ var dictionary = database.Dictionary{}
 func main() {
 
 	//Connect to database
+	dictionary.Server = os.Getenv("MONGO_PORT")
+	dictionary.DatabaseName = os.Getenv("DATABASE_NAME")
 	dictionary.Session = dictionary.Connect()
 	//Ensure database index is unique
 	dictionary.EnsureIndex([]string{"value"})
@@ -40,14 +42,14 @@ func main() {
 	sarama.Logger = log.New(outputWriter, "[saramaLog]", log.Ltime)
 
 	// Set up the Kafka consumer parameter
-	ConsumerParam := kafkasw.ConsumerParam{
+	ConsumerParam := kafkapc.ConsumerParam{
 		GroupName: "databaseWriter",
 		Topics:    []string{os.Getenv("TOPICNAME_POST")},
 		Zookeeper: []string{os.Getenv("ZOOKEEPER_PORT")},
 	}
 
 	// Run the consumer
-	kafkasw.ConsumeMessages(ConsumerParam, msgHandler(&dictionary))
+	kafkapc.ConsumeMessages(ConsumerParam, msgHandler(&dictionary))
 
 }
 

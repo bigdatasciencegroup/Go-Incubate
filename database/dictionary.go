@@ -1,40 +1,38 @@
 package database
 
 import (
-	"document"
 	"fmt"
 	"log"
-	"os"
 	"time"
 
+	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/document"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
-
-var db *mgo.Database
 
 //COLLECTION is the name of collection within Dictionary database
 const COLLECTION = "words"
 
 //Dictionary contains server and database strings
 type Dictionary struct {
-	Server       string
-	DatabaseName string
-	Session      *mgo.Session
+	Server       string        //Connection to server 'IP:Port'
+	DatabaseName string        //Name of desired database
+	Session      *mgo.Session  //Session
+	db           *mgo.Database //Pointer to desired database
 }
 
 //Connect connects to the database
 func (dictionary Dictionary) Connect() *mgo.Session {
 	info := &mgo.DialInfo{
-		Addrs:    []string{os.Getenv("MONGO_PORT")},
+		Addrs:    []string{dictionary.Server},
 		Timeout:  60 * time.Second,
-		Database: os.Getenv("DATABASE_NAME"),
+		Database: dictionary.DatabaseName,
 	}
 	session, err := mgo.DialWithInfo(info)
 	if err != nil {
 		log.Fatal("Database dial error:", err)
 	}
-	db = session.DB(dictionary.DatabaseName)
+	dictionary.db = session.DB(dictionary.DatabaseName)
 	return session
 }
 
@@ -48,33 +46,33 @@ func (dictionary *Dictionary) EnsureIndex(fields []string) {
 		Background: true,   //Build index in background and return immediately
 		Sparse:     true,   //Only index documents containing the Key fields
 	}
-	err := db.C(COLLECTION).EnsureIndex(index)
+	err := dictionary.db.C(COLLECTION).EnsureIndex(index)
 	checkError(err)
 }
 
 //FindAll retrieves all Word by its Value from dictionary
 func (dictionary *Dictionary) FindAll() ([]document.Word, error) {
 	var words []document.Word
-	err := db.C(COLLECTION).Find(bson.M{}).All(&words)
+	err := dictionary.db.C(COLLECTION).Find(bson.M{}).All(&words)
 	return words, err
 }
 
 //FindByValue retrieves the Word by its Value from dictionary
 func (dictionary *Dictionary) FindByValue(value string) (document.Word, error) {
 	var word document.Word
-	err := db.C(COLLECTION).Find(bson.M{"value": value}).One(&word)
+	err := dictionary.db.C(COLLECTION).Find(bson.M{"value": value}).One(&word)
 	return word, err
 }
 
 //Insert inserts the Word into the dictionary
 func (dictionary *Dictionary) Insert(word document.Word) error {
-	err := db.C(COLLECTION).Insert(&word)
+	err := dictionary.db.C(COLLECTION).Insert(&word)
 	return err
 }
 
 //Delete deletes the Word from dictionary
 func (dictionary *Dictionary) Delete(word document.Word) error {
-	err := db.C(COLLECTION).Remove(&word)
+	err := dictionary.db.C(COLLECTION).Remove(&word)
 	return err
 }
 

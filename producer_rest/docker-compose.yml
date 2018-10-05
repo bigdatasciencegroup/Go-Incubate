@@ -2,17 +2,22 @@
 version: '3'
 services:
 
+  #Producer to obtain data from REST and write into Kafka queue
   producer_rest:
     image: producer_rest
     container_name: producer_rest   
     ports:
       - "8080:8080" #REST port
+      # When docker-compose is run in Windows 10 with Hyper-V
+      # go to "localhost:8080/definition" to interact with the app.
+      # When docker-compose is run using Docker Toolbox
+      # go to "192.168.99.100:8080/definition" to interact with the app.
+      # "192.168.99.100" is the ip address of your docker-machine.
+      # Execute `$ docker-machine ip` to get ip address of your docker-machine.
     environment:
       - LISTENING_ADDR=8080
       - TOPICNAME_POST=POSTdictionary
       - KAFKA_PORT=kafka:9092
-      # - SPEC_ZOOKEEPER_PORT=2181
-      # - MONGO_PORT=mongo:27017  
     networks:
       - kafka_zookeeper_mongo_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other,
@@ -23,9 +28,3 @@ networks:
   kafka_zookeeper_mongo_dockerNet:
     external: true #Label the other docker-compose network as an external network to the current docker-compose file
 
-# When docker-compose is run in Windows 10 with Hyper-V
-# go to "localhost:8080/definition" to see the output.
-# When docker-compose is run using Docker Toolbox
-# go to "192.168.99.100:8080/definition" to see the output.
-# "192.168.99.100" is the ip address of your docker-machine.
-# Execute `$ docker-machine ip` to get ip address of your docker-machine.

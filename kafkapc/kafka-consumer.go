@@ -1,4 +1,4 @@
-package kafkasw
+package kafkapc
 
 import (
 	"log"
@@ -33,7 +33,7 @@ func ConsumeMessages(consumerParam ConsumerParam, handler messageHandler) {
 		consumerParam.Zookeeper,
 		config)
 	if err != nil {
-		log.Fatal("Failed to join consumer group: ", consumerParam.GroupName, err)
+		log.Fatal("Failed to join consumer group:", consumerParam.GroupName, err)
 	}
 
 	//Relay incoming signals to channel 'c'
@@ -45,17 +45,17 @@ func ConsumeMessages(consumerParam ConsumerParam, handler messageHandler) {
 	go func() {
 		<-c
 		if err := consumer.Close(); err != nil {
-			log.Println("Error closing the consumer: ", err)
+			log.Println("Error closing the consumer:", err)
 		}
 
-		log.Println("Consumer closed")
+		log.Println("Consumer closed.")
 		os.Exit(0)
 	}()
 
 	//Read from the Errors() channel to avoid consumer deadlock
 	go func() {
 		for err := range consumer.Errors() {
-			log.Println("Deadlock", err)
+			log.Println("Consumer deadlock detected:", err)
 		}
 	}()
 
@@ -64,13 +64,14 @@ func ConsumeMessages(consumerParam ConsumerParam, handler messageHandler) {
 	for message := range consumer.Messages() {
 		log.Printf("Topic: %s\t Partition: %v\t Offset: %v\n", message.Topic, message.Partition, message.Offset)
 
-		// Only take messages from subscribed topic
+		//Only take messages from subscribed topic
+		//Potentially perform different operations on messages from different topics
 		switch message.Topic {
 		case consumerParam.Topics[0]:
 			//Handle the message
 			e := handler(message)
 			if e != nil {
-				log.Fatal("Error in handling consumed message: ", e)
+				log.Fatal("Error in handling consumed message:", e)
 				consumer.Close()
 			} else {
 				//Mark the message as processed
