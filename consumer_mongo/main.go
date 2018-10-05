@@ -4,7 +4,6 @@ import (
 	"database"
 	"document"
 	"encoding/json"
-	"fmt"
 	"io"
 	"kafkasw"
 	"log"
