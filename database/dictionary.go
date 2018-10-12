@@ -50,29 +50,29 @@ func (dictionary *Dictionary) EnsureIndex(fields []string) {
 	checkError(err)
 }
 
-//FindAll retrieves all Word by its Value from dictionary
+//FindAll retrieves all doc by its Value from dictionary
 func (dictionary *Dictionary) FindAll() ([]document.Word, error) {
-	var words []document.Word
-	err := dictionary.db.C(COLLECTION).Find(bson.M{}).All(&words)
-	return words, err
+	var docs []document.Word
+	err := dictionary.db.C(COLLECTION).Find(bson.M{}).All(&docs)
+	return docs, err
 }
 
-//FindByValue retrieves the Word by its Value from dictionary
+//FindByValue retrieves the doc by its Value from dictionary
 func (dictionary *Dictionary) FindByValue(value string) (document.Word, error) {
-	var word document.Word
-	err := dictionary.db.C(COLLECTION).Find(bson.M{"value": value}).One(&word)
-	return word, err
+	var doc document.Word
+	err := dictionary.db.C(COLLECTION).Find(bson.M{"value": value}).One(&doc)
+	return doc, err
 }
 
-//Insert inserts the Word into the dictionary
-func (dictionary *Dictionary) Insert(word document.Word) error {
-	err := dictionary.db.C(COLLECTION).Insert(&word)
+//Insert inserts the doc into the dictionary
+func (dictionary *Dictionary) Insert(doc document.Word) error {
+	err := dictionary.db.C(COLLECTION).Insert(&doc)
 	return err
 }
 
-//Delete deletes the Word from dictionary
-func (dictionary *Dictionary) Delete(word document.Word) error {
-	err := dictionary.db.C(COLLECTION).Remove(&word)
+//Delete deletes the doc from dictionary
+func (dictionary *Dictionary) Delete(doc document.Word) error {
+	err := dictionary.db.C(COLLECTION).Remove(&doc)
 	return err
 }
 
