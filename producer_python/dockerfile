@@ -1,5 +1,5 @@
 # Start from a plain image with the latest version of python
-FROM python:3.6
+FROM python:3
 
 # Author label
 LABEL Author Adaickalavan Meiyappan
@@ -8,7 +8,7 @@ LABEL Author Adaickalavan Meiyappan
 COPY . /app 
 
 # Install dependencies
-RUN pip install -r requirements.txt
+# RUN pip install -r requirements.txt
 
 # Command to execute when the image loads
 CMD ["python", "/app/main.py"]
