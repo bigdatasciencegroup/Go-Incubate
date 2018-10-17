@@ -1,19 +1,14 @@
-# Start from a Debian image with the latest version of GO 
-# installed and a workspace (GOPATH) configure at /go.
+# Start from a plain image with the latest version of python
 FROM python:3
 
-# # Author label
-# LABEL Author Adaickalavan Meiyappan
+# Author label
+LABEL Author Adaickalavan Meiyappan
 
 # Copy the local package files (from development computer) to the container's workspace (docker image)
 COPY . /app 
 
 # Install dependencies
-RUN pip install -r /app/requirements.txt
+# RUN pip install -r requirements.txt
 
-# # BUild the app command inside the container
-# RUN go install app
-
-EXPOSE 5000
-
-CMD python /app/main.py
+# Command to execute when the image loads
+CMD ["python", "/app/main.py"]

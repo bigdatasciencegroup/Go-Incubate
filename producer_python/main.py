@@ -1,14 +1,13 @@
 # import matplotlib.pyplot as plt
 # from utils import timePlot, overlapPlot
-from pykafka import KafkaClient
-from matplotlib import pyplot as plt
+# from pykafka import KafkaClient
 
 def main():
-    print("Yay")
-    # y = [1, -1, 3, -3]
-    # x = [1, 2, 3, 4]
-    # plt.plot(x,y)
-    return
+	print("Yay")
+
+	return
+
+
 
 if __name__ == "__main__":
    
