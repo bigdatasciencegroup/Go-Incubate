@@ -9,3 +9,4 @@ type Word struct {
 	Meaning string        `bson:"meaning" json:"meaning"`
 	Usage   []string      `bson:"usage" json:"usage"`
 }
+
