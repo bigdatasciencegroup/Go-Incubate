@@ -6,6 +6,9 @@ services:
   producer_python:
     image: producer_python
     container_name: producer_python
+    environment:
+      - KAFKAPORT=kafka:9092
+      - TOPICNAME=timeseries_1
     networks:
       - kafka_zookeeper_mongo_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other,
@@ -15,4 +18,3 @@ services:
 networks:
   kafka_zookeeper_mongo_dockerNet:
     external: true #Label the other docker-compose network as an external network to the current docker-compose file
-
