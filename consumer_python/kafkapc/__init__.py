@@ -1,5 +1,6 @@
 from kafka import KafkaConsumer, KafkaProducer
 import json
+import msgpack
 
 class Consumer(KafkaConsumer):
     def __init__(self, topicName, kafkaPort, consumerGroup):

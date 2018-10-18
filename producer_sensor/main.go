@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/Shopify/sarama"
-	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/document"
 	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/kafkapc"
 	"github.com/joho/godotenv"
 )
@@ -55,11 +54,10 @@ func main() {
 	time.Sleep(1 * time.Second)
 	log.Print(" ...done")
 
-	matrix := document.Matrix{}
-	for ii := 0; ii >= 500; ii-- {
-		matrix.Nums = float64(ii)
+	for ii := 0; ii >= -500; ii-- {
+		doc := &struct{ Nums float64 }{Nums: float64(ii)}
 		//Prepare message to be sent to Kafka
-		docBytes, err := json.Marshal(matrix)
+		docBytes, err := json.Marshal(*doc)
 		msg := &sarama.ProducerMessage{
 			Topic:     os.Getenv("TOPICNAME"),
 			Value:     sarama.ByteEncoder(docBytes),
@@ -68,9 +66,9 @@ func main() {
 		if err == nil {
 			//Send message into Kafka queue
 			producer.Input() <- msg
-			fmt.Println(matrix)
+			fmt.Println(doc, "======", msg)
 		} else {
-			fmt.Println("WARNING ---------------->>>>>>>>", matrix)
+			fmt.Println("WARNING ---------------->>>>>>>>", msg)
 		}
 	}
 	fmt.Println("Completed")

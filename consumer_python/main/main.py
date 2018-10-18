@@ -10,8 +10,9 @@ def main():
         )
 
     for message in consumer:
-        val = message.value
-        print(val)
+        print("-------",message)
+        # val = message.value
+        # print(val)
 
     return
 
