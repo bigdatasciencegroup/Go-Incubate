@@ -55,23 +55,25 @@ func main() {
 	time.Sleep(1 * time.Second)
 	log.Print(" ...done")
 
-	for ii := 0; ii <= 1000; ii++ {
-		matrix := &document.Matrix{}
-		matrix.Value = float64(ii)
+	matrix := document.Matrix{}
+	for ii := 0; ii >= 500; ii-- {
+		matrix.Nums = float64(ii)
 		//Prepare message to be sent to Kafka
-		docBytes, _ := json.Marshal(*matrix)
+		docBytes, err := json.Marshal(matrix)
 		msg := &sarama.ProducerMessage{
 			Topic:     os.Getenv("TOPICNAME"),
 			Value:     sarama.ByteEncoder(docBytes),
 			Timestamp: time.Now(),
 		}
-
-		//Send message into Kafka queue
-		producer.Input() <- msg
+		if err == nil {
+			//Send message into Kafka queue
+			producer.Input() <- msg
+			fmt.Println(matrix)
+		} else {
+			fmt.Println("WARNING ---------------->>>>>>>>", matrix)
+		}
 	}
-
 	fmt.Println("Completed")
-
 }
 
 func checkError(err error) bool {
