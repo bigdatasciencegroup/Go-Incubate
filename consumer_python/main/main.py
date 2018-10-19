@@ -1,5 +1,5 @@
 import os
-from kafkapc import Consumer
+from kafkapc_python import Consumer
 
 def main():
 
@@ -10,9 +10,9 @@ def main():
         )
 
     for message in consumer:
-        print("-------",message)
-        # val = message.value
-        # print(val)
+        # print("-------",message)
+        val = message.value
+        print(val)
 
     return
 

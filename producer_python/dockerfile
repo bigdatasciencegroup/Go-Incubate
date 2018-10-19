@@ -6,6 +6,7 @@ LABEL Author Adaickalavan Meiyappan
 
 # Copy the local package files (from development computer) to the container's workspace (docker image)
 COPY . /app 
+COPY . /app
 
 # Set environment variables
 ENV PYTHONPATH /app
