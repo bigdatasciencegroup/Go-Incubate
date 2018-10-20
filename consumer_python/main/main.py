@@ -1,4 +1,4 @@
-import os
+import os, sys
 from kafkapc_python import Consumer
 
 def main():
@@ -9,10 +9,14 @@ def main():
         os.environ['CONSUMERGROUP']
         )
 
-    for message in consumer:
-        # print("-------",message)
-        val = message.value
-        print(val)
+    try:
+        for message in consumer:
+            # print("-------",message)
+            val = message.value
+            print(val)
+    except KeyboardInterrupt:
+        sys.exit()
+
 
     return
 

@@ -14,7 +14,7 @@ services:
       - "mongo-data:/data/db" #Volume location on `Host:Container` machine   
 
   #Kafka0
-  kafka0:
+  kafka:
     image: ches/kafka
     container_name: kafka
     depends_on:

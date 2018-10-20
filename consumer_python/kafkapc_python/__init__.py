@@ -18,6 +18,5 @@ class Producer(KafkaProducer):
         KafkaProducer.__init__(
             self,
             bootstrap_servers=[kafkaPort],
-            value_serializer=lambda x: json.dumps(x).encode('utf-8'),
-            key_serializer=str.encode
+            value_serializer=lambda x: json.dumps(x).encode('utf-8')
             )
