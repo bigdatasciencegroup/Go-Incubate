@@ -1,12 +1,6 @@
 import os
 from kafkapc_python import Producer
-
-def on_send_success(record_metadata):
-    print("on success ---------------------------")
-    print(record_metadata.topic)
-    print(record_metadata.partition)
-    print(record_metadata.offset)
-    print("---------------------------")
+import json
 
 def main():
 
@@ -15,10 +9,9 @@ def main():
         )
 
     for e in range(10):
-        data = {'number': e}
-        producer.send(os.environ['TOPICNAME'], data).add_callback(on_send_success)
-        # future = producer.send(os.environ['TOPICNAME'], b'tester string')
-        print("manual data print ---> ",data)
+        data = {"number": e}    
+        producer.send(os.environ['TOPICNAME'], value=data)
+        print("Data sent ---> ",data)
 
     # block until all async messages are sent
     producer.flush()

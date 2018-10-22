@@ -40,18 +40,14 @@ func msgHandler() func(m *sarama.ConsumerMessage) error {
 			return nil
 		}
 
-		//Read message into 'word' struct
-		fmt.Println("m.Value --> ", m.Value)
-		word1 := &struct {
-			number int
-			value  struct{ number int }
-			Value  struct{ number int }
-		}{}
-		err := json.Unmarshal(m.Value, word1)
+		//Read message into 'doc' struct
+		doc := make(map[string]int)
+		doc["number"] = 0
+		err := json.Unmarshal(m.Value, &doc)
 		if err != nil {
 			return err
 		}
-		fmt.Println("word struct --> ", word1)
+		fmt.Println("Doc received:", doc)
 
 		return nil
 	}

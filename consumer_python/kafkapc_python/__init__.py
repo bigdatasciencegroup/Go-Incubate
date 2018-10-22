@@ -20,3 +20,12 @@ class Producer(KafkaProducer):
             bootstrap_servers=[kafkaPort],
             value_serializer=lambda x: json.dumps(x).encode('utf-8')
             )
+    
+    def send(self, topicName, value):
+        KafkaProducer.send(self, topicName, value).add_callback(self.on_send_success) 
+
+    def on_send_success(self, record_metadata):
+        print("----- on success -----")
+        print("Topic:", record_metadata.topic, ", Partition:", record_metadata.partition, ", Offset:", record_metadata.offset)
+        print("----------------------")
+

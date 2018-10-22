@@ -8,7 +8,7 @@ services:
     container_name: producer_python
     environment:
       - KAFKAPORT=kafka:9092
-      - TOPICNAME=timeseries_10
+      - TOPICNAME=timeseries_11
     networks:
       - kafka_zookeeper_mongo_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other,
