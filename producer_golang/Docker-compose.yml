@@ -3,19 +3,19 @@ version: '3'
 services:
 
   #Producer to obtain data from REST and write into Kafka queue
-  producer_sensor:
-    image: producer_sensor
-    container_name: producer_sensor   
+  producer_golang:
+    image: producer_golang
+    container_name: producer_golang   
     environment:
-      - TOPICNAME=timeseries_10
+      - TOPICNAME=timeseries_7
       - KAFKAPORT=kafka:9092
     networks:
-      - kafkazookeepermongo_dockerNet 
+      - kafka_zookeeper_mongo_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other,
         # we place them on the same network. The full network name from 'kafka-zookeeper-mongo' docker-compose
         # file is 'kafka_zookeeper_mongo_dockerNet'.
 
 networks:
-  kafkazookeepermongo_dockerNet:
+  kafka_zookeeper_mongo_dockerNet:
     external: true #Label the other docker-compose network as an external network to the current docker-compose file
 

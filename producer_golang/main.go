@@ -6,24 +6,16 @@ import (
 	"io"
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/Shopify/sarama"
 	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/kafkapc"
-	"github.com/joho/godotenv"
 )
 
 //Hooks that may be overridden for testing
 var inputReader io.Reader = os.Stdin
 var outputWriter io.Writer = os.Stdout
-
-func init() {
-	//Load .env file
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(err)
-	}
-}
 
 // Instantiate a producer
 var producer sarama.AsyncProducer
@@ -46,22 +38,26 @@ func main() {
 	//Hence, ensure that the topic has been created in Kafka queue
 	//by sending an 'init' message and waiting for a short 1 sec.
 	log.Print("Creating Topic...")
-	doc := &struct{ Nums float64 }{Nums: float64(-19786)}
+	// doc := make(map[string]int)
+	// doc["number"] = 324
+	doc := ""
 	//Prepare message to be sent to Kafka
-	docBytes, err := json.Marshal(*doc)
+	docBytes, err := json.Marshal(doc)
 	producer.Input() <- &sarama.ProducerMessage{
-		// Key:       sarama.StringEncoder("init"),
+		Key:       sarama.StringEncoder("init"),
 		Topic:     os.Getenv("TOPICNAME"),
 		Value:     sarama.ByteEncoder(docBytes),
 		Timestamp: time.Now(),
 	}
-	time.Sleep(1 * time.Second)
+	time.Sleep(4 * time.Second)
 	log.Print(" ...done")
 
-	for ii := 0; ii >= -500; ii-- {
-		doc := &struct{ Nums float64 }{Nums: float64(ii)}
+	for ii := 0; ii >= -10; ii-- {
+		// doc := make(map[string]int)
+		// doc["number"] = ii
+		doc := "Hihi " + strconv.Itoa(ii)
 		//Prepare message to be sent to Kafka
-		docBytes, err := json.Marshal(*doc)
+		docBytes, err := json.Marshal(doc)
 		msg := &sarama.ProducerMessage{
 			Topic:     os.Getenv("TOPICNAME"),
 			Value:     sarama.ByteEncoder(docBytes),

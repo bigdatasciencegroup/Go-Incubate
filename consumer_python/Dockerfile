@@ -1,5 +1,5 @@
 # Start from a plain image with the latest version of python
-FROM python:3
+FROM python:latest
 
 # Author label
 LABEL Author Adaickalavan Meiyappan

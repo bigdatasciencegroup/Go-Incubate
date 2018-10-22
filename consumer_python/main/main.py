@@ -6,20 +6,22 @@ def main():
     consumer = Consumer(
         os.environ['TOPICNAME'],
         os.environ['KAFKAPORT'],
-        os.environ['CONSUMERGROUP']
         )
 
-    try:
-        print("waiting for messages")
-        for message in consumer:
-            print("waiting for messages")
-            # print("-------",message)
-            val = message.value
-            print(val)
-    except KeyboardInterrupt:
-        sys.exit()
+    print("waiting for messages")
+    print("waiting for messages")
+    print("waiting for messages")
+    print("waiting for messages")
+    for message in consumer:
+        print(message.value)
+        print("%s:%d:%d: key=%s value=%s" % (
+            message.topic,
+            message.partition,
+            message.offset,
+            message.key,
+            message.value))
 
-
+    print("ENDNEDNEND")
     return
 
 if __name__ == "__main__":
