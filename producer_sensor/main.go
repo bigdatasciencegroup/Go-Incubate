@@ -46,9 +46,13 @@ func main() {
 	//Hence, ensure that the topic has been created in Kafka queue
 	//by sending an 'init' message and waiting for a short 1 sec.
 	log.Print("Creating Topic...")
+	doc := &struct{ Nums float64 }{Nums: float64(-19786)}
+	//Prepare message to be sent to Kafka
+	docBytes, err := json.Marshal(*doc)
 	producer.Input() <- &sarama.ProducerMessage{
-		Key:       sarama.StringEncoder("init"),
+		// Key:       sarama.StringEncoder("init"),
 		Topic:     os.Getenv("TOPICNAME"),
+		Value:     sarama.ByteEncoder(docBytes),
 		Timestamp: time.Now(),
 	}
 	time.Sleep(1 * time.Second)

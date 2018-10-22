@@ -2,13 +2,14 @@
 version: '3'
 services:
 
-  #Producer to obtain data from REST and write into Kafka queue
-  producer_sensor:
-    image: producer_sensor
-    container_name: producer_sensor   
+  #Consumer to obtain data from Kafka queue and write into MongoDB
+  consumer_goang:
+    image: consumer_golang
+    container_name: consumer_golang   
     environment:
-      - TOPICNAME=timeseries_10
       - KAFKAPORT=kafka:9092
+      - TOPICNAME=timeseries_10
+      - ZOOKEEPER_PORT=zookeeper:2181 
     networks:
       - kafkazookeepermongo_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other,
@@ -18,4 +19,3 @@ services:
 networks:
   kafkazookeepermongo_dockerNet:
     external: true #Label the other docker-compose network as an external network to the current docker-compose file
-

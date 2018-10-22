@@ -10,7 +10,7 @@ class Consumer(KafkaConsumer):
             auto_offset_reset='earliest',
             enable_auto_commit=True,
             group_id=consumerGroup,
-            value_deserializer=lambda x: json.loads(x.decode('utf-8'))
+            value_deserializer=lambda x: json.loads(x.decode('ascii'))
             )
 
 class Producer(KafkaProducer):
@@ -18,5 +18,6 @@ class Producer(KafkaProducer):
         KafkaProducer.__init__(
             self,
             bootstrap_servers=[kafkaPort],
-            value_serializer=lambda x: json.dumps(x).encode('utf-8')
+            value_serializer=lambda x: json.dumps(x).encode('ascii')
             )
+    

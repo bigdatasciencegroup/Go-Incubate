@@ -10,7 +10,9 @@ def main():
         )
 
     try:
+        print("waiting for messages")
         for message in consumer:
+            print("waiting for messages")
             # print("-------",message)
             val = message.value
             print(val)
