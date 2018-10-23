@@ -62,7 +62,7 @@ func ConsumeMessages(consumerParam ConsumerParam, handler messageHandler) {
 	//Consume messages from Kafka queue
 	log.Println("Waiting for messages")
 	for message := range consumer.Messages() {
-		log.Printf("Topic: %s\t Partition: %v\t Offset: %v\n", message.Topic, message.Partition, message.Offset)
+		// log.Printf("Topic: %s\t Partition: %v\t Offset: %v\n", message.Topic, message.Partition, message.Offset)
 
 		//Only take messages from subscribed topic
 		//Potentially perform different operations on messages from different topics
