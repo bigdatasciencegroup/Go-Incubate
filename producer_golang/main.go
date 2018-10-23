@@ -6,7 +6,6 @@ import (
 	"io"
 	"log"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/Shopify/sarama"
@@ -38,13 +37,12 @@ func main() {
 	//Hence, ensure that the topic has been created in Kafka queue
 	//by sending an 'init' message and waiting for a short 1 sec.
 	log.Print("Creating Topic...")
-	// doc := make(map[string]int)
-	// doc["number"] = 324
-	doc := ""
+	doc := make(map[string]int)
+	doc["number"] = -999
 	//Prepare message to be sent to Kafka
 	docBytes, err := json.Marshal(doc)
 	producer.Input() <- &sarama.ProducerMessage{
-		Key:       sarama.StringEncoder("init"),
+		// Key:       sarama.StringEncoder("init"),
 		Topic:     os.Getenv("TOPICNAME"),
 		Value:     sarama.ByteEncoder(docBytes),
 		Timestamp: time.Now(),
@@ -52,10 +50,9 @@ func main() {
 	time.Sleep(4 * time.Second)
 	log.Print(" ...done")
 
-	for ii := 0; ii >= -10; ii-- {
-		// doc := make(map[string]int)
-		// doc["number"] = ii
-		doc := "Hihi " + strconv.Itoa(ii)
+	for ii := 0; ii <= 1000; ii++ {
+		doc := make(map[string]int)
+		doc["number"] = ii
 		//Prepare message to be sent to Kafka
 		docBytes, err := json.Marshal(doc)
 		msg := &sarama.ProducerMessage{
@@ -66,7 +63,7 @@ func main() {
 		if err == nil {
 			//Send message into Kafka queue
 			producer.Input() <- msg
-			fmt.Println(doc, "======", msg)
+			fmt.Println(doc)
 		} else {
 			fmt.Println("WARNING ---------------->>>>>>>>", msg)
 		}

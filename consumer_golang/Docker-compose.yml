@@ -8,7 +8,7 @@ services:
     container_name: consumer_golang   
     environment:
       - KAFKAPORT=kafka:9092
-      - TOPICNAME=timeseries_11
+      - TOPICNAME=timeseries_88
       - ZOOKEEPER_PORT=zookeeper:2181 
     networks:
       - kafka_zookeeper_mongo_dockerNet 

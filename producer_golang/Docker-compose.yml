@@ -7,7 +7,7 @@ services:
     image: producer_golang
     container_name: producer_golang   
     environment:
-      - TOPICNAME=timeseries_7
+      - TOPICNAME=timeseries_88
       - KAFKAPORT=kafka:9092
     networks:
       - kafka_zookeeper_mongo_dockerNet 
