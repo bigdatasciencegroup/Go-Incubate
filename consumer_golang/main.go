@@ -22,7 +22,7 @@ func main() {
 
 	// Set up the Kafka consumer parameter
 	ConsumerParam := kafkapc.ConsumerParam{
-		GroupName: "databaseWriter",
+		GroupName: os.Getenv("CONSUMERGROUP"),
 		Topics:    []string{os.Getenv("TOPICNAME")},
 		Zookeeper: []string{os.Getenv("ZOOKEEPER_PORT")},
 	}
