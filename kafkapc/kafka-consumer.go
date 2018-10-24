@@ -66,8 +66,8 @@ func ConsumeMessages(consumerParam ConsumerParam, handler messageHandler) {
 		log.Println("consumerparamtopics",consumerParam.Topics[0])
 		//Only take messages from subscribed topic
 		//Potentially perform different operations on messages from different topics
-		switch message.Topic {
-		case consumerParam.Topics[0]:
+		// switch message.Topic {
+		// case consumerParam.Topics[0]:
 			//Handle the message
 			e := handler(message)
 			if e != nil {
@@ -77,6 +77,6 @@ func ConsumeMessages(consumerParam ConsumerParam, handler messageHandler) {
 				//Mark the message as processed
 				consumer.CommitUpto(message)
 			}
-		}
+		// }
 	}
 }
