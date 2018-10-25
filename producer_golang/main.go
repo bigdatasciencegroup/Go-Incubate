@@ -34,39 +34,25 @@ func main() {
 		log.Fatal("Failed to connect to Kafka. Error:", err.Error())
 	}
 
-	//If a consumer accesses the topic before it is created,
-	//a 'missing node' error will be thrown.
-	//Hence, ensure that the topic has been created in Kafka queue
-	//by sending an 'init' message and waiting for a short 1 sec.
-	log.Print("Creating Topic...")
-	producer.Input() <- &sarama.ProducerMessage{
-		Key:   sarama.StringEncoder("init"),
-		Topic: os.Getenv("TOPICNAME"),
-
-		Timestamp: time.Now(),
-	}
-	time.Sleep(1 * time.Second)
-	log.Print(" ...done")
-
+	//Run the producer
 	for ii := 1; ii <= 10; ii++ {
 		doc := make(map[string]int)
 		doc["number"] = -ii * 2
 		//Prepare message to be sent to Kafka
 		docBytes, err := json.Marshal(doc)
+		if err != nil {
+			log.Fatal("Json marshalling error. Error:", err.Error())
+			continue
+		}
 		msg := &sarama.ProducerMessage{
 			Topic:     os.Getenv("TOPICNAME"),
 			Value:     sarama.ByteEncoder(docBytes),
 			Timestamp: time.Now(),
 		}
-		if err == nil {
-			//Send message into Kafka queue
-			producer.Input() <- msg
-			fmt.Println(doc)
-		} else {
-			fmt.Println("WARNING ---------------->>>>>>>>", msg)
-		}
+		//Send message into Kafka queue
+		producer.Input() <- msg
+		fmt.Println(doc)
 	}
-
 }
 
 func checkError(err error) bool {

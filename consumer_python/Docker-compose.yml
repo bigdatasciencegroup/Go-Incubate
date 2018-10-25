@@ -8,14 +8,14 @@ services:
     container_name: consumer_python
     environment:
       - KAFKAPORT=kafka:9092
-      - TOPICNAME=timeseries_88
-      - CONSUMERGROUP=group_88
+      - TOPICNAME=timeseries_2
+      - CONSUMERGROUP=consumerGroup_2
     networks:
-      - kafka_zookeeper_mongo_dockerNet 
+      - kafkazookeepermongo_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other,
         # we place them on the same network. The full network name from 'kafka-zookeeper-mongo' docker-compose
         # file is 'kafka_zookeeper_mongo_dockerNet'.
 
 networks:
-  kafka_zookeeper_mongo_dockerNet:
+  kafkazookeepermongo_dockerNet:
     external: true #Label the other docker-compose network as an external network to the current docker-compose file

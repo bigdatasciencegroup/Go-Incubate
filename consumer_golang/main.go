@@ -24,7 +24,7 @@ func main() {
 	ConsumerParam := kafkapc.ConsumerParam{
 		GroupName: os.Getenv("CONSUMERGROUP"),
 		Topics:    []string{os.Getenv("TOPICNAME")},
-		Zookeeper: []string{os.Getenv("ZOOKEEPER_PORT")},
+		Zookeeper: []string{os.Getenv("ZOOKEEPERPORT")},
 	}
 
 	// Run the consumer

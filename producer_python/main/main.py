@@ -13,7 +13,7 @@ def main():
         producer.send(os.environ['TOPICNAME'], value=data)
         print("Data sent ---> ", data)
 
-    # block until all async messages are sent
+    # Block until all async messages are sent
     producer.flush()
 
     return
