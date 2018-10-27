@@ -14,55 +14,70 @@ services:
       - "mongo-data:/data/db" #Volume location on `Host:Container` machine   
 
   #Kafka0
+  # kafka:
+  #   image: ches/kafka
+  #   container_name: kafka
+  #   depends_on:
+  #     - zookeeper 
+  #   ports:
+  #     - "9092:9092" #Kafka broker
+  #     - "7203:7203" #JMX port
+  #   networks:
+  #     - dockerNet
+  #   environment:
+  #     # - KAFKA_ADVERTISED_HOST_NAME=kafka
+  #     # - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+  #     - KAFKA_BROKER_ID=0
+  #     - KAFKA_NUM_PARTITIONS=1 #Number of log partitions per topic
+  #     - ZOOKEEPER_IP=zookeeper
+  #   volumes:
+  #     - "kafka-data:/data" #Path where Kafka's data is stored 
+  #     - "kafka-logs:/logs" #Path where Kafka's logs will be written   
+
+  #Kafka
   kafka:
-    image: ches/kafka
+    image: wurstmeister/kafka
     container_name: kafka
     depends_on:
       - zookeeper 
     ports:
       - "9092:9092" #Kafka broker
-      - "7203:7203" #JMX port
     networks:
       - dockerNet
     environment:
-      # - KAFKA_ADVERTISED_HOST_NAME=kafka
-      # - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      # - KAFKA_ADVERTISED_HOST_NAME=192.168.99.100
+      - KAFKA_ADVERTISED_PORT=9092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      # - KAFKA_OPTS=-javaagent:/usr/app/jmx_prometheus_javaagent.jar=7071:/usr/app/prom-jmx-agent-config.yml
       - KAFKA_BROKER_ID=0
-      - KAFKA_NUM_PARTITIONS=1 #Number of log partitions per topic
-      - ZOOKEEPER_IP=zookeeper
+      # - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+      # - KAFKA_NUM_PARTITIONS=5 #Number of log partitions per topic
     volumes:
       - "kafka-data:/data" #Path where Kafka's data is stored 
       - "kafka-logs:/logs" #Path where Kafka's logs will be written   
 
-  # #Kafka1
-  # kafka1:
-  #   image: ches/kafka
-  #   container_name: kafka1
-  #   depends_on:
-  #     - zookeeper 
-  #   ports:
-  #     - "9093:9093" #Kafka broker
-  #   networks:
-  #     - dockerNet
-  #   environment:
-  #     - KAFKA_ADVERTISED_HOST_NAME=192.168.192.1
-  #     - KAFKA_DEFAULT_REPLICATION_FACTOR=3
-  #     - KAFKA_BROKER_ID=1
-  #     # - KAFKA_NUM_PARTITIONS=5 #Number of log partitions per topic
-  #     - ZOOKEEPER_IP=zookeeper
-  #   # volumes:
-  #   #   - "kafka-data:/data" #Path where Kafka's data is stored 
-  #   #   - "kafka-logs:/logs" #Path where Kafka's logs will be written   
-
   #Zookeeper
   zookeeper:
-    image: jplock/zookeeper
+    image: wurstmeister/zookeeper
     container_name: zookeeper   
     restart: unless-stopped 
     ports:
       - "2181:2181" #Zookeeper
     networks:
       - dockerNet
+
+  # prometheus:
+  #   image: prom/prometheus
+  #   ports:
+  #     - 9090:9090/tcp
+  #   volumes:
+  #     - prom-data:/etc/prometheus
+  #   depends-on:
+  #     - kafka
+  #     - zookeeper
+  #   networks:
+  #     - dockerNet
 
 volumes:
   # Volume location on host machine is not specified. 
@@ -71,6 +86,7 @@ volumes:
   mongo-data: 
   kafka-data:
   kafka-logs:
+  prom-data:
 networks:
   dockerNet:
     driver: bridge
