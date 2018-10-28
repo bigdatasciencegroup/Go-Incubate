@@ -31,8 +31,8 @@ def main():
     client = KafkaClient(hosts="kafka:9092")
     topic = client.topics['my_test']
     with topic.get_sync_producer() as producer:
-        for i in range(600):
-            producer.produce(('test message ' + str(i ** 2)).encode())
+        for i in range(1):
+            producer.produce(('test message ' + str(i ** 2 + 1)).encode())
             print('test message ' + str(i ** 2))
 
     time.sleep(10)

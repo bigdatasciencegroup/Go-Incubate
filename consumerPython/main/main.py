@@ -87,7 +87,7 @@ def main():
     for message in balanced_consumer:
         if message is not None:
             print(message.offset, message.value)
-        if message.value == b'test message 354025':
+        if message.value == b'test message 1':
             break
 
 
