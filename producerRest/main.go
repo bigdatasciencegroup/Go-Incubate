@@ -34,7 +34,7 @@ func main() {
 	sarama.Logger = log.New(outputWriter, "[saramaLog]", log.Ltime)
 
 	//Create a Kafka producer
-	var brokers = []string{os.Getenv("KAFKA_PORT")}
+	var brokers = []string{os.Getenv("KAFKAPORT")}
 
 	var err error
 	producer, err = kafkapc.CreateKafkaProducer(brokers)
@@ -49,7 +49,7 @@ func main() {
 	log.Print("Creating Topic...")
 	producer.Input() <- &sarama.ProducerMessage{
 		Key:       sarama.StringEncoder("init"),
-		Topic:     os.Getenv("TOPICNAME_POST"),
+		Topic:     os.Getenv("TOPICNAME"),
 		Timestamp: time.Now(),
 	}
 	time.Sleep(1 * time.Second)
@@ -65,7 +65,7 @@ func main() {
 //Create and run REST API server
 func run() error {
 	mux := makeMuxRouter()
-	httpAddr := os.Getenv("LISTENING_ADDR")
+	httpAddr := os.Getenv("LISTENINGADDR")
 	log.Println("Listening on ", httpAddr)
 	s := &http.Server{
 		Addr:           ":" + httpAddr,

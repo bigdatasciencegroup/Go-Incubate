@@ -3,13 +3,13 @@ version: '3'
 services:
 
   #Consumer to read from Kafka queue
-  consumer_python:
-    image: consumer_python
-    container_name: consumer_python
-    environment:
-      - KAFKAPORT=kafka:9092
-      - TOPICNAME=timeseries_2
-      - CONSUMERGROUP=consumerGroup_2
+  consumerpython:
+    image: consumerpython
+    container_name: consumerpython
+    # environment:
+      # - KAFKAPORT=kafka:9092
+      # - TOPICNAME=timeseries2
+      # - CONSUMERGROUP=consumerGroup2
     networks:
       - kafkazookeepermongo_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other,

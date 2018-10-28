@@ -3,12 +3,12 @@ version: '3'
 services:
 
   #Producer to write into Kafka queue
-  producer_python:
-    image: producer_python
-    container_name: producer_python
+  producerpython:
+    image: producerpython
+    container_name: producerpython
     environment:
       - KAFKAPORT=kafka:9092
-      - TOPICNAME=timeseries_2
+      - TOPICNAME=timeseries2
     networks:
       - kafkazookeepermongo_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other,

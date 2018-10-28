@@ -32,8 +32,8 @@ var dictionary = database.Dictionary{}
 func main() {
 
 	//Connect to database
-	dictionary.Server = os.Getenv("MONGO_PORT")
-	dictionary.DatabaseName = os.Getenv("DATABASE_NAME")
+	dictionary.Server = os.Getenv("MONGOPORT")
+	dictionary.DatabaseName = os.Getenv("DATABASENAME")
 	dictionary.Session = dictionary.Connect()
 	//Ensure database index is unique
 	dictionary.EnsureIndex([]string{"value"})
@@ -44,8 +44,8 @@ func main() {
 	// Set up the Kafka consumer parameter
 	ConsumerParam := kafkapc.ConsumerParam{
 		GroupName: "databaseWriter",
-		Topics:    []string{os.Getenv("TOPICNAME_POST")},
-		Zookeeper: []string{os.Getenv("ZOOKEEPER_PORT")},
+		Topics:    []string{os.Getenv("TOPICNAME")},
+		Zookeeper: []string{os.Getenv("ZOOKEEPERPORT")},
 	}
 
 	// Run the consumer
@@ -72,7 +72,7 @@ func msgHandler(dictionary *database.Dictionary) func(m *sarama.ConsumerMessage)
 		err = dictionary.Insert(*word)
 		switch {
 		case mgo.IsDup(err):
-			log.Println("Key has been duplicated !!! ", err.Error())
+			log.Println("Key has been duplicated !!!", err.Error())
 		case err != nil:
 			log.Println("Other error inside msg hnadle", err.Error())
 		}
