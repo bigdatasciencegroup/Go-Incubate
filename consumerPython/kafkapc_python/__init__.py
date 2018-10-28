@@ -6,7 +6,7 @@ class Consumer(KafkaConsumer):
         KafkaConsumer.__init__(
             self,
             topicName,
-            bootstrap_servers=[kafkaPort],
+            bootstrap_servers=kafkaPort,
             auto_offset_reset='earliest',
             enable_auto_commit=True,
             group_id=consumerGroup,
@@ -28,4 +28,3 @@ class Producer(KafkaProducer):
         print("----- on success -----")
         print("Topic:", record_metadata.topic, ", Partition:", record_metadata.partition, ", Offset:", record_metadata.offset)
         print("----------------------")
-

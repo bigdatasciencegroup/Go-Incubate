@@ -29,7 +29,6 @@ func main() {
 
 	// Run the consumer
 	kafkapc.ConsumeMessages(ConsumerParam, msgHandler())
-
 }
 
 //Consumer message handler
