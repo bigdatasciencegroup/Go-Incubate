@@ -3,9 +3,9 @@ version: '3'
 services:
 
   #Producer to obtain data from REST and write into Kafka queue
-  producerRest:
-    image: producerRest
-    container_name: producerRest   
+  producerrest:
+    image: producerrest
+    container_name: producerrest   
     ports:
       - "8080:8080" #REST port
       # When docker-compose is run in Windows 10 with Hyper-V

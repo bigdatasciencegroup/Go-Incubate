@@ -34,7 +34,10 @@ func main() {
 	//Connect to database
 	dictionary.Server = os.Getenv("MONGOPORT")
 	dictionary.DatabaseName = os.Getenv("DATABASENAME")
+	dictionary.CollectionName = os.Getenv("COLLECTIONNAME")
 	dictionary.Session = dictionary.Connect()
+	defer dictionary.Session.Close()
+
 	//Ensure database index is unique
 	dictionary.EnsureIndex([]string{"value"})
 

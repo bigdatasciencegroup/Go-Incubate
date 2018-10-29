@@ -3,11 +3,12 @@ version: '3'
 services:
 
   #Consumer to obtain data from Kafka queue and write into MongoDB
-  consumerMongo:
-    image: consumerMongo
-    container_name: consumerMongo   
+  consumermongo:
+    image: consumermongo
+    container_name: consumermongo   
     environment:
       - DATABASENAME=dictionary
+      - COLLECTIONNAME=words
       - TOPICNAME=POSTdictionary
       - ZOOKEEPERPORT=zookeeper:2181
       - MONGOPORT=mongo:27017  

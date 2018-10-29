@@ -3,9 +3,9 @@ version: '3'
 services:
 
   #Producer to obtain data from REST and write into Kafka queue
-  producer_golang:
-    image: producer_golang
-    container_name: producer_golang   
+  producergolang:
+    image: producergolang
+    container_name: producergolang   
     environment:
       - TOPICNAME=timeseries_1
       - KAFKAPORT=kafka:9092

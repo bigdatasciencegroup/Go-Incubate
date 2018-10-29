@@ -3,9 +3,9 @@ version: '3'
 services:
 
   #Consumer to obtain data from Kafka queue and write into MongoDB
-  consumer_golang:
-    image: consumer_golang
-    container_name: consumer_golang   
+  consumergolang:
+    image: consumergolang
+    container_name: consumergolang   
     environment:
       - KAFKAPORT=kafka:9092
       - TOPICNAME=timeseries_1

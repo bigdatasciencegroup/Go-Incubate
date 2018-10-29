@@ -17,8 +17,6 @@ func makeMuxRouter() http.Handler {
 	// muxRouter.HandleFunc("/definition/", handlerGetWordByID).Methods("GET")
 	// muxRouter.HandleFunc("/definition", handlerGetWord).Methods("GET")
 	muxRouter.HandleFunc("/definition", handlerPostWord).Methods("POST")
-	muxRouter.HandleFunc("/definition", handlerPostWord).Methods("POST")
-	// muxRouter.HandleFunc("/definition", handlerPutWord).Methods("PUT")
 	return muxRouter
 }
 
@@ -58,7 +56,7 @@ func handlerPostWord(w http.ResponseWriter, r *http.Request) {
 	//Prepare message to be sent to Kafka
 	wordBytes, _ := json.Marshal(*word)
 	msg := &sarama.ProducerMessage{
-		Topic:     os.Getenv("TOPICNAME_POST"),
+		Topic:     os.Getenv("TOPICNAME"),
 		Key:       sarama.StringEncoder(word.Value),
 		Value:     sarama.ByteEncoder(wordBytes),
 		Timestamp: time.Now(),
