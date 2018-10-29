@@ -10,6 +10,7 @@ services:
       - DATABASENAME=dictionary
       - COLLECTIONNAME=words
       - TOPICNAME=POSTdictionary
+      - GROUPNAME=consumerGroupMongo
       - ZOOKEEPERPORT=zookeeper:2181
       - MONGOPORT=mongo:27017  
     networks:

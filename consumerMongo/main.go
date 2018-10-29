@@ -46,14 +46,13 @@ func main() {
 
 	// Set up the Kafka consumer parameter
 	ConsumerParam := kafkapc.ConsumerParam{
-		GroupName: "databaseWriter",
+		GroupName: os.Getenv("GROUPNAME"),
 		Topics:    []string{os.Getenv("TOPICNAME")},
 		Zookeeper: []string{os.Getenv("ZOOKEEPERPORT")},
 	}
 
 	// Run the consumer
 	kafkapc.ConsumeMessages(ConsumerParam, msgHandler(&dictionary))
-
 }
 
 //Consumer message handler

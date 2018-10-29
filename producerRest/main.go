@@ -46,14 +46,14 @@ func main() {
 	//a 'missing node' error will be thrown.
 	//Hence, ensure that the topic has been created in Kafka queue
 	//by sending an 'init' message and waiting for a short 1 sec.
-	log.Print("Creating Topic...")
-	producer.Input() <- &sarama.ProducerMessage{
-		Key:       sarama.StringEncoder("init"),
-		Topic:     os.Getenv("TOPICNAME"),
-		Timestamp: time.Now(),
-	}
-	time.Sleep(1 * time.Second)
-	log.Print(" ...done")
+	// log.Print("Creating Topic...")
+	// producer.Input() <- &sarama.ProducerMessage{
+	// 	Key:       sarama.StringEncoder("init"),
+	// 	Topic:     os.Getenv("TOPICNAME"),
+	// 	Timestamp: time.Now(),
+	// }
+	// time.Sleep(1 * time.Second)
+	// log.Print(" ...done")
 
 	//Run the REST API server
 	if err := run(); err != nil {
