@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+    prometheus:
+        image: prom/prometheus:latest
+        container_name: prometheus
+        volumes:
+            - prometheus-data:/etc/prometheus
+        command: "--config.file=/etc/prometheus/prometheus.yml"
+        # restart: unless-stopped
+        expose:
+            - 9090
+        ports:
+            - 9090:9090
+ 
+volumes:
+    prometheus-data: .\monitor
