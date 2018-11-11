@@ -2,8 +2,6 @@ package database
 
 import (
 	"fmt"
-	"log"
-	"time"
 
 	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/document"
 	mgo "gopkg.in/mgo.v2"
@@ -12,25 +10,7 @@ import (
 
 //Dictionary contains server and database strings
 type Dictionary struct {
-	Server         string          //Connection to server 'IP:Port'
-	DatabaseName   string          //Name of desired database
-	CollectionName string          //Name of desired collection
-	Session        *mgo.Session    //Session
-	c              *mgo.Collection //Pointer to desired collection
-}
-
-//Connect connects to the database
-func (dictionary *Dictionary) Connect() *mgo.Session {
-	info := &mgo.DialInfo{
-		Addrs:   []string{dictionary.Server},
-		Timeout: 60 * time.Second,
-	}
-	session, err := mgo.DialWithInfo(info)
-	if err != nil {
-		log.Fatal("Database dial error:", err)
-	}
-	dictionary.c = session.DB(dictionary.DatabaseName).C(dictionary.CollectionName)
-	return session
+	connection
 }
 
 //EnsureIndex creates an index field in the collection
