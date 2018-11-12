@@ -41,7 +41,6 @@ func msgHandler() func(m *sarama.ConsumerMessage) error {
 
 		//Read message into 'doc' struct
 		doc := make(map[string]int)
-		doc["number"] = 0
 		err := json.Unmarshal(m.Value, &doc)
 		if err != nil {
 			return err

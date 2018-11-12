@@ -6,10 +6,11 @@ services:
   consumerpython:
     image: consumerpython
     container_name: consumerpython
-    # environment:
-      # - KAFKAPORT=kafka:9092
-      # - TOPICNAME=timeseries2
-      # - CONSUMERGROUP=consumerGroup2
+    environment:
+      - KAFKAPORT=kafka:9092
+      - TOPICNAME=timeseries_2
+      - ZOOKEEPERPORT=zookeeper:2181 
+      - CONSUMERGROUP=consumerGroup_2
     networks:
       - kafkazookeepermongo_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other,

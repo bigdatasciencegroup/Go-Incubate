@@ -1,7 +1,10 @@
 # import json
 # from kafka import KafkaConsumer
 # from kafka.structs import OffsetAndMetadata, TopicPartition
-from pykafka import KafkaClient
+# from pykafka import KafkaClient
+from kafka import KafkaConsumer
+# import kazoo
+import os
 
 # class Consumer(multiprocessing.Process):
 #     def __init__(self):
@@ -65,31 +68,46 @@ def main():
 
     # consumer.close()
 
-    client = KafkaClient(hosts="kafka:9092")
-    topic = client.topics['my_test']
-    balanced_consumer = topic.get_balanced_consumer(
-        consumer_group=('testgroup').encode(),
-        # managed = True,
-        auto_commit_enable=True,
-        auto_offset_reset='earliest',
-        zookeeper_connect='zookeeper:2181')
-        # consumer_timeout_ms=1000)
-    # balanced_consumer = balanced_consumer(
-    #     auto_commit_enable=True, 
-    #     auto_commit_interval_ms=6, 
-    #     queued_max_messages=1, 
-    #     fetch_min_bytes=1, 
-    #     fetch_wait_max_ms=100, 
-    #     zookeeper_hosts='zookeeper:2181', 
-    #     auto_start=True, 
-    #     reset_offset_on_start=False,
-    #     reset_offset_on_fetch=True)    
-    for message in balanced_consumer:
-        if message is not None:
-            print(message.offset, message.value)
-        if message.value == b'test message 1':
-            break
 
+
+    # To consume latest messages and auto-commit offsets
+    consumer = KafkaConsumer('timeseries_2',
+                            group_id='hi',
+                            client_id='kuh',
+                            bootstrap_servers=['kafka:9092'],
+                            fetch_max_wait_ms=100,
+                            request_timeout_ms=500,
+                            metadata_max_age_ms = 100, 
+                            )
+
+    for message in consumer:
+        # message value and key are raw bytes -- decode if necessary!
+        # e.g., for unicode: `message.value.decode('utf-8')`
+        print(message.value.decode('utf-8'))
+        # consumer.close()                                    
+    
+
+    # '''
+    # client = KafkaClient(hosts=os.environ['KAFKAPORT'])
+    # topic = client.topics[os.environ['TOPICNAME']]
+    # # zk = KazooClient()
+
+    # balanced_consumer = topic.get_balanced_consumer(
+    #     consumer_group="testing1",
+    #     # managed = True,
+    #     auto_commit_enable=True,
+    #     auto_offset_reset='earliest',
+    #     # zookeeper_connect='zookeeper:2181',
+    #     zookeeper_hosts = 'zookeeper:2181',
+    #     consumer_timeout_ms=1000,
+    #     )    
+    # for message in balanced_consumer:
+    #     if message is not None:
+    #         # print(message)
+    #         print(message.offset, message.value)
+    #     # if message.value == b'test message 1':
+    #     #     break
+    # '''
 
     return
 

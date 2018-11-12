@@ -1,9 +1,8 @@
-# from time import sleep
-# import json
-# from kafka import KafkaProducer
-from pykafka import KafkaClient
+import json
+import os
 import time
-
+from pykafka import KafkaClient
+# from kafka import KafkaProducer
 
 def main():
 
@@ -28,16 +27,21 @@ def main():
     # # Block until all async messages are sent
     # producer.flush()
 
-    client = KafkaClient(hosts="kafka:9092")
-    topic = client.topics['my_test']
+    client = KafkaClient(hosts=os.environ['KAFKAPORT'])
+    topic = client.topics[os.environ['TOPICNAME']]
+    # Using with context, the program waits for the producer 
+    # to flush its message queue. producer.produce() ships 
+    # messages asynchronously by default.
     with topic.get_sync_producer() as producer:
-        for i in range(1):
-            producer.produce(('test message ' + str(i ** 2 + 1)).encode())
-            print('test message ' + str(i ** 2))
-
-    time.sleep(10)
+        for i in range(10):
+            data = {"number": i ** 2 + 1} 
+            producer.produce(serializer(data))
+            print(data)
 
     return
+
+def serializer(x):
+    return json.dumps(x).encode('utf-8')
 
 if __name__ == "__main__":
     #Call main function
