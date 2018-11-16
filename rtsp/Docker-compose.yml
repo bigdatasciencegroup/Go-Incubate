@@ -1,0 +1,18 @@
+---
+version: '3'
+
+services:
+  #Producer to obtain data from REST and write into Kafka queue
+  rtspatt:
+    image: ullaakut/rtspatt
+    container_name: rtspatt   
+    ports:
+      - "8554:8554" #RTSP port
+    environment:
+      - INPUT=pattern:ball
+    networks:
+      - dockerNet
+
+networks:
+  dockerNet:
+    driver: bridge
