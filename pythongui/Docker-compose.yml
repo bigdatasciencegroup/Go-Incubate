@@ -1,0 +1,20 @@
+---
+version: '3'
+services:
+
+  #Producer to write into Kafka queue
+  pythongui:
+    image: pythongui
+    container_name: pythongui
+    environment:
+      - DISPLAY=$DISPLAY
+      - TOPICNAME=timeseries_2
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix  
+    net: host  
+    networks: 
+      - dockerNet
+
+networks:
+  dockerNet:
+    driver: bridge
