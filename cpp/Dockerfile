@@ -19,5 +19,8 @@ COPY . /usr/src/app
 #Use GCC to compile the cpp source file 
 RUN g++ -o EXEC /usr/src/app/main.cpp
 
+#Install OpenCV
+RUN git clone https:
+
 # Command to execute when the image loads
 CMD ["/EXEC"]

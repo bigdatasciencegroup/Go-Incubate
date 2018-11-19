@@ -9,8 +9,7 @@ services:
     ports:
       - "5000:5000"
       - "8888:8888"
-    # devices:
-    #   - /dev/video0:/dev/video0
+    devices: [/dev/video0]
     environment:
       - DISPLAY=$DISPLAY
     networks:
