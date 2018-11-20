@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"time"
 
 	"github.com/Shopify/sarama"
 	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/kafkapc"
@@ -31,6 +32,11 @@ func main() {
 	kafkapc.ConsumeMessages(ConsumerParam, msgHandler())
 }
 
+//Result is a struct
+type Result struct {
+	T time.Time `json:"t"`
+}
+
 //Consumer message handler
 func msgHandler() func(m *sarama.ConsumerMessage) error {
 	return func(m *sarama.ConsumerMessage) error {
@@ -40,7 +46,9 @@ func msgHandler() func(m *sarama.ConsumerMessage) error {
 		}
 
 		//Read message into 'doc' struct
-		doc := make(map[string]int)
+		// doc := make(map[string]int)
+		doc := Result{}
+
 		err := json.Unmarshal(m.Value, &doc)
 		if err != nil {
 			return err
