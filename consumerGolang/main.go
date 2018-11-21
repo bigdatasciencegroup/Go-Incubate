@@ -10,6 +10,7 @@ import (
 
 	"github.com/Shopify/sarama"
 	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/kafkapc"
+	"gocv.io/x/gocv"
 )
 
 //Hooks that may be overridden for testing
@@ -34,7 +35,8 @@ func main() {
 
 //Result is a struct
 type Result struct {
-	T time.Time `json:"t"`
+	T   time.Time `json:"t"`
+	Mat gocv.Mat  `json:"mat"`
 }
 
 //Consumer message handler

@@ -27,10 +27,9 @@ LABEL Author Adaickalavan Meiyappan
 # COPY --from=build-stage /go/bin/app /go/bin/app
 # CMD ["/go/bin/gocv"]
 
-# ENV TOPICNAME "timeseries_1"
-# ENV KAFKAPORT "0.0.0.0:9092"
-
 # ENV DISPLAY 10.0.75.1:0.0
 # VOLUME /tmp/.X11-unix:/tmp/.X11-unix
 
+# WORKDIR /go/src/app
+# RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go install -v -installsuffix cgo 
 ENTRYPOINT ["/go/bin/app"]

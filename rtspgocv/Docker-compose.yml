@@ -9,6 +9,7 @@ services:
     environment:
       - TOPICNAME=timeseries_1
       - KAFKAPORT=kafka:9092
+    # Volumes: /tmp/.X11-unix:/tmp/.X11-unix  
     networks:
       - kafkazookeepermongo_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other,
