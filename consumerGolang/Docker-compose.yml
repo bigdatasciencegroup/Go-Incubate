@@ -7,10 +7,9 @@ services:
     image: consumergolang
     container_name: consumergolang   
     environment:
-      - KAFKAPORT=kafka:9092
       - TOPICNAME=timeseries_1
       - ZOOKEEPERPORT=zookeeper:2181 
-      - CONSUMERGROUP=consumerGroup_2
+      - CONSUMERGROUP=consumerGroup_1
     networks:
       - kafkazookeepermongo_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other,

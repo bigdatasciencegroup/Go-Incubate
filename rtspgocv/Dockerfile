@@ -18,18 +18,16 @@ COPY . /go/src/app
 RUN go install app
 
 
-# FROM denismakogon/gocv-alpine:3.4.2-runtime
+FROM denismakogon/gocv-alpine:3.4.2-runtime
 
 #Author label
 LABEL Author Adaickalavan Meiyappan
 
 # COPY --from=build-stage /go/bin/gocv /go/bin/gocv
-# COPY --from=build-stage /go/bin/app /go/bin/app
+COPY --from=build-stage /go/bin/app /go/bin/app
 # CMD ["/go/bin/gocv"]
 
 # ENV DISPLAY 10.0.75.1:0.0
 # VOLUME /tmp/.X11-unix:/tmp/.X11-unix
 
-# WORKDIR /go/src/app
-# RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go install -v -installsuffix cgo 
 ENTRYPOINT ["/go/bin/app"]

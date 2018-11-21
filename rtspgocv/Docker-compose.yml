@@ -8,8 +8,7 @@ services:
     container_name: rtspgocv   
     environment:
       - TOPICNAME=timeseries_1
-      - KAFKAPORT=kafka:9092
-    # Volumes: /tmp/.X11-unix:/tmp/.X11-unix  
+      - KAFKAPORT=kafka:29092
     networks:
       - kafkazookeepermongo_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other,

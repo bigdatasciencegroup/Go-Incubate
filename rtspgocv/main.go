@@ -38,17 +38,15 @@ func main() {
 	// webcam, _ := gocv.VideoCaptureFile("rtsp://127.0.0.1:8554/live.sdp")
 	webcam, error := gocv.OpenVideoCapture("rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov")
 	fmt.Println("Error: ", error)
-	window := gocv.NewWindow("Hello")
+	// window := gocv.NewWindow("Hello")
 	img := gocv.NewMat()
 
 	for {
 		webcam.Read(&img)
-		window.IMShow(img)
-		window.WaitKey(1)
-		fmt.Printf("%T, %v /n", img.Total(), img.Total())
-		fmt.Println(img)
-		doc := Result{T: time.Now(), Mat: img}
-		fmt.Println(doc)
+		// window.IMShow(img)
+		// window.WaitKey(1)
+		fmt.Printf("%T, %v \n", img.Total(), img.Total())
+		doc := Result{T: time.Now(), Mat: img.ToBytes()}
 
 		//Prepare message to be sent to Kafka
 		docBytes, err := json.Marshal(doc)
@@ -72,5 +70,5 @@ func main() {
 //Result is a struct
 type Result struct {
 	T   time.Time `json:"t"`
-	Mat gocv.Mat  `json:"mat"`
+	Mat []byte    `json:"mat"`
 }

@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -10,12 +9,20 @@ import (
 
 	"github.com/Shopify/sarama"
 	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/kafkapc"
-	"gocv.io/x/gocv"
+	"github.com/joho/godotenv"
 )
 
 //Hooks that may be overridden for testing
 var inputReader io.Reader = os.Stdin
 var outputWriter io.Writer = os.Stdout
+
+func init() {
+	//Load .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func main() {
 
@@ -36,7 +43,7 @@ func main() {
 //Result is a struct
 type Result struct {
 	T   time.Time `json:"t"`
-	Mat gocv.Mat  `json:"mat"`
+	Mat []byte    `json:"mat"`
 }
 
 //Consumer message handler
@@ -48,14 +55,13 @@ func msgHandler() func(m *sarama.ConsumerMessage) error {
 		}
 
 		//Read message into 'doc' struct
-		// doc := make(map[string]int)
 		doc := Result{}
 
 		err := json.Unmarshal(m.Value, &doc)
 		if err != nil {
 			return err
 		}
-		fmt.Println("Doc received:", doc)
+		// fmt.Println("Doc received:", doc)
 
 		return nil
 	}
