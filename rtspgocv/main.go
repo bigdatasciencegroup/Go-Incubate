@@ -42,7 +42,9 @@ func main() {
 	img := gocv.NewMat()
 
 	for {
-		webcam.Read(&img)
+		if !webcam.Read(&img) {
+			continue
+		}
 		// window.IMShow(img)
 		// window.WaitKey(1)
 		fmt.Printf("%T, %v \n", img.Total(), img.Total())
