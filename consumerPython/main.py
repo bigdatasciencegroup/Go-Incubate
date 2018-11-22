@@ -41,6 +41,7 @@ def main():
         val = message.value
     #     print('{} added to topic'.format(val))
         pix = val['pix']
+        print(pix)
         print(len(pix))
         # pixArray = np.array(pix)
 
