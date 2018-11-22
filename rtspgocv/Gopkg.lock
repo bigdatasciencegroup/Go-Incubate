@@ -11,7 +11,7 @@
   branch = "master"
   name = "github.com/adaickalavan/Go-Rest-Kafka-Mongo"
   packages = ["kafkapc"]
-  revision = "2cff3f272c6cf7aa9151cc6615b2e6ce34e33e15"
+  revision = "874ecf8427e6713aa2febdbd7a989f5fd6b31421"
 
 [[projects]]
   name = "github.com/davecgh/go-spew"

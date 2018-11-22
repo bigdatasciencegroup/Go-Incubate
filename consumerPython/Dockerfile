@@ -14,4 +14,4 @@ ENV PYTHONPATH /app
 RUN pip install -r /app/requirements.txt
 
 # Command to execute when the image loads
-CMD ["python", "/app/main/main.py"]
+ENTRYPOINT ["python", "/app/main.py"]

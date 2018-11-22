@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"image"
 	"io"
 	"log"
 	"os"
@@ -28,33 +29,60 @@ func main() {
 	var brokers = []string{os.Getenv("KAFKAPORT")}
 	var err error
 	producer, err = kafkapc.CreateKafkaProducer(brokers)
+	if err != nil {
+		panic("Failed to connect to Kafka. Error: " + err.Error())
+	}
 	//Close producer to flush(i.e., push) all batched messages into Kafka queue
 	defer func() { producer.Close() }()
+
+	// Capture video
+	webcam, err := gocv.OpenVideoCapture(os.Getenv("RTSPLINK"))
 	if err != nil {
-		log.Fatal("Failed to connect to Kafka. Error:", err.Error())
+		panic("Error in opening webcam: " + err.Error())
 	}
 
-	// webcam, _ := gocv.VideoCaptureDevice(0)
-	// webcam, _ := gocv.VideoCaptureFile("rtsp://127.0.0.1:8554/live.sdp")
-	webcam, error := gocv.OpenVideoCapture("rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov")
-	fmt.Println("Error: ", error)
-	// window := gocv.NewWindow("Hello")
-	img := gocv.NewMat()
-
+	// Stream images from RTSP to Kafka message queue
+	frame := gocv.NewMat()
 	for {
-		if !webcam.Read(&img) {
+		if !webcam.Read(&frame) {
 			continue
 		}
-		// window.IMShow(img)
-		// window.WaitKey(1)
-		fmt.Printf("%T, %v \n", img.Total(), img.Total())
-		doc := Result{T: time.Now(), Mat: img.ToBytes()}
+
+		// Type assert frame into RGBA image
+		imgInterface, err := frame.ToImage()
+		if err != nil {
+			panic(err.Error())
+		}
+		img, ok := imgInterface.(*image.RGBA)
+		if !ok {
+			panic("Type assertion of pic (type image.Image interface) to type image.RGBA failed")
+		}
+
+		// fmt.Println("channels==", frame.Channels())
+		// fmt.Println("cols==", frame.Cols())
+		// fmt.Println("rows==", frame.Rows())
+		// fmt.Println("size==", frame.Size())
+		// fmt.Println("Length of Pix==", len(img.Pix))
+		// fmt.Println("Stride==", img.Stride)
+		fmt.Println("img.Pix ==", img.Pix)
+		fmt.Println("Length of Pix==", len(img.Pix))
+		fmt.Fprintf(outputWriter, "---->>>> %v\n", time.Now())
+
+		//Form the struct to be sent to Kafka message queue
+		doc := Result{
+			Pix:      img.Pix,
+			Mat:      frame,
+			Channels: frame.Channels(),
+			Rows:     frame.Rows(),
+			Cols:     frame.Cols(),
+			Stride:   img.Stride,
+			T:        time.Now(),
+		}
 
 		//Prepare message to be sent to Kafka
 		docBytes, err := json.Marshal(doc)
 		if err != nil {
 			log.Fatal("Json marshalling error. Error:", err.Error())
-			continue
 		}
 		msg := &sarama.ProducerMessage{
 			Topic:     os.Getenv("TOPICNAME"),
@@ -64,13 +92,17 @@ func main() {
 		//Send message into Kafka queue
 		producer.Input() <- msg
 
-		fmt.Println("Yes an image was displayed")
-		time.Sleep(1000 * time.Millisecond)
+		time.Sleep(5000 * time.Millisecond)
 	}
 }
 
-//Result is a struct
+//Result represents the Kafka queue message format
 type Result struct {
-	T   time.Time `json:"t"`
-	Mat []byte    `json:"mat"`
+	Pix      []uint8   `json:"pix"`
+	Mat      gocv.Mat  `json:"mat"`
+	Channels int       `json:"channels"`
+	Rows     int       `json:"rows"`
+	Cols     int       `json:"cols"`
+	Stride   int       `json:"stride"`
+	T        time.Time `json:"t"`
 }

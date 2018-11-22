@@ -1,7 +1,7 @@
 FROM denismakogon/gocv-alpine:3.4.2-buildstage as build-stage
 
-RUN go get -u -d gocv.io/x/gocv
-RUN cd $GOPATH/src/gocv.io/x/gocv && go build -o $GOPATH/bin/gocv ./cmd/version/main.go
+# RUN go get -u -d gocv.io/x/gocv
+# RUN cd $GOPATH/src/gocv.io/x/gocv && go build -o $GOPATH/bin/gocv ./cmd/version/main.go
 
 # #Install tools required to build project
 # RUN apk add --no-cache git
@@ -24,8 +24,8 @@ FROM denismakogon/gocv-alpine:3.4.2-runtime
 LABEL Author Adaickalavan Meiyappan
 
 # COPY --from=build-stage /go/bin/gocv /go/bin/gocv
-COPY --from=build-stage /go/bin/app /go/bin/app
 # CMD ["/go/bin/gocv"]
+COPY --from=build-stage /go/bin/app /go/bin/app
 
 # ENV DISPLAY 10.0.75.1:0.0
 # VOLUME /tmp/.X11-unix:/tmp/.X11-unix

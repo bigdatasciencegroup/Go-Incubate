@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -40,10 +41,14 @@ func main() {
 	kafkapc.ConsumeMessages(ConsumerParam, msgHandler())
 }
 
-//Result is a struct
+//Result represents the Kafka queue message format
 type Result struct {
-	T   time.Time `json:"t"`
-	Mat []byte    `json:"mat"`
+	T        time.Time `json:"t"`
+	Pix      []uint8   `json:"pix"`
+	Channels int       `json:"channels"`
+	Rows     int       `json:"rows"`
+	Cols     int       `json:"cols"`
+	Stride   int       `json:"stride"`
 }
 
 //Consumer message handler
@@ -61,7 +66,7 @@ func msgHandler() func(m *sarama.ConsumerMessage) error {
 		if err != nil {
 			return err
 		}
-		// fmt.Println("Doc received:", doc)
+		fmt.Println("Doc received:", doc)
 
 		return nil
 	}

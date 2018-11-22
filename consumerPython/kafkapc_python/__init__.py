@@ -28,3 +28,6 @@ class Producer(KafkaProducer):
         print("----- on success -----")
         print("Topic:", record_metadata.topic, ", Partition:", record_metadata.partition, ", Offset:", record_metadata.offset)
         print("----------------------")
+
+def kk():
+    print("I am kk")
