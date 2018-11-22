@@ -64,6 +64,7 @@ func main() {
 		// fmt.Println("size==", frame.Size())
 		// fmt.Println("Length of Pix==", len(img.Pix))
 		// fmt.Println("Stride==", img.Stride)
+		// img.Pix = []uint8{9, 10, 200, 64}
 		fmt.Println("img.Pix ==", img.Pix)
 		fmt.Println("Length of Pix==", len(img.Pix))
 		fmt.Fprintf(outputWriter, "---->>>> %v\n", time.Now())
@@ -71,7 +72,6 @@ func main() {
 		//Form the struct to be sent to Kafka message queue
 		doc := Result{
 			Pix:      img.Pix,
-			Mat:      frame,
 			Channels: frame.Channels(),
 			Rows:     frame.Rows(),
 			Cols:     frame.Cols(),
@@ -98,8 +98,7 @@ func main() {
 
 //Result represents the Kafka queue message format
 type Result struct {
-	Pix      []uint8   `json:"pix"`
-	Mat      gocv.Mat  `json:"mat"`
+	Pix      []byte    `json:"pix"`
 	Channels int       `json:"channels"`
 	Rows     int       `json:"rows"`
 	Cols     int       `json:"cols"`
