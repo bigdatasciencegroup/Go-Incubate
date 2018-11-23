@@ -17,8 +17,9 @@ def main():
 
     # Prepare openCV window
     print(cv2.__version__)
-    cv2.namedWindow("RTSPvideo")
-    cv2.resizeWindow("RTSPvideo", 240, 160)
+    windowName = "RTSPvideo2"
+    cv2.namedWindow(windowName)
+    cv2.resizeWindow(windowName, 240, 160)
 
     # Start consuming video
     for m in consumer:
@@ -32,7 +33,7 @@ def main():
         img = message.handler(val)
 
         print("---->>>>",timestamp)         
-        cv2.imshow('RTSPvideo', img)
+        cv2.imshow(windowName, img)
         cv2.waitKey(1)
         
     consumer.close()                                    
