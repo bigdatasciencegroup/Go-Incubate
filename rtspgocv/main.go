@@ -58,25 +58,12 @@ func main() {
 			panic("Type assertion of pic (type image.Image interface) to type image.RGBA failed")
 		}
 
-		// fmt.Println("channels==", frame.Channels())
-		// fmt.Println("cols==", frame.Cols())
-		// fmt.Println("rows==", frame.Rows())
-		// fmt.Println("size==", frame.Size())
-		// fmt.Println("Length of Pix==", len(img.Pix))
-		// fmt.Println("Stride==", img.Stride)
-		// img.Pix = []uint8{9, 10, 200, 64}
-		fmt.Println("img.Pix ==", img.Pix)
-		fmt.Println("Length of Pix==", len(img.Pix))
-		fmt.Fprintf(outputWriter, "---->>>> %v\n", time.Now())
-
 		//Form the struct to be sent to Kafka message queue
 		doc := Result{
 			Pix:      img.Pix,
 			Channels: frame.Channels(),
 			Rows:     frame.Rows(),
 			Cols:     frame.Cols(),
-			Stride:   img.Stride,
-			T:        time.Now(),
 		}
 
 		//Prepare message to be sent to Kafka
@@ -92,7 +79,10 @@ func main() {
 		//Send message into Kafka queue
 		producer.Input() <- msg
 
-		time.Sleep(5000 * time.Millisecond)
+		// time.Sleep(1000 * time.Millisecond)
+		// fmt.Println("img.Pix ==", img.Pix)
+		// fmt.Println("Length of Pix==", len(img.Pix))
+		fmt.Fprintf(outputWriter, "---->>>> %v\n", time.Now())
 	}
 }
 
@@ -102,6 +92,4 @@ type Result struct {
 	Channels int       `json:"channels"`
 	Rows     int       `json:"rows"`
 	Cols     int       `json:"cols"`
-	Stride   int       `json:"stride"`
-	T        time.Time `json:"t"`
 }
