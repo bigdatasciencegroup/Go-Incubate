@@ -5,6 +5,7 @@ import cv2
 import json
 import base64
 import numpy as np
+import message
 
 def main():
     # Create consumer 
@@ -17,34 +18,26 @@ def main():
     # Prepare openCV window
     print(cv2.__version__)
     cv2.namedWindow("RTSPvideo")
-    cv2.resizeWindow("RTSPvideo", 160*10, 240*10)
+    cv2.resizeWindow("RTSPvideo", 240, 160)
 
     # Start consuming video
-    for message in consumer:
-        val = message.value
-        rows = val['rows']
-        cols = val['cols']
-        timestamp = message.timestamp
+    for m in consumer:
+        val = m.value
+        timestamp = m.timestamp
+        print(type(timestamp))
 
-        base64string = val['pix'] #pix is base-64 encoded string
-        byteArray = base64.b64decode(base64string)
-        npArray = np.frombuffer(byteArray, np.uint8)
-
-        imgR = npArray[0::4].reshape((rows, cols))
-        imgG = npArray[1::4].reshape((rows, cols))
-        imgB = npArray[2::4].reshape((rows, cols))
-        img = np.stack((imgR, imgG, imgB))
-        img = np.moveaxis(img, 0, -1)
+        #Message handler
+        img = message.handler(val)
         
         # img = cv2.imdecode(npArray, cv2.IMREAD_COLOR)  # cv2.IMREAD_COLOR in OpenCV 3.1
         # img = cv2.imread(npArray, 1)
-        # print(npArray)
 
-        print(timestamp)         
+        print("---->>>>",timestamp)         
         cv2.imshow('RTSPvideo', img)
         cv2.waitKey(1)
         
-        # consumer.close()                                    
+    consumer.close()                                    
+    
     return
 
 if __name__ == "__main__":
