@@ -1,22 +1,22 @@
 version: '3'
 services:
 
-  #Mongo database
-  mongo:
-    image: mongo
-    container_name: mongo
-    networks:
-      - dockerNet
-    ports:
-      - 27017:27017
-    volumes:
-      - mongo-data:/data/db #Volume location on `Host:Container` machine   
+  # #Mongo database
+  # mongo:
+  #   image: mongo
+  #   container_name: mongo
+  #   networks:
+  #     - dockerNet
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - mongo-data:/data/db #Volume location on `Host:Container` machine   
 
   #Zookeeper
   zookeeper:
     image: confluentinc/cp-zookeeper
     container_name: zookeeper   
-    restart: always
+    restart: always #Ensures that intermittent failures in the Docker environment do not result in unnecessary failures of the service.
     networks:
       - dockerNet
     ports:
@@ -31,7 +31,7 @@ services:
   kafka:
     image: confluentinc/cp-kafka
     container_name: kafka
-    # restart: unless-stopped
+    restart: always #Ensures that intermittent failures in the Docker environment do not result in unnecessary failures of the service.
     depends_on:
       - zookeeper
     networks:
@@ -39,31 +39,31 @@ services:
     ports:
       - 9092:9092 #Kafka broker - access port for external 
       # - 29092:29092 #Kafka broker - access port for internal
-      # - "1099:1099" #JMX
+      # - 1099:1099 #JMX
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       # - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:29092, PLAINTEXT_HOST://localhost:9092   
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT_HOST://localhost:9092, PLAINTEXT://kafka:29092    
-      # - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT_HOST://192.168.99.100:9092, PLAINTEXT://kafka:29092    
+      # - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT_HOST://localhost:9092, PLAINTEXT://kafka:29092    
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT_HOST://192.168.99.100:9092, PLAINTEXT://kafka:29092    
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT, PLAINTEXT_HOST:PLAINTEXT
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
-      - KAFKA_JMX_PORT=9991
+      # - KAFKA_JMX_PORT=1099
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
 
-  kafdrop:
-    image: thomsch98/kafdrop
-    container_name: kafdrop
-    depends_on:
-      - zookeeper
-      - kafka 
-    networks:
-      - dockerNet      
-    ports:
-      - 9010:9010
-    environment:
-      - ZK_HOSTS=zookeeper:2181
-      - LISTEN=9010
+  # kafdrop:
+  #   image: thomsch98/kafdrop
+  #   container_name: kafdrop
+  #   depends_on:
+  #     - zookeeper
+  #     - kafka 
+  #   networks:
+  #     - dockerNet      
+  #   ports:
+  #     - 9010:9010
+  #   environment:
+  #     - ZK_HOSTS=zookeeper:2181
+  #     - LISTEN=9010
 
   # prometheus:
   #   image: prom/prometheus:latest
@@ -78,11 +78,11 @@ services:
     # networks:
     #   - dockerNet
 
-volumes:
+# volumes:
   # Volume location on host machine is not specified. 
   # Docker will create and manage these named volumes in a part of the host filesystem 
   # which is managed by Docker (i.e., /var/lib/docker/volumes/ on Linux).
-  mongo-data: 
+  # mongo-data: 
 networks:
   dockerNet:
     driver: bridge

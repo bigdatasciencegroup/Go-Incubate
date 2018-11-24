@@ -15,7 +15,7 @@ def main():
 
     # Prepare openCV window
     print(cv2.__version__)
-    windowName = "RTSPvideo1"
+    windowName = "RTSPvideo2"
     cv2.namedWindow(windowName)
     cv2.resizeWindow(windowName, 240, 160)
 

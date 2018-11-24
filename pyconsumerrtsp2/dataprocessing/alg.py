@@ -7,5 +7,5 @@ class Model:
 
     def run(self, img):
         # Compute and print the average pixel value
-        self.avePix = sum(img) / img.size
+        self.avePix = img.mean()
         print("Average pixel value is:", self.avePix)
