@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/Shopify/sarama"
-	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/kafkapc"
+	"github.com/adaickalavan/kafkapc"
 	"github.com/joho/godotenv"
 )
 

@@ -25,7 +25,6 @@ services:
       - ZOOKEEPER_SERVER_ID=1
       - ZOOKEEPER_CLIENT_PORT=2181
       - ZOOKEEPER_TICK_TIME=2000
-      - ZOOKEEPER_SERVERS=zookeeper:22888:23888
 
   #Kafka
   kafka:
@@ -75,8 +74,8 @@ services:
   #   depends_on:
   #     - kafka
   #     - zookeeper
-    # networks:
-    #   - dockerNet
+  #   networks:
+  #     - dockerNet
 
 # volumes:
   # Volume location on host machine is not specified. 

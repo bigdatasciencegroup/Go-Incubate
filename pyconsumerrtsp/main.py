@@ -37,9 +37,9 @@ def main():
 
         #Process the message
         model.run(img)
-        
-    consumer.close()                                    
-    
+
+    consumer.close()   
+
     return
 
 if __name__ == "__main__":

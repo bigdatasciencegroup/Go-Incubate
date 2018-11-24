@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/Shopify/sarama"
-	"github.com/adaickalavan/Go-Rest-Kafka-Mongo/kafkapc"
+	"github.com/adaickalavan/kafkapc"
 	"gocv.io/x/gocv"
 )
 
