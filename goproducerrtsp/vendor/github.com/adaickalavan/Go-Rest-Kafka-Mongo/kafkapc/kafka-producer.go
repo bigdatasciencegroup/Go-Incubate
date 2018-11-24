@@ -12,7 +12,7 @@ import (
 func CreateKafkaProducer(brokers []string) (sarama.AsyncProducer, error) {
 	config := sarama.NewConfig()
 	config.Producer.RequiredAcks = sarama.WaitForAll
-	config.Producer.Compression = sarama.CompressionNone
+	config.Producer.Compression = sarama.CompressionGZIP
 	producer, err := sarama.NewAsyncProducer(brokers, config)
 	if err != nil {
 		return nil, err

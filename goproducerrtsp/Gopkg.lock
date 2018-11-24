@@ -11,11 +11,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:c7eb61da1d92c8d1d1989669cc71f64ea14a518fa99430c5e2de1367d32ab893"
+  digest = "1:c05a5ca5117b37d2ece05eef0ec0f9994e1a0160bcd33ee5eb0c7d2c7a85650a"
   name = "github.com/adaickalavan/Go-Rest-Kafka-Mongo"
   packages = ["kafkapc"]
   pruneopts = "UT"
-  revision = "7ad902eb515efb90c183d3f264727163e6042908"
+  revision = "c115ff162e77b4bc047279bcc2316c38190ec494"
 
 [[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
