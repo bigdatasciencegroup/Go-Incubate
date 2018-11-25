@@ -3,7 +3,7 @@ version: '3'
 
 services:
   #Producer to obtain data from REST and write into Kafka queue
-  rtspgocv:
+  goproducerrtsp:
     image: goproducerrtsp
     container_name: goproducerrtsp   
     environment:
@@ -19,9 +19,7 @@ services:
         # Format of Pix = [r(0,0),g(0,0),b(0,0),a(0,0), r(0,1),g(0,1),b(0,1),a(0,1), ... ]
     networks:
       - zookeeper_dockerNet 
-        # To ensure that the containers in different docker-compose files communicate with each other,
-        # we place them on the same network. The full network name from 'kafka-zookeeper-mongo' docker-compose
-        # file is 'kafka_zookeeper_mongo_dockerNet'.
+        # To ensure that the containers in different docker-compose files communicate with each other, we place them on the same network. The complete network name is 'zookeeper_dockerNet'. It is derived by joining the name of the folder from which the network originates (i.e., zookeeper) and the name of the network (i.e., dockerNet).
     privileged: true  
 
 networks:
