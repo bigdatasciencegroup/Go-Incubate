@@ -13,6 +13,9 @@ func CreateKafkaProducer(brokers []string) (sarama.AsyncProducer, error) {
 	config := sarama.NewConfig()
 	config.Producer.RequiredAcks = sarama.WaitForAll
 	config.Producer.Compression = sarama.CompressionNone
+	// The maximum permitted size of a message (defaults to 1GB). MaxMessageBytes <= broker's `message.max.bytes`.
+	config.Producer.MaxMessageBytes = 1000000 //1GB
+	config.Producer.Flush.Messages = 1
 	producer, err := sarama.NewAsyncProducer(brokers, config)
 	if err != nil {
 		return nil, err
