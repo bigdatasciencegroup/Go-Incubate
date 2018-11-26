@@ -49,8 +49,8 @@ services:
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       # - KAFKA_JMX_PORT=1099
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-      - KAFKA_REPLICA_FETCH_MAX_BYTES=1000000 #1GB
-      - KAFKA_MESSAGE_MAX_BYTES=1000000 #1GB. message.max.bytes <= replica.fetch.max.bytes
+      # - KAFKA_REPLICA_FETCH_MAX_BYTES=1000000 #1GB
+      # - KAFKA_MESSAGE_MAX_BYTES=1000000 #1GB. message.max.bytes <= replica.fetch.max.bytes
 
   # kafdrop:
   #   image: thomsch98/kafdrop
