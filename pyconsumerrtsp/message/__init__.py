@@ -1,6 +1,10 @@
 import base64
 import numpy as np
-         
+import json
+
+def decode(val):
+    return json.loads(val.decode('utf-8'))
+
 def handler(val):
     # Conversion: base-64 string --> array of bytes --> array of integers
     base64string = val['pix'] #pix is base-64 encoded string

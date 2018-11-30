@@ -1,6 +1,10 @@
 import base64
 import numpy as np
-         
+import json
+
+def decode(val):
+    return json.loads(val.decode('utf-8'))
+
 def handler(val):
     # Conversion: base-64 string --> array of bytes --> array of integers
     base64string = val['pix'] #pix is base-64 encoded string
@@ -15,6 +19,9 @@ def handler(val):
     imgB = npArray[2::4].reshape((rows, cols))
     img = np.stack((imgR, imgG, imgB))
     img = np.moveaxis(img, 0, -1)
+
+    # img = cv2.imdecode(npArray, cv2.IMREAD_COLOR)  # cv2.IMREAD_COLOR in OpenCV 3.1
+    # img = cv2.imread(npArray, 1)
 
     return img
 

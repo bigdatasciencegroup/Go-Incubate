@@ -21,3 +21,6 @@
 1. Demo:
     1. Restart the video from where it ended previously after a video crash
     1. Play two video streaming from the same queue using two different consumer group
+
+python C:\Projects\goWorkspace\src\github.com\adaickalavan\Go-Rest-Kafka-Mongo\pyconsumerrtsp\main.py
+python C:\Projects\goWorkspace\src\github.com\adaickalavan\Go-Rest-Kafka-Mongo\pyconsumerrtsp2\main.py
