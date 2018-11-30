@@ -1,9 +1,20 @@
 from dotenv import load_dotenv
 import os, sys, json
+import logging
 import cv2
-from confluent_kafka import Consumer, KafkaError
+from confluent_kafka import Consumer, KafkaError, OFFSET_END
 import message
 import dataprocessing.alg as alg
+
+#Callback to provide handling of customized offsets on completion of a successful partition re-assignment 
+def assignStrategy(consumer, partitions):
+    for p in partitions:
+        # OFFSET_BEGINNING = Set offset to start of partition 
+        # OFFSET_END = Set offset to end of partition 
+        # OFFSET_STORED = Set offset to last commit of partition. If no last commit, defaults to auto.offset.reset . 
+        p.offset = OFFSET_END   
+    consumer.assign(partitions)
+    # print("Offset assignment:", partitions) 
 
 def main():
     # Create consumer
@@ -12,16 +23,16 @@ def main():
         'group.id': os.getenv('CONSUMERGROUP'),
         'client.id': os.getenv('CONSUMERID'),
         'enable.auto.commit': True,
-        'auto.offset.reset': 'latest',  #Options: 'earliest','latest'
+        'auto.offset.reset': 'earliest', #Consume messages from earliest offset committed
         'enable.partition.eof':False, #Partition EOF informs that consumer has reached end of partition. To ignore/avoid EOF message, set `enable.partition.eof` = False.
         'api.version.request': True,
     })
     #Subscribe to the topic
-    consumer.subscribe([os.getenv('TOPICNAME')])
+    consumer.subscribe([os.getenv('TOPICNAME')],on_assign=assignStrategy)
 
     # Prepare openCV window
     print("OpenCV:",cv2.__version__)
-    windowName = "RTSPvideo1"
+    windowName = os.getenv('WINDOWNAME')
     cv2.namedWindow(windowName)
     cv2.resizeWindow(windowName, 240, 160)
 
@@ -31,7 +42,7 @@ def main():
     try:
         while True:
             #Consume message
-            msg = consumer.poll(timeout=0.1)
+            msg = consumer.poll(timeout=0.01)
 
             #Check whether message is None or if it contains error
             if msg is None:
@@ -50,7 +61,7 @@ def main():
 
             #Message handler
             val = message.decode(msg.value())
-            img = message.handler(val)
+            img = message.handle(val)
 
             #Show image
             cv2.imshow(windowName, img)

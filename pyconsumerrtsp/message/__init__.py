@@ -5,7 +5,7 @@ import json
 def decode(val):
     return json.loads(val.decode('utf-8'))
 
-def handler(val):
+def handle(val):
     # Conversion: base-64 string --> array of bytes --> array of integers
     base64string = val['pix'] #pix is base-64 encoded string
     byteArray = base64.b64decode(base64string) #byteArray is an array of bytes

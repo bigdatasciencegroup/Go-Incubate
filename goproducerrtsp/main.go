@@ -74,7 +74,7 @@ func main() {
 		msg := &sarama.ProducerMessage{
 			Topic:     os.Getenv("TOPICNAME"),
 			Value:     sarama.ByteEncoder(docBytes),
-			Timestamp: time.Now(),
+			// Timestamp: time.Now(),
 		}
 		//Send message into Kafka queue
 		producer.Input() <- msg
