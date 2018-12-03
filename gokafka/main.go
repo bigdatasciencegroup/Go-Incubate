@@ -33,7 +33,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	for {	
+	for ii := 0; ii < 7; ii++ {	
 		value := "Hello Go it is a success!"
 		p.ProduceChannel() <- &kafka.Message{TopicPartition: kafka.TopicPartition{Topic: &topic, Partition: kafka.PartitionAny}, Value: []byte(value)}
 

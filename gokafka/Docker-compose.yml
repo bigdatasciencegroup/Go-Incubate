@@ -15,7 +15,7 @@ services:
     privileged: true  
 
   influxdb:
-    image: tutum/influxdb
+    image: influxdb
     container_name: influxdb
     networks:
       - zookeeper_dockerNet 
@@ -23,9 +23,11 @@ services:
     ports:
       - 8086:8086 #InfluxDB’s HTTP API
       - 8083:8083 #InfluxDB's admin port
+    # volumes:
+    #   /vol4/influxdb:/var/lib/influxdb 
 
   grafana:
-    image: grafana/grafana:dev
+    image: grafana/grafana
     container_name: grafana
     networks:
       - zookeeper_dockerNet
@@ -37,6 +39,8 @@ services:
       - INFLUXDB_NAME=mydata 
       - INFLUXDB_USER=admin 
       - INFLUXDB_PASS=admin
+
+      
 
 networks:
   zookeeper_dockerNet:
