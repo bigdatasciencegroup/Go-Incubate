@@ -22,5 +22,18 @@
     1. Restart the video from where it ended previously after a video crash
     1. Play two video streaming from the same queue using two different consumer group
 
-python C:\Projects\goWorkspace\src\github.com\adaickalavan\Go-Rest-Kafka-Mongo\pyconsumerrtsp\main.py
-python C:\Projects\goWorkspace\src\github.com\adaickalavan\Go-Rest-Kafka-Mongo\pyconsumerrtsp2\main.py
+1. Transfer docker image without using internet based repository
+    You will need to save the Docker image as a tar file:
+
+    docker save -o <path for generated tar file> <image name>
+    Then copy your image to a new system with regular file transfer tools such as cp or scp. After that you will have to load the image into Docker:
+
+    docker load -i <path to image tar file>
+    PS: You may need to sudo all commands.
+
+    EDIT: You should add filename (not just directory) with -o, for example:
+
+    docker save -o c:/myfile.tar centos:16
+
+
+1. 
