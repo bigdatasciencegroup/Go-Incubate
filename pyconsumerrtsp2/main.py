@@ -70,6 +70,9 @@ def main():
             #Process the message
             model.run(img)
 
+            #Move the commit to the last message in the topic queue
+            assignStrategy(consumer,consumer.assignment())
+
     except KeyboardInterrupt:
         sys.stderr.write('Operation aborted by user\n')
 

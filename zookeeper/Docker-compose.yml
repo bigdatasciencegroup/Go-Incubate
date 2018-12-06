@@ -25,9 +25,9 @@ services:
       - ZOOKEEPER_SERVER_ID=1
       - ZOOKEEPER_CLIENT_PORT=2181
       - ZOOKEEPER_TICK_TIME=2000
-    volumes:  
-      - /vol1/zk-data:/var/lib/zookeeper/data
-      - /vol2/zk-txn-logs:/var/lib/zookeeper/log
+    # volumes:  
+    #   - /vol1/zk-data:/var/lib/zookeeper/data
+    #   - /vol2/zk-txn-logs:/var/lib/zookeeper/log
 
   #Kafka
   kafka:
@@ -54,22 +54,22 @@ services:
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
       # - KAFKA_REPLICA_FETCH_MAX_BYTES=1000000 #1GB
       # - KAFKA_MESSAGE_MAX_BYTES=1000000 #1GB. message.max.bytes <= replica.fetch.max.bytes
-    volumes:
-      - /vol3/kafka-data:/var/lib/kafka/data
+    # volumes:
+    #   - /vol3/kafka-data:/var/lib/kafka/data
 
-  kafdrop:
-    image: thomsch98/kafdrop
-    container_name: kafdrop
-    depends_on:
-      - zookeeper
-      - kafka 
-    networks:
-      - dockerNet      
-    ports:
-      - 9010:9010
-    environment:
-      - ZK_HOSTS=zookeeper:2181
-      - LISTEN=9010
+  # kafdrop:
+  #   image: thomsch98/kafdrop
+  #   container_name: kafdrop
+  #   depends_on:
+  #     - zookeeper
+  #     - kafka 
+  #   networks:
+  #     - dockerNet      
+  #   ports:
+  #     - 9010:9010
+  #   environment:
+  #     - ZK_HOSTS=zookeeper:2181
+  #     - LISTEN=9010
 
   # prometheus:
   #   image: prom/prometheus:latest

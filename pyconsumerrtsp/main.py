@@ -5,6 +5,7 @@ import cv2
 from confluent_kafka import Consumer, KafkaError, OFFSET_END
 import message
 import dataprocessing.alg as alg
+import time
 
 #Callback to provide handling of customized offsets on completion of a successful partition re-assignment 
 def assignStrategy(consumer, partitions):
@@ -69,6 +70,10 @@ def main():
 
             #Process the message
             model.run(img)
+            time.sleep(10)
+
+            #Move the commit to the last message in the topic queue
+            assignStrategy(consumer,consumer.assignment())
 
     except KeyboardInterrupt:
         sys.stderr.write('Operation aborted by user\n')
