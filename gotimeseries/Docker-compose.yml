@@ -9,6 +9,7 @@ services:
     environment:
       # - TSDBADDR=http://localhost:8086
       - TSDBADDR=http://influxdb:8086
+      - DATABASE=mydb
       - INFLUXDB_USER=admin 
       - INFLUXDB_PASS=admin
     networks:
