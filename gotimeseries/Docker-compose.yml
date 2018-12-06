@@ -3,11 +3,12 @@ version: '3'
 
 services:
   #Producer to obtain data from RTSP and write into Kafka queue
-  goinfluxdbgrafana:
-    image: goinfluxdbgrafana
-    container_name: goinfluxdbgrafana
+  gotimeseries:
+    image: gotimeseries
+    container_name: gotimeseries
     environment:
-      - TSDBADDR=http://localhost:8086
+      # - TSDBADDR=http://localhost:8086
+      - TSDBADDR=http://influxdb:8086
       - INFLUXDB_USER=admin 
       - INFLUXDB_PASS=admin
     networks:
