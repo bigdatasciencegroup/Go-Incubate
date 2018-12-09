@@ -24,102 +24,71 @@ func main() {
 	defer c.Close()
 
 	//Create database
-	q := client.NewQuery("CREATE DATABASE "+os.Getenv("DATABASE"), "", "")
-	fmt.Println(q)
-	response, err := c.Query(q)
-	if err == nil && response.Error() == nil {
-		fmt.Println(response.Results)
-	} else {
-		panic("Response Error:" + response.Error().Error() + "; Error:" + err.Error())
-	}
-
-	//Create database
 	_, err = QueryDB(c, fmt.Sprintf("CREATE DATABASE %s", os.Getenv("DATABASE")))
-	if err != nil{
-		log.Fatal(err)
-	}
-
-	//Create a new point batch
-	bp, err := client.NewBatchPoints(client.BatchPointsConfig{
-		Database:  os.Getenv("DATABASE"),
-		Precision: "s",
-	})
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Create a point and add to batch
-	tags := map[string]string{"Colour": "Hue"}
-	fields := map[string]interface{}{
-		"idle":   10.1,
-		"system": 53.3,
-		"user":   46.6,
-	}
-	pt, err := client.NewPoint("cpu_usage", tags, fields, time.Now())
-	if err != nil {
-		log.Fatal(err)
-	}
-	bp.AddPoint(pt)
-
-	//Write the batch
-	if err := c.Write(bp); err != nil {
-		log.Fatal(err)
-	}
-
-	WritePoints(c)
-	// QueryDB(c,)
-
-	fmt.Println("End of execution")
-
-}
-
-//WritePoints writes points to influxDB
-func WritePoints(c client.Client) {
-
-	//Create a new point batch
-	bp, err := client.NewBatchPoints(client.BatchPointsConfig{
-		Database:  os.Getenv("DATABASE"),
-		Precision: "s",
-	})
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	rand.Seed(time.Now().UnixNano())
-	sampleSize := 1000
-	for i := 0; i < sampleSize; i++ {
-		regions := []string{"us-west1", "us-west2", "us-west3", "us-east1"}
+	regions := []string{"distracted", "attentive", "neutral"}
+	for {
+		//Create random data to be written
 		tags := map[string]string{
-			"cpu":    "cpu-total",
-			"host":   fmt.Sprintf("host %d", rand.Intn(1000)),
-			"region": regions[rand.Intn(len(regions))],
+			"state": regions[rand.Intn(len(regions))],
 		}
-
 		idle := rand.Float64() * 100.0
 		fields := map[string]interface{}{
 			"idle": idle,
 			"busy": 100.0 - idle,
 		}
 
-		pt, err := client.NewPoint(
-			"cpu_usage",
-			tags,
-			fields,
-			time.Now(),
-		)
-		if err != nil {
-			log.Fatal(err)
-		}
-		bp.AddPoint(pt)
-
+		WritePoints(c, "AverageImagePixel", tags, fields)
+		time.Sleep(500 * time.Millisecond)
 	}
+
+	// q := fmt.Sprintf("SELECT count(%s) FROM %s", "busy", "cpu_usage")
+	// res, err := QueryDB(c, q)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println(res)
+
+	fmt.Println("End of execution")
+
+}
+
+//WritePoints function writes points to InfluxDB
+func WritePoints(c client.Client, measurement string, tags map[string]string, fields map[string]interface{}) {
+
+	//Create a new point batch
+	bp, err := client.NewBatchPoints(client.BatchPointsConfig{
+		Database:  os.Getenv("DATABASE"),
+		Precision: "s",
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	//Create newpoint and to batch
+	pt, err := client.NewPoint(
+		measurement,
+		tags,
+		fields,
+		time.Now(),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	bp.AddPoint(pt)
+
+	//Write batch to database
 	if err := c.Write(bp); err != nil {
 		log.Fatal(err)
 	}
 
 }
 
-//QueryDB function to query the database
+//QueryDB function queries the database
 func QueryDB(c client.Client, cmd string) (res []client.Result, err error) {
 	q := client.Query{
 		Command:  cmd,
