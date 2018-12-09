@@ -21,6 +21,127 @@
   "links": [],
   "panels": [
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 1,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "groupBy": [],
+          "measurement": "AverageImagePixel",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "facialFeature"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "groupBy": [],
+          "measurement": "AverageImagePixel",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "facialFeature"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  10
+                ],
+                "type": "moving_average"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Scene Classification",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
       "colors": [
         "#629e51",
         "rgba(237, 129, 40, 0.89)",
@@ -139,7 +260,7 @@
         "h": 9,
         "w": 10,
         "x": 0,
-        "y": 0
+        "y": 9
       },
       "id": 2,
       "links": [
@@ -188,7 +309,7 @@
       "targets": [
         {
           "groupBy": [],
-          "measurement": "cpu_usage",
+          "measurement": "AverageImagePixel",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -197,9 +318,15 @@
             [
               {
                 "params": [
-                  "idle"
+                  "facialFeature"
                 ],
                 "type": "field"
+              },
+              {
+                "params": [
+                  10
+                ],
+                "type": "moving_average"
               }
             ]
           ],
@@ -1175,11 +1302,11 @@
       "fill": 1,
       "gridPos": {
         "h": 9,
-        "w": 14,
-        "x": 10,
-        "y": 0
+        "w": 12,
+        "x": 11,
+        "y": 9
       },
-      "id": 4,
+      "id": 6,
       "legend": {
         "avg": false,
         "current": false,
@@ -1194,8 +1321,8 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
-      "pointradius": 5,
-      "points": false,
+      "pointradius": 1,
+      "points": true,
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
@@ -1204,7 +1331,7 @@
       "targets": [
         {
           "groupBy": [],
-          "measurement": "cpu_usage",
+          "measurement": "AverageImagePixel",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -1213,7 +1340,7 @@
             [
               {
                 "params": [
-                  "idle"
+                  "imageColour"
                 ],
                 "type": "field"
               }
@@ -1225,7 +1352,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Scene Classification",
+      "title": "Image Colour",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1272,7 +1399,7 @@
   },
   "time": {
     "from": "now-1m",
-    "to": "now-5s"
+    "to": "now-1s"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -1303,5 +1430,5 @@
   "timezone": "",
   "title": "Demo",
   "uid": "jL9zccEmk",
-  "version": 6
+  "version": 4
 }

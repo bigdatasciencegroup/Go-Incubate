@@ -14,8 +14,8 @@ services:
       - 8083:8083 #InfluxDB's admin port. InfluxDB web UI is deprecated
       # To run the Influx client use:
       # docker exec -it influxdb influx
-    volumes:
-      /vol/influxdb:/var/lib/influxdb 
+    # volumes:
+    #   /vol/influxdb:/var/lib/influxdb 
 
   grafana:
     image: grafana/grafana
@@ -30,6 +30,7 @@ services:
       - INFLUXDB_NAME=mydata 
       - INFLUXDB_USER=admin 
       - INFLUXDB_PASS=admin
+      - GF_INSTALL_PLUGINS=briangann-gauge-panel
 
 networks:
   dockerNet:
