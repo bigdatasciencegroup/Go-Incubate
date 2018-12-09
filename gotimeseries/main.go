@@ -5,6 +5,8 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	client "github.com/influxdata/influxdb/client/v2"
@@ -29,6 +31,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	//create a notification channel to shutdown
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
+	SigKill(sigChan)
+
 	rand.Seed(time.Now().UnixNano())
 	regions := []string{"distracted", "attentive", "neutral"}
 	for {
@@ -36,14 +43,15 @@ func main() {
 		tags := map[string]string{
 			"state": regions[rand.Intn(len(regions))],
 		}
-		idle := rand.Float64() * 100.0
+		facialFeature := rand.Float64() * 100.0
+		imageColour := rand.Float64() * 100.0
 		fields := map[string]interface{}{
-			"idle": idle,
-			"busy": 100.0 - idle,
+			"facialFeature": facialFeature,
+			"imageColour":   imageColour,
 		}
 
 		WritePoints(c, "AverageImagePixel", tags, fields)
-		time.Sleep(500 * time.Millisecond)
+		time.Sleep(10000 * time.Millisecond)
 	}
 
 	// q := fmt.Sprintf("SELECT count(%s) FROM %s", "busy", "cpu_usage")
@@ -55,6 +63,16 @@ func main() {
 
 	fmt.Println("End of execution")
 
+}
+
+// SigKill receives terminating signals
+func SigKill(sigChan chan os.Signal) {
+	//register for interupt (Ctrl+C) and SIGTERM (docker)
+
+	go func() {
+		<-sigChan
+		fmt.Println("Received SigKill and shutting down...")
+	}()
 }
 
 //WritePoints function writes points to InfluxDB
