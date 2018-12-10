@@ -43,8 +43,9 @@ func main() {
 			"imageColour":   imageColour,
 		}
 
-		WritePoints(c, "AverageImagePixel", tags, fields)
-		time.Sleep(500 * time.Millisecond)
+		writeTime := time.Now()
+		WritePoints(c, "AverageImagePixel", tags, fields, writeTime)
+		time.Sleep(1000 * time.Millisecond)
 	}
 
 	// q := fmt.Sprintf("SELECT count(%s) FROM %s", "busy", "cpu_usage")
@@ -59,7 +60,7 @@ func main() {
 }
 
 //WritePoints function writes points to InfluxDB
-func WritePoints(c client.Client, measurement string, tags map[string]string, fields map[string]interface{}) {
+func WritePoints(c client.Client, measurement string, tags map[string]string, fields map[string]interface{}, writeTime time.Time) {
 
 	//Create a new point batch
 	bp, err := client.NewBatchPoints(client.BatchPointsConfig{
@@ -75,7 +76,7 @@ func WritePoints(c client.Client, measurement string, tags map[string]string, fi
 		measurement,
 		tags,
 		fields,
-		time.Now(),
+		writeTime,
 	)
 	if err != nil {
 		log.Fatal(err)

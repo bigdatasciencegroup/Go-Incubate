@@ -25,11 +25,10 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
       "fill": 1,
       "gridPos": {
-        "h": 9,
-        "w": 24,
+        "h": 7,
+        "w": 22,
         "x": 0,
         "y": 0
       },
@@ -77,6 +76,7 @@
         },
         {
           "groupBy": [],
+          "hide": true,
           "measurement": "AverageImagePixel",
           "orderByTime": "ASC",
           "policy": "default",
@@ -99,10 +99,30 @@
             ]
           ],
           "tags": []
+        },
+        {
+          "groupBy": [],
+          "measurement": "AverageImagePixel",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "imageColour"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": []
         }
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Scene Classification",
       "tooltip": {
@@ -257,10 +277,10 @@
       },
       "gaugeDivId": "d3gauge_svg_2",
       "gridPos": {
-        "h": 9,
-        "w": 10,
+        "h": 7,
+        "w": 9,
         "x": 0,
-        "y": 9
+        "y": 7
       },
       "id": 2,
       "links": [
@@ -1298,13 +1318,12 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
       "fill": 1,
       "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 11,
-        "y": 9
+        "h": 7,
+        "w": 13,
+        "x": 9,
+        "y": 7
       },
       "id": 6,
       "legend": {
@@ -1351,6 +1370,7 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [],
       "timeShift": null,
       "title": "Image Colour",
       "tooltip": {
@@ -1390,7 +1410,7 @@
       }
     }
   ],
-  "refresh": "1s",
+  "refresh": "0.2s",
   "schemaVersion": 16,
   "style": "dark",
   "tags": [],
@@ -1398,11 +1418,12 @@
     "list": []
   },
   "time": {
-    "from": "now-1m",
-    "to": "now-1s"
+    "from": "now-20s",
+    "to": "now-2s"
   },
   "timepicker": {
     "refresh_intervals": [
+      "0.2s",
       "1s",
       "5s",
       "10s",
@@ -1430,5 +1451,5 @@
   "timezone": "",
   "title": "Demo",
   "uid": "jL9zccEmk",
-  "version": 4
+  "version": 2
 }
