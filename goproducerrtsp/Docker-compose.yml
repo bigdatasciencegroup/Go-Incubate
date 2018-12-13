@@ -9,7 +9,8 @@ services:
     environment:
       - TOPICNAME=timeseries_1
       - KAFKAPORT=kafka:29092
-      - RTSPLINK=rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov
+      # - RTSPLINK=rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov
+      - RTSPLINK=rtsp://b1.dnsdojo.com:1935/live/sys3.stream
         # Image format = RGBA, uint8
         # Num of channels = 3
         # Total pixels = 38400

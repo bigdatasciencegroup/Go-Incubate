@@ -1,7 +1,7 @@
 version: '3'
 services:
 
-  # #Mongo database
+  #Mongo database
   # mongo:
   #   image: mongo
   #   container_name: mongo
@@ -52,8 +52,10 @@ services:
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       # - KAFKA_JMX_PORT=1099
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-      # - KAFKA_REPLICA_FETCH_MAX_BYTES=1000000 #1GB
-      # - KAFKA_MESSAGE_MAX_BYTES=1000000 #1GB. message.max.bytes <= replica.fetch.max.bytes
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=100000000 #100MB 
+      - KAFKA_MESSAGE_MAX_BYTES=100000000 #100MB. (defaults to 1MB). message.max.bytes <= replica.fetch.max.bytes
+      - KAFKA_LOG_CLEANUP_POLICY=delete #Cleanup policy for segments beyond the retention window
+      - KAFKA_LOG_RETENTION_MINUTES=3 #Number of minutes to keep a log file before deleting. Default 168 hours.
     # volumes:
     #   - /vol3/kafka-data:/var/lib/kafka/data
 

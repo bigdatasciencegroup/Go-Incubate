@@ -28,8 +28,6 @@ def main():
         'enable.partition.eof':False, #Partition EOF informs that consumer has reached end of partition. To ignore/avoid EOF message, set `enable.partition.eof` = False.
         'api.version.request': True,
     })
-    #Subscribe to the topic
-    consumer.subscribe([os.getenv('TOPICNAME')],on_assign=assignStrategy)
 
     # Prepare openCV window
     print("OpenCV:",cv2.__version__)
@@ -39,6 +37,9 @@ def main():
 
     #Instantiate a signal processing model
     model = alg.Model()
+
+    #Subscribe to the topic
+    consumer.subscribe([os.getenv('TOPICNAME')],on_assign=assignStrategy)
 
     try:
         while True:
@@ -52,6 +53,7 @@ def main():
                 if msg.error().code() == KafkaError._PARTITION_EOF:
                     #Partition EOF indicates that consumer has reached end of partition. 
                     #To ignore/avoid EOF message, set "`enable.partition.eof` = False" in consumer config.
+                    print("Error pyconsumerrtsp: KafkaError._PARTITION_EOF")
                     continue
                 else:
                     print(msg.error())
@@ -70,10 +72,10 @@ def main():
 
             #Process the message
             model.run(img)
-            time.sleep(10)
+            # time.sleep(10)
 
             #Move the commit to the last message in the topic queue
-            assignStrategy(consumer,consumer.assignment())
+            # assignStrategy(consumer,consumer.assignment())
 
     except KeyboardInterrupt:
         sys.stderr.write('Operation aborted by user\n')
