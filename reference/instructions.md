@@ -7,22 +7,27 @@
         [options]
         --force : to overwrite existing file
     ```
+1. To install dependencies
+    ```python
+        pip install -r /app/requirements.txt
+    ```
+
 1. To visualize Kafka inside docker, issue the following command:
 
    ```text
    docker run -e ADV_HOST=127.0.0.1 -e EULA="https://dl.lenses.stream/d/?id=8a668761-4d2b-4f23-bb84-0c5f9964d772" --rm -p 3030:3030 -p 9092:9092 -p 2181:2181 -p 8081:8081 -p 9581:9581 -p 9582:9582 -p 9584:9584 -p 9585:9585 landoop/kafka-lenses-dev
    ```
 
-1. To build website on localhost
+2. To build website on localhost
     ```text
     bundle exec jekyll serve --watch --incremental
     ```
 
-1. Demo:
+3. Demo:
     1. Restart the video from where it ended previously after a video crash
-    1. Play two video streaming from the same queue using two different consumer group
+    2. Play two video streaming from the same queue using two different consumer group
 
-1. Transfer docker image without using internet based repository
+4. Transfer docker image without using internet based repository
     You will need to save the Docker image as a tar file:
 
     docker save -o <path for generated tar file> <image name>
@@ -36,4 +41,4 @@
     docker save -o c:/myfile.tar centos:16
 
 
-1. 
+5. 
