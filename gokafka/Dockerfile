@@ -1,4 +1,4 @@
-FROM adaickalavan/confluent-kafka-go as build-stage
+FROM adaickalavan/gocvkafka as build-stage
 
 # Install Go application
 WORKDIR /go/src/app/

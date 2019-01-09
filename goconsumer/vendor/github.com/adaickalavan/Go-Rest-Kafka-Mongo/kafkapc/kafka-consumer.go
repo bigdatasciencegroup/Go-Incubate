@@ -78,4 +78,5 @@ func ConsumeMessages(consumerParam ConsumerParam, handler messageHandler) {
 			}
 		}
 	}
+
 }
