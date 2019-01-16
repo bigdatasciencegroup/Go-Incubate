@@ -33,7 +33,8 @@
 
     EDIT: You should add filename (not just directory) with -o, for example:
 
-    docker save -o c:/myfile.tar centos:16
+    + docker save -o c:/myfile.tar centos:16
+    + docker save -o "C:\Projects\goWorkspace\src\github.com\adaickalavan\dockerimages\zookeeper.tar" confluentinc/cp-zookeeper
 
 
 1. 
