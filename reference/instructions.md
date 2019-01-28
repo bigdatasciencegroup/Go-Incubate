@@ -42,4 +42,4 @@
     + docker save -o "C:\Projects\goWorkspace\src\github.com\adaickalavan\dockerimages\zookeeper.tar" confluentinc/cp-zookeeper
 
 
-5. 
+5. git log --graph --oneline --decorate
