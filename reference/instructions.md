@@ -18,16 +18,12 @@
    docker run -e ADV_HOST=127.0.0.1 -e EULA="https://dl.lenses.stream/d/?id=8a668761-4d2b-4f23-bb84-0c5f9964d772" --rm -p 3030:3030 -p 9092:9092 -p 2181:2181 -p 8081:8081 -p 9581:9581 -p 9582:9582 -p 9584:9584 -p 9585:9585 landoop/kafka-lenses-dev
    ```
 
-2. To build website on localhost
+1. To build website on localhost
     ```text
     bundle exec jekyll serve --watch --incremental
     ```
 
-3. Demo:
-    1. Restart the video from where it ended previously after a video crash
-    2. Play two video streaming from the same queue using two different consumer group
-
-4. Transfer docker image without using internet based repository
+1. Transfer docker image without using internet based repository
     You will need to save the Docker image as a tar file:
 
     docker save -o <path for generated tar file> <image name>
@@ -42,4 +38,12 @@
     + docker save -o "C:\Projects\goWorkspace\src\github.com\adaickalavan\dockerimages\zookeeper.tar" confluentinc/cp-zookeeper
 
 
-5. git log --graph --oneline --decorate
+1. To see git hitsory, run:
+    ```git
+    git log --graph --oneline --decorate
+    ```
+
+1. To profile a Go code using a web interface, run:
+    ```go
+    go tool pprof -http=localhost:8080 /tmp/cpu.pprof
+    ```
