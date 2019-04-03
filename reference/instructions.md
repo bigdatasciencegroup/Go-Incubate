@@ -46,4 +46,15 @@
 1. To profile a Go code using a web interface, run:
     ```go
     go tool pprof -http=localhost:8080 /tmp/cpu.pprof
+    go tool pprof -http=localhost:8080 /tmp/mem.pprof
     ```
+
+1. Show model parameters
+    ```go
+    saved_model_cli show --dir ~/GoWorkspace/src/github.com/adaickalavan/Scalable-Deployment-Kubernetes/tfserving/resnet/1538687457 --all
+    ```
+
+1. Start bash inside a docker container
+    ```go
+    ~/GoWorkspace/src/github.com/adaickalavan/Scalable-Deployment-Kuberserving/resnet/1538687457$ docker exec -it goconsumer bash   
+    ``` 
