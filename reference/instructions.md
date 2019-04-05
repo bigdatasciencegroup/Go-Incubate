@@ -49,6 +49,12 @@
     go tool pprof -http=localhost:8080 /tmp/mem.pprof
     ```
 
+1. To see time spent on each line, run:
+    ```go
+    go tool pprof /tmp/cpu.pprof
+    list <packageName>
+    ```
+
 1. Show model parameters
     ```go
     saved_model_cli show --dir ~/GoWorkspace/src/github.com/adaickalavan/Scalable-Deployment-Kubernetes/tfserving/resnet/1538687457 --all
