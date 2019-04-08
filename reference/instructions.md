@@ -64,3 +64,6 @@
     ```go
     ~/GoWorkspace/src/github.com/adaickalavan/Scalable-Deployment-Kuberserving/resnet/1538687457$ docker exec -it goconsumer bash   
     ``` 
+
+1. Live stream
+ffmpeg -thread_queue_size 32 -rtsp_transport tcp -i rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov -framerate 25 -filter_complex "[0:v][1:v]overlay=x=(mod(3*n\,main_w+overlay_w)-overlay_w):10" -f flv pipe:1 | ffmpeg -i pipe:0 -vf "drawtext=text=oodlestechnologies :fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf: y=((h)/2):x=(mod(5*n\,w+tw)-tw): fontcolor=red: fontsize=40: shadowx=-5: shadowy=-15" -vcodec libx264 -acodec aac -f flv -muxdelay 0.1 rtmp://oodles:oodles@192.168.67.128:1935/live-demo/mstream    
