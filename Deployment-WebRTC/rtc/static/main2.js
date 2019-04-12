@@ -1,9 +1,9 @@
 function hasUserMedia() {
-  return !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+  return !!(navigator.mediaDevices.getUserMedia());
 }
 
 if (hasUserMedia()) {
-  navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+  navigator.getUserMedia = navigator.mediaDevices.getUserMedia();
 
   var constraints = {
     video: {
@@ -37,6 +37,10 @@ if (hasUserMedia()) {
     console.log("Raised an error when capturing:", error);
   }
   );
+
+
+
+
 } else {
   alert("Sorry, your browser does not support getUserMedia.");
 }

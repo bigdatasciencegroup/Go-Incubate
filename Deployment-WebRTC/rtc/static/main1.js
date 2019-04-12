@@ -1,9 +1,13 @@
 'use strict';
 
+
 // Put variables in global scope to make them available to the browser console.
 const constraints = window.constraints = {
-  audio: false,
-  video: true
+    audio: true,
+    video: {
+      width: { min: 1280 },
+      height: { min: 720 }
+    }
 };
 
 function handleSuccess(stream) {
