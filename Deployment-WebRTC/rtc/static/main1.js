@@ -5,8 +5,8 @@
 const constraints = window.constraints = {
     audio: true,
     video: {
-      width: { min: 1280 },
-      height: { min: 720 }
+      width: { min: 640 },
+      height: { min: 480 }
     }
 };
 
@@ -40,16 +40,13 @@ function errorMsg(msg, error) {
 }
 
 async function init() {
-//   try {
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    handleSuccess(stream);
-    // video.play()
-//     e.target.disabled = true;
-//   } catch (e) {
-//     handleError(e);
-//   }
+  // try {
+    // const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    // handleSuccess(stream);
+  // } catch (e) {
+    handleError("ihisjsjsisuisiuss");
+  // }
 }
 
-// document.querySelector('#showVideo').addEventListener('click', e => init(e));
 init();
-// handleSuccess(stream);
+ 
