@@ -18,11 +18,14 @@ const constraints = window.constraints = {
     video: true,
 };    
 
+let localStream;
+
 async function startMedia(){
     if (hasUserMedia()) {
         var stream = await navigator.mediaDevices.getUserMedia(constraints)
         window.stream = stream;
         yourVideo.srcObject = stream;
+        localStream = stream;
 
         if (hasRTCPeerConnection()) {
             startPeerConnection(stream);
@@ -34,17 +37,22 @@ async function startMedia(){
     }
 }
 
+
+var div = document.getElementById("container");
+div.onclick = function() { alert('newsdsds') };
 startMedia()
   
 function startPeerConnection(stream) {
     var configuration = {
         // "iceServers": [{ "url": "stun:127.0.0.1:9876" }]
     };
-    yourConnection = new webkitRTCPeerConnection(configuration);
-    theirConnection = new webkitRTCPeerConnection(configuration);
+    yourConnection = new RTCPeerConnection(configuration);
+    theirConnection = new RTCPeerConnection(configuration);
 
     // Setup stream listening
-    yourConnection.addTrack(stream);
+    const videoTracks = localStream.getVideoTracks();
+
+
     theirConnection.onaddstream = function (e) {
         theirVideo.src = window.URL.createObjectURL(e.stream);
     };
