@@ -39,7 +39,7 @@ func main() {
 
 	offer := webrtc.SessionDescription{}
 	signal.Decode(<-sdpChan, &offer)
-	fmt.Println("")
+	log.Println("Received first offer")
 
 	// Create a new RTCPeerConnection
 	peerConnection, err := api.NewPeerConnection(peerConnectionConfig)
@@ -62,7 +62,7 @@ func main() {
 			ticker := time.NewTicker(rtcpPLIInterval)
 			for range ticker.C {
 				if rtcpSendErr := peerConnection.WriteRTCP(&rtcp.PictureLossIndication{MediaSSRC: remoteTrack.SSRC()}); rtcpSendErr != nil {
-					fmt.Println(rtcpSendErr)
+					log.Println(rtcpSendErr)
 				}
 			}
 		}()
@@ -107,12 +107,12 @@ func main() {
 	}
 
 	// Get the LocalDescription and take it to base64 so we can paste in browser
-	fmt.Println(signal.Encode(answer))
+	log.Println(signal.Encode(answer))
 
 	localTrack := <-localTrackChan
 	for {
-		fmt.Println("")
-		fmt.Println("Curl an base64 SDP to start sendonly peer connection")
+		log.Println("")
+		log.Println("Curl an base64 SDP to start sendonly peer connection")
 
 		recvOnlyOffer := webrtc.SessionDescription{}
 		signal.Decode(<-sdpChan, &recvOnlyOffer)
@@ -147,6 +147,6 @@ func main() {
 		}
 
 		// Get the LocalDescription and take it to base64 so we can paste in browser
-		fmt.Println(signal.Encode(answer))
+		log.Println(signal.Encode(answer))
 	}
 }
