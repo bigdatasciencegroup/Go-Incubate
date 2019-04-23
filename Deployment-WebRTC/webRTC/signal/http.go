@@ -28,7 +28,7 @@ func (s *sdpServer) makeMux() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/sdp", handlerSDP(s.sdpChan))
 	mux.HandleFunc("/join", handlerJoin)
-	mux.Handle("/", http.StripPrefix("", http.FileServer(http.Dir("./static/html"))))
+	mux.Handle("/", http.StripPrefix("", http.FileServer(http.Dir("./static/html/"))))
 	s.mux = mux
 }
 

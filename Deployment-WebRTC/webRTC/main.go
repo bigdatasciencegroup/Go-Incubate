@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/joho/godotenv"
 	"io"
 	"log"
 	"os"
@@ -23,6 +24,14 @@ var peerConnectionConfig = webrtc.Configuration{
 const (
 	rtcpPLIInterval = time.Second * 3
 )
+
+func init() {
+	//Load .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func main() {
 	sdpChan := signal.HTTPSDPServer(os.Getenv("LISTENINGADDR"))

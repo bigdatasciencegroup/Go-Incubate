@@ -2,8 +2,8 @@ version: '3'
 
 services:
   webrtc:
-    # image: webrtc
-    build: .
+    image: webrtc
+    # build: .
     container_name: webrtc 
     restart: always 
     ports:
