@@ -11,7 +11,7 @@ import (
 )
 
 // HTTPSDPServer starts a HTTP Server that consumes SDPs
-func HTTPSDPServer(port string) <-chan string {
+func HTTPSDPServer(port string) chan string {
 	s := &sdpServer{sdpChan: make(chan string)}
 	s.makeMux()
 	go s.runSDPServer(port)
@@ -24,11 +24,12 @@ type sdpServer struct {
 	mux          *http.ServeMux
 }
 
-func (s *sdpServer) makeMux() *http.ServeMux {
+func (s *sdpServer) makeMux() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/sdp", handlerSDP(s.sdpChan))
 	mux.HandleFunc("/join", handlerJoin)
-	return mux
+	mux.Handle("/", http.StripPrefix("", http.FileServer(http.Dir("./static/html"))))
+	s.mux = mux
 }
 
 func (s *sdpServer) runSDPServer(port string) {
@@ -58,7 +59,7 @@ func (s *sdpServer) runSDPServer(port string) {
 }
 
 func handlerSDP(sdpChan chan string) http.HandlerFunc {
-	return func (w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 
 		body, err := ioutil.ReadAll(r.Body)

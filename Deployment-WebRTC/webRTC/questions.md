@@ -1,3 +1,5 @@
+Please tag me @adai to enable finding replies to the questions easily.
+
 The following questions are all pertaining to the main.go file in sfu-minimal code example at pion/webrtc. Refer here: https://github.com/pion/webrtc/blob/master/examples/sfu-minimal/main.go 
 
 1. Will the `peerConnection.OnTrack()` function on line 58 be triggered after we have copied the `answer` from line 110 (`fmt.Println(signal.Encode(answer))`) into the jsfiddle.net browser and clicked start session in the browser? In other words precisely when will the `OnTrack` function be called?
@@ -12,13 +14,15 @@ The following questions are all pertaining to the main.go file in sfu-minimal co
 
 5. Will the program still work fine if browser downloaders join the server first before any video uploaders are available?
 
-6. In the following statement: `peerConnection.SetRemoteDescription(offer)` , is there communication from the server to the remote browser taking place or is it simply setting local variables in the server about the remote browser?
+6. Upon executing the following statement: `peerConnection.SetRemoteDescription(offer)`, line 92, is there any network communication which occurs(e.g., communicate to remote browser or communicate to ICE/STUN)? What type of network communication occurs and what is their purpose?
 
-7. At line 126, main.go, we add localtrack to peerconnection. So where is the server code which is responsible to reading the local video from server and sending it to the client? Or is it that the client pulls the video from the server using its javascript?  
+7. At lines 45 and 121, new `peerConnection`s are formed for each uploader and downloader browser. Hence, we are overwriting the previous `peerConnection` variable each time we declare a new one. By overwriting the previous `peerConnection` handles, we will be unable to change any properties of those peer-to-peer connections since we have lost their handles, right? 
 
 
 The following are questions from other webrtc library.
 
-8.  (refer here: https://github.com/pion/webrtc/blob/3d2c1c2c32c96b5124c43ad85390cf1fb0961924/track.go#L81) In `func (t *Track)Read(b []byte) (n int, err error)`, why when number of `len(t.activeSenders) != 0`, it implies a local track?
+8.  Refer here: https://github.com/pion/webrtc/blob/3d2c1c2c32c96b5124c43ad85390cf1fb0961924/track.go#L81 . In `func (t *Track)Read(b []byte) (n int, err error)`, why when number of `len(t.activeSenders) != 0`, it implies a local track?
 
-9. 
+9. Within the `func (pc *PeerConnection) SetRemoteDescription(desc SessionDescription) error` function, what is the purpose and function of the goroutine at this line: https://github.com/pion/webrtc/blob/3d2c1c2c32c96b5124c43ad85390cf1fb0961924/peerconnection.go#L984 
+
+Thank you for your help.

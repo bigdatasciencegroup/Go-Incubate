@@ -1,14 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"io"
+	"log"
 	"os"
 	"time"
 
 	"github.com/adaickalavan/Go-Incubate/Deployment-WebRTC/webRTC/signal"
+
 	"github.com/pion/rtcp"
-	"github.com/pion/webrtc"
+	"github.com/pion/webrtc/v2"
 )
 
 var peerConnectionConfig = webrtc.Configuration{
@@ -61,7 +62,7 @@ func main() {
 		go func() {
 			ticker := time.NewTicker(rtcpPLIInterval)
 			for range ticker.C {
-				if rtcpSendErr := peerConnection.WriteRTCP(&rtcp.PictureLossIndication{MediaSSRC: remoteTrack.SSRC()}); rtcpSendErr != nil {
+				if rtcpSendErr := peerConnection.WriteRTCP([]rtcp.Packet{&rtcp.PictureLossIndication{MediaSSRC: remoteTrack.SSRC()}}); rtcpSendErr != nil {
 					log.Println(rtcpSendErr)
 				}
 			}

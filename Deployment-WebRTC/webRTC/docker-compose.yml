@@ -1,14 +1,15 @@
 version: '3'
 
 services:
-  webRTC:
+  webrtc:
+    # image: webrtc
     build: .
-    container_name: webRTC  
+    container_name: webrtc 
     restart: always 
     ports:
-      - 8081:8081
+      - 8088:8088
     environment:
-      - LISTENINGADDR=8081
+      - LISTENINGADDR=8088
     networks:
       - zookeeper_dockerNet 
       

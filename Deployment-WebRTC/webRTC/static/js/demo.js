@@ -1,9 +1,9 @@
 /* eslint-env browser */
-var log = msg => {
+var log = function(msg) {
   document.getElementById('logs').innerHTML += msg + '<br>'
 }
 
-window.createSession = isPublisher => {
+window.createSession = function (isPublisher) {
   let pc = new RTCPeerConnection({
     iceServers: [
       {
@@ -40,7 +40,7 @@ window.createSession = isPublisher => {
     }
   }
 
-  window.startSession = () => {
+  window.startSession = function() {
     let sd = document.getElementById('remoteSessionDescription').value
     if (sd === '') {
       return alert('Session Description must not be empty')
