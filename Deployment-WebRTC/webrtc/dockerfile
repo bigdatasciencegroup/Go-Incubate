@@ -18,15 +18,16 @@ RUN go mod download
 COPY . .
 
 # Build the executable to `/app`. Mark the build as statically linked.
-RUN CGO_ENABLED=0 go build -o /src/app .
+RUN CGO_ENABLED=0 go build -o ./app .
 
 # Final stage
 FROM scratch
 
 # Import the compiled executable from the first stage.
-COPY --from=builder /src/app /app
-COPY --from=builder /src/static /static/
-COPY --from=builder /src/.env /.env
+COPY --from=builder src/app /app
+COPY --from=builder src/.env /.env
+COPY --from=builder src/static /static/
+COPY --from=builder src/template /template/
 
 # Run the compiled binary when the conainer starts
 ENTRYPOINT ["/app"]

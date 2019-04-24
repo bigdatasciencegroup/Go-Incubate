@@ -3,8 +3,6 @@ var log = msg => {
   document.getElementById('logs').innerHTML += msg + '<br>'
 }
 
-alert("hijui");
-
 window.createSession = isPublisher => {
   let pc = new RTCPeerConnection({
     iceServers: [

@@ -1,13 +1,13 @@
 package signal
 
 import (
-	"fmt"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
 
-	"github.com/adaickalavan/Go-Incubate/Deployment-WebRTC/webRTC/handler"
+	"github.com/adaickalavan/Go-Incubate/Deployment-WebRTC/webrtc/handler"
 )
 
 // HTTPSDPServer starts a HTTP Server that consumes SDPs
@@ -27,7 +27,8 @@ type sdpServer struct {
 func (s *sdpServer) makeMux() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/sdp", handlerSDP(s.sdpChan))
-	mux.Handle("/join", http.StripPrefix("/join", http.FileServer(http.Dir("./static/"))))
+	mux.HandleFunc("/join", handlerJoin)
+	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("/static/"))))
 	s.mux = mux
 }
 
@@ -75,5 +76,23 @@ func handlerSDP(sdpChan chan string) http.HandlerFunc {
 }
 
 func handlerJoin(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+	handler.Push(w, "/static/js/join.js")
+	tpl, err := template.ParseFiles("/template/join.html")
+	if err != nil {
+		log.Printf("\nParse error: %v\n", err)
+		handler.RespondWithError(w, http.StatusInternalServerError, "ERROR: Template parse error.")
+		return
+	}
+	handler.Render(w, r, tpl, nil)
+}
+
+func handlerPublish(w http.ResponseWriter, r *http.Request) {
+	handler.Push(w, "/static/js/publish.js")
+	tpl, err := template.ParseFiles("/template/publish.html")
+	if err != nil {
+		log.Printf("\nParse error: %v\n", err)
+		handler.RespondWithError(w, http.StatusInternalServerError, "ERROR: Template parse error.")
+		return
+	}
+	handler.Render(w, r, tpl, nil)
 }
