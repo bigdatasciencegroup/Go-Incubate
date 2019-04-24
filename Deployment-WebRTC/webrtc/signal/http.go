@@ -1,6 +1,7 @@
 package signal
 
 import (
+	"encoding/json"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -68,11 +69,20 @@ func handlerSDP(sdpChan chan string) http.HandlerFunc {
 			return
 		}
 
+		bodyStr := string(body)
+		if !isJSON(bodyStr) {
+			handler.RespondWithError(w, http.StatusBadRequest, "ERROR: SDP error.")
+			return
+		}
 		// Send client SDP to Golang WebRTC server
-		sdpChan <- string(body)
-
+		sdpChan <- bodyStr
 		handler.RespondWithJSON(w, http.StatusAccepted, map[string]string{"Result": "Successfully received client SDP"})
 	}
+}
+
+func isJSON(str string) bool {
+	var js json.RawMessage
+	return json.Unmarshal([]byte(str), &js) == nil
 }
 
 func handlerJoin(w http.ResponseWriter, r *http.Request) {

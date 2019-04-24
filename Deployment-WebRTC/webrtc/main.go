@@ -1,11 +1,12 @@
 package main
 
 import (
-	"github.com/joho/godotenv"
 	"io"
 	"log"
 	"os"
 	"time"
+
+	"github.com/joho/godotenv"
 
 	"github.com/adaickalavan/Go-Incubate/Deployment-WebRTC/webrtc/signal"
 
