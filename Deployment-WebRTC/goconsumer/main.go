@@ -6,7 +6,6 @@ import (
 	"log"
 	"models"
 	"os"
-	"profile"
 	"strings"
 	"time"
 
@@ -67,7 +66,7 @@ func init() {
 
 func main() {
 	// Profiling CPU
-	defer profile.Start(profile.CPUProfile, profile.ProfilePath("/tmp"), profile.NoShutdownHook).Stop()
+	// defer profile.Start(profile.CPUProfile, profile.ProfilePath("/tmp"), profile.NoShutdownHook).Stop()
 	// Profiling memory
 	// defer profile.Start(profile.MemProfile, profile.ProfilePath("/tmp"), profile.NoShutdownHook).Stop()
 

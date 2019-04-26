@@ -6,13 +6,13 @@
 </head>
 
 <body>
-  <div id="signalingContainer" style="display: none">
+  <div id="signalingContainer">
     Browser base64 Session Description<br />
     <textarea id="localSessionDescription" readonly="true"></textarea> <br />
     
     Golang base64 Session Description<br />
     <textarea id="remoteSessionDescription"></textarea> <br/>
-    <button onclick="window.startSession()"> Start Session </button><br />
+    <button onclick="startSession()"> Start Session </button><br />
   </div>
 
   <br />
@@ -20,14 +20,13 @@
   Video<br />
   <video id="video1" width="320" height="240" autoplay muted></video> <br />
 
-  <button class="createSessionButton" onclick="window.createSession(true)"> Publish a Broadcast </button>
-  <button class="createSessionButton" onclick="window.createSession(false)"> Join a Broadcast </button><br />
+  <!-- <button class="createSessionButton" onclick="createSession()"> Publish a Broadcast </button> -->
   <br />
 
   Logs<br />
   <div id="logs"></div>
 
-  <script src="/static/js/publish.js"></script>  
+  <script src="./static/js/publish.js"></script>  
 </body>
 
 </html>
