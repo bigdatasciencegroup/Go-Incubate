@@ -2,11 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"html/template"
 	"io"
 	"log"
 	"net/http"
 	"os"
-	"html/template"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -100,6 +100,7 @@ type sdpServer struct {
 	api          *webrtc.API
 	pcUpload     []*webrtc.PeerConnection
 	pcDownload   []*webrtc.PeerConnection
+	localTrack   []*webrtc.Track
 	mux          *http.ServeMux
 }
 
@@ -180,8 +181,7 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 			panic(err)
 		}
 
-		// localTrack := addOnTrack(pc)
-		_ = addOnTrack(pc)
+		s.localTrack = append(s.localTrack, addOnTrack(pc))
 
 		// // Set the remote SessionDescription
 		// err = pc.SetRemoteDescription(offer)

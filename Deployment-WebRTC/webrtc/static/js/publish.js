@@ -37,15 +37,21 @@ function startSession() {
 
   // let localSDP = document.getElementById('localSessionDescription').value
   // alert("inside startSession")
-  let p = fetch("/sdp")
-    p.then(response => response.json())
+  fetch("/sdp")
+    .then(response => {
+      if (response.status == 200 ||
+          response.status == 201 ||
+          response.status == 202) {
+        return response.json()
+      } else {
+        throw new HttpError(response)
+      }
+    })    
     .then(text => { 
       alert(text.Result);
       alert(text.ServerSDP);
     })
-    .then(function(){ 
-        alert("done")
-      })
+    .catch(log)
 
   // let sd = document.getElementById('remoteSessionDescription').value
   // if (sd === '') {
@@ -58,3 +64,17 @@ function startSession() {
   //   alert(e)
   // }
 }
+
+class HttpError extends Error {
+  constructor(response) {
+    super(`${response.status} for ${response.url}`);
+    this.name = 'HttpError';
+    this.response = response;
+  }
+}
+
+window.addEventListener('unhandledrejection', function(event) {
+  // the event object has two special properties:
+  alert(event.promise); // [object Promise] - the promise that generated the error
+  alert(event.reason); // Error: Whoops! - the unhandled error object
+});
