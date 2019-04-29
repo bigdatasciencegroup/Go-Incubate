@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"html/template"
 	"log"
 	"net/http"
-	"html/template"
 )
 
 //RespondWithError is a HTTP reply with error message

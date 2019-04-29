@@ -100,7 +100,7 @@ type sdpServer struct {
 	api          *webrtc.API
 	pcUpload     []*webrtc.PeerConnection
 	pcDownload   []*webrtc.PeerConnection
-	localTrack   []*webrtc.Track
+	localTracks  []*webrtc.Track
 	mux          *http.ServeMux
 }
 
@@ -181,7 +181,7 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 			panic(err)
 		}
 
-		s.localTrack = append(s.localTrack, addOnTrack(pc))
+		s.localTracks = append(s.localTracks, addOnTrack(pc))
 
 		// // Set the remote SessionDescription
 		// err = pc.SetRemoteDescription(offer)
