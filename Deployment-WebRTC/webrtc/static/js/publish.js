@@ -23,7 +23,7 @@ pc.oniceconnectionstatechange = handleICEConnectionStateChange;
 pc.onicegatheringstatechange = handleICEGatheringStateChange;
 pc.onsignalingstatechange = handleSignalingStateChange;
 pc.onicecandidate = handleICECandidate;
-// pc.onnegotiationneeded = handleNegotiationNeeded;
+pc.onnegotiationneeded = handleNegotiationNeeded;
 // pc.ontrack = handleTrack;
 
 
@@ -49,72 +49,67 @@ function handleSignalingStateChange(event){
 };
 
 function handleICECandidate(event) {
-  if (event.candidate === null) {
-    document.getElementById('localSessionDescription').value = btoa(JSON.stringify(pc.localDescription))
-  }
+  // if (event.candidate === null) {
+  //   document.getElementById('localSessionDescription').value = btoa(JSON.stringify(pc.localDescription))
+  // }
 };
-
 
 function createOffer(){
   return pc.createOffer()
-    .then(offer => {
-      pc.setLocalDescription(offer)
-      alert(offer)
+    .then(offer => pc.setLocalDescription(offer)
+    )
+    .then(() => {
+      let offerJSON = JSON.stringify(pc.localDescription);
+      document.getElementById('localSessionDescription').value = offerJSON;
+      return offerJSON;
     })
-    .then(function(){
-      let sdp = btoa(JSON.stringify(pc.localDescription));
-      document.getElementById('localSessionDescription').value = localSDP
-      return sdp
-    })
-    .catch(log)
 }
 
-function send(){
-  let offer = "hi yes yes from browser"
-  sendToServer("a")
-  .then(
-    alert("12")
-  )
-  .then(() => {
-    sendToServer("b")
-  })
-
-function fetchSDP(){
-  return fetch("/sdp", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8'
-    },
-    body: JSON.stringify(offer)
-  })
-  .then(response => {
-    if (response.ok){ // if HTTP-status is 200-299
-      if (response.headers.get('Content-Type') == "application/json; charset=utf-8") {
-        return response.json();
-      } else {
-        throw new Error("Content-Type expected `application/json; charset=utf-8` but got "+response.headers.get('Content-Type'))
-      }
-    } else {
-      throw new HttpError(response);
-    }
+async function sendToServer(offerJSON){
+  try {
+    return await fetch("/sdp", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: offerJSON,
+    });
   }
-  let text = await then(text => { 
-    alert(text.Result);
-    alert(text.ServerSDP);
-  })
-  .then(function(){ 
-    let sd = document.getElementById('remoteSessionDescription').value
-    if (sd === '') {
-      return alert('Session Description must not be empty')
-    }
-  })
-  .catch(log)
+  catch (msg) {
+    return log(msg);
+  }
+  // .then(response => {
+  //   if (response.ok){ // if HTTP-status is 200-299
+  //     if (response.headers.get('Content-Type') == "application/json; charset=utf-8") {
+  //       return response.json();
+  //     } else {
+  //       alert("here tt iiuyt")
+  //       throw new Error("Content-Type expected `application/json; charset=utf-8` but got "+response.headers.get('Content-Type'))
+      
+  //     }
+  //   } else {
+  //     alert("here tt")
+  //     throw new HttpError(response);
+  //   }
+  // })
+  // .then(text => { 
+    // alert(text.Result);
+    // alert(text.ServerSDP);
+  // })
+  // .then(function(){ 
+  //   let sd = document.getElementById('remoteSessionDescription').value
+  //   if (sd === '') {
+  //     return alert('Session Description must not be empty')
+  //   }
+  // })
 }
 
 startMedia()
 
 function handleNegotiationNeeded(){
-
+  createOffer()
+  .then(offer => sendToServer(offer))
+  .catch(log) 
 }
 
   // let sd = document.getElementById('remoteSessionDescription').value

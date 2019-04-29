@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"html/template"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -120,7 +121,7 @@ func (s *sdpServer) makeMux() {
 func (s *sdpServer) run(port string) {
 	defer func() {
 		s.recoverCount++
-		if s.recoverCount > 30 {
+		if s.recoverCount > 1 {
 			log.Fatal("signal.runSDPServer(): Failed to run")
 		}
 		if r := recover(); r != nil {
@@ -149,23 +150,17 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 
-		// body, err := ioutil.ReadAll(r.Body)
-		// if err != nil {
-		// 	handler.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
-		// 	return
-		// }
-
-		// bodyStr := string(body)
-		// if !isJSON(bodyStr) {
-		// 	handler.RespondWithError(w, http.StatusBadRequest, "ERROR: SDP error.")
-		// 	return
-		// }
-		// Send client SDP to Golang WebRTC server
-		// sdpChan <- bodyStr
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			handler.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
+			return
+		}
 
 		// offer := webrtc.SessionDescription{}
-		// signal.Decode(<-sdpChan, &offer)
-		log.Println("Received first offer")
+		// signal.Decode(string(body), &offer)
+		log.Println(string(body))
+		log.Println(body)
+		log.Println("hi")
 
 		// Create a new RTCPeerConnection
 		pc, err := s.api.NewPeerConnection(peerConnectionConfig)
@@ -181,7 +176,8 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 			panic(err)
 		}
 
-		s.localTracks = append(s.localTracks, addOnTrack(pc))
+		addOnTrack(pc)
+		// s.localTracks = append(s.localTracks, addOnTrack(pc))
 
 		// // Set the remote SessionDescription
 		// err = pc.SetRemoteDescription(offer)
