@@ -22,18 +22,20 @@ let pc = new RTCPeerConnection({
 pc.oniceconnectionstatechange = handleICEConnectionStateChange;
 pc.onicegatheringstatechange = handleICEGatheringStateChange;
 pc.onsignalingstatechange = handleSignalingStateChange;
-pc.onicecandidate = handleICECandidate;
+// pc.onicecandidate = handleICECandidate;
 pc.onnegotiationneeded = handleNegotiationNeeded;
 // pc.ontrack = handleTrack;
 
 
-function startMedia(){
-  return navigator.mediaDevices.getUserMedia(mediaConstraints)
-    .then(function(stream){
-      document.getElementById("video1").srcObject = stream;
-      stream.getTracks().forEach(track => pc.addTrack(track, stream));
-    })
-    .catch(handleGetUserMediaError);
+async function startMedia(){
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
+    document.getElementById("video1").srcObject = stream;
+    stream.getTracks().forEach(track => pc.addTrack(track, stream));
+  }
+  catch (e) {
+    return handleGetUserMediaError(e);
+  }
 }
 
 function handleICEConnectionStateChange(event){
@@ -48,68 +50,61 @@ function handleSignalingStateChange(event){
   log(pc.signalingState)
 };
 
-function handleICECandidate(event) {
-  // if (event.candidate === null) {
-  //   document.getElementById('localSessionDescription').value = btoa(JSON.stringify(pc.localDescription))
-  // }
-};
+// function handleICECandidate(event) {
+//   if (event.candidate === null) {
+//     document.getElementById('localSessionDescription').value = btoa(JSON.stringify(pc.localDescription))
+//   }
+// };
 
 function createOffer(){
   return pc.createOffer()
-    .then(offer => pc.setLocalDescription(offer)
-    )
-    .then(() => {
-      let offerJSON = JSON.stringify(pc.localDescription);
-      document.getElementById('localSessionDescription').value = offerJSON;
-      return offerJSON;
-    })
+  .then(offer => pc.setLocalDescription(offer))
+  .then(() => {
+    let offerJSONb64 = btoa(JSON.stringify(pc.localDescription));
+    document.getElementById('localSessionDescription').value = offerJSONb64;
+    return offerJSONb64;
+  })
 }
 
-async function sendToServer(offerJSON){
-  try {
-    return await fetch("/sdp", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: offerJSON,
-    });
-  }
-  catch (msg) {
-    return log(msg);
-  }
-  // .then(response => {
-  //   if (response.ok){ // if HTTP-status is 200-299
-  //     if (response.headers.get('Content-Type') == "application/json; charset=utf-8") {
-  //       return response.json();
-  //     } else {
-  //       alert("here tt iiuyt")
-  //       throw new Error("Content-Type expected `application/json; charset=utf-8` but got "+response.headers.get('Content-Type'))
-      
-  //     }
-  //   } else {
-  //     alert("here tt")
-  //     throw new HttpError(response);
-  //   }
-  // })
-  // .then(text => { 
-    // alert(text.Result);
-    // alert(text.ServerSDP);
-  // })
-  // .then(function(){ 
-  //   let sd = document.getElementById('remoteSessionDescription').value
-  //   if (sd === '') {
-  //     return alert('Session Description must not be empty')
-  //   }
-  // })
+function sendToServer(url, offerJSONb64){
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8'
+    },
+    body: offerJSONb64
+  })
+  .then(response => {
+    // Verify HTTP-status is 200-299
+    if (response.ok){ 
+      if (response.headers.get('Content-Type') == "application/json; charset=utf-8") {
+        return response.json();
+      } else {
+        throw new Error("Content-Type expected `application/json; charset=utf-8` but got "+response.headers.get('Content-Type'))
+      }
+    } else {
+      throw new HttpError(response);
+    }
+  })
+  .then(json => { 
+    document.getElementById('remoteSessionDescription').value = json.SDP
+    return json.SDP
+  })
 }
 
+// Start acquiation of media
 startMedia()
 
-function handleNegotiationNeeded(){
-  createOffer()
-  .then(offer => sendToServer(offer))
-  .catch(log) 
+async function handleNegotiationNeeded(){
+  let p = createOffer()
+  .then(offerJSONb64 => {
+    return sendToServer("/sdp", offerJSONb64)
+  })
+  .then(sdp => {
+    pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(sdp))))
+  })
+  // .catch(log)
+  // .finally(()=> "3")
 }
 
   // let sd = document.getElementById('remoteSessionDescription').value
@@ -126,9 +121,9 @@ function handleNegotiationNeeded(){
 
 // This handler for the track event is called by the local WebRTC layer when a 
 // track is added to the connection. 
-function handleTrackEvent(event) {
-  document.getElementById("video1").srcObject = event.streams[0];
-}
+// function handleTrackEvent(event) {
+//   document.getElementById("video1").srcObject = event.streams[0];
+// }
 
 function handleGetUserMediaError(e) {
   switch(e.name) {

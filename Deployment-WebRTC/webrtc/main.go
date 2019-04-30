@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"html/template"
 	"io"
 	"io/ioutil"
@@ -13,6 +12,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/adaickalavan/Go-Incubate/Deployment-WebRTC/webrtc/handler"
+	"github.com/adaickalavan/Go-Incubate/Deployment-WebRTC/webrtc/signal"
 
 	"github.com/pion/rtcp"
 	"github.com/pion/webrtc/v2"
@@ -111,7 +111,7 @@ func newSDPServer(api *webrtc.API) *sdpServer {
 
 func (s *sdpServer) makeMux() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/sdp/", handlerSDP(s))
+	mux.HandleFunc("/sdp", handlerSDP(s))
 	mux.HandleFunc("/join", handlerJoin)
 	mux.HandleFunc("/publish", handlerPublish)
 	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
@@ -156,11 +156,8 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 			return
 		}
 
-		// offer := webrtc.SessionDescription{}
-		// signal.Decode(string(body), &offer)
-		log.Println(string(body))
-		log.Println(body)
-		log.Println("hi")
+		offer := webrtc.SessionDescription{}
+		signal.Decode(string(body), &offer)
 
 		// Create a new RTCPeerConnection
 		pc, err := s.api.NewPeerConnection(peerConnectionConfig)
@@ -175,33 +172,33 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 		if _, err = pc.AddTransceiver(webrtc.RTPCodecTypeVideo); err != nil {
 			panic(err)
 		}
+	
+		// Set a handler for when a new remote track starts
+		// Add the incoming track to the list of tracks maintained in the server
+		s.localTracks = append(s.localTracks, addOnTrack(pc))
 
-		addOnTrack(pc)
-		// s.localTracks = append(s.localTracks, addOnTrack(pc))
+		// Set the remote SessionDescription
+		err = pc.SetRemoteDescription(offer)
+		if err != nil {
+			panic(err)
+		}
 
-		// // Set the remote SessionDescription
-		// err = pc.SetRemoteDescription(offer)
-		// if err != nil {
-		// 	panic(err)
-		// }
+		// Create answer
+		answer, err := pc.CreateAnswer(nil)
+		if err != nil {
+			panic(err)
+		}
 
-		// // Create answer
-		// answer, err := pc.CreateAnswer(nil)
-		// if err != nil {
-		// 	panic(err)
-		// }
+		// Sets the LocalDescription, and starts our UDP listeners
+		err = pc.SetLocalDescription(answer)
+		if err != nil {
+			panic(err)
+		}
 
-		// // Sets the LocalDescription, and starts our UDP listeners
-		// err = pc.SetLocalDescription(answer)
-		// if err != nil {
-		// 	panic(err)
-		// }
-
-		answer := "yes this is your answer"
 		handler.RespondWithJSON(w, http.StatusAccepted,
 			map[string]string{
-				"Result":    "Successfully received client SDP",
-				"ServerSDP": answer,
+				"Result": "Successfully received incoming client SDP",
+				"SDP":    signal.Encode(answer),
 			})
 	}
 }
@@ -244,11 +241,6 @@ func addOnTrack(pc *webrtc.PeerConnection) *webrtc.Track {
 	})
 
 	return localTrack
-}
-
-func isJSON(str string) bool {
-	var js json.RawMessage
-	return json.Unmarshal([]byte(str), &js) == nil
 }
 
 func handlerJoin(w http.ResponseWriter, r *http.Request) {

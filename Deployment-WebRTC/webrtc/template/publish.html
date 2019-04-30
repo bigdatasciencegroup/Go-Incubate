@@ -8,11 +8,10 @@
 <body>
   <div id="signalingContainer">
     Browser base64 Session Description<br />
-    <textarea id="localSessionDescription" readonly="true"></textarea> <br />
+    <textarea id="localSessionDescription" rows="10" cols="50" readonly="true"></textarea> <br />
     
     Golang base64 Session Description<br />
-    <textarea id="remoteSessionDescription"></textarea> <br/>
-    <button onclick="startSession()"> Start Session </button><br />
+    <textarea id="remoteSessionDescription" rows="10" cols="50"></textarea> <br/>
   </div>
 
   <br />
@@ -20,7 +19,6 @@
   Video<br />
   <video id="video1" width="320" height="240" autoplay muted></video> <br />
 
-  <!-- <button class="createSessionButton" onclick="createSession()"> Publish a Broadcast </button> -->
   <br />
 
   Logs<br />
