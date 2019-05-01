@@ -38,16 +38,18 @@ async function startMedia(){
   }
 }
 
+// Set the handler for ICE connection state
+// This will notify you when the peer has connected/disconnected
 function handleICEConnectionStateChange(event){
-  log(pc.iceConnectionState)
+  log("ICEConnectionStateChange: "+pc.iceConnectionState)
 };
 
 function handleICEGatheringStateChange(event){
-  log(pc.iceGatheringState)
+  log("ICEGatheringStateChange: "+pc.iceGatheringState)
 };
 
 function handleSignalingStateChange(event){
-  log(pc.signalingState)
+  log("SignalingStateChange: "+pc.signalingState)
 };
 
 // function handleICECandidate(event) {
@@ -60,19 +62,18 @@ function createOffer(){
   return pc.createOffer()
   .then(offer => pc.setLocalDescription(offer))
   .then(() => {
-    let offerJSONb64 = btoa(JSON.stringify(pc.localDescription));
-    document.getElementById('localSessionDescription').value = offerJSONb64;
-    return offerJSONb64;
+    let offerJSON = JSON.stringify(pc.localDescription));
+    document.getElementById('localSessionDescription').value = pc.localDescription;
   })
 }
 
-function sendToServer(url, offerJSONb64){
+function sendToServer(url, msg){
   return fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'text/plain; charset=utf-8'
     },
-    body: offerJSONb64
+    body: msg
   })
   .then(response => {
     // Verify HTTP-status is 200-299
@@ -97,8 +98,14 @@ startMedia()
 
 async function handleNegotiationNeeded(){
   let p = createOffer()
-  .then(offerJSONb64 => {
-    return sendToServer("/sdp", offerJSONb64)
+  .then(offerJSON => {
+    let msg = {
+      name: myUsername,
+      target: targetUsername,
+      type: "video-offer",
+      sdp: pc.localDescription
+    }
+    return sendToServer("/sdp", msg)
   })
   .then(sdp => {
     pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(sdp))))
