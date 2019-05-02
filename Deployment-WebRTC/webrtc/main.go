@@ -52,47 +52,6 @@ func main() {
 	// Run SDP server
 	s := newSDPServer(api)
 	s.run(os.Getenv("LISTENINGADDR"))
-
-	// localTrack := <-localTrackChan
-	// for {
-	// 	log.Println("")
-	// 	log.Println("Curl an base64 SDP to start sendonly peer connection")
-
-	// 	recvOnlyOffer := webrtc.SessionDescription{}
-	// 	signal.Decode(<-sdpChan, &recvOnlyOffer)
-
-	// 	// Create a new PeerConnection
-	// 	peerConnection, err := api.NewPeerConnection(peerConnectionConfig)
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-
-	// 	_, err = peerConnection.AddTrack(localTrack)
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-
-	// 	// Set the remote SessionDescription
-	// 	err = peerConnection.SetRemoteDescription(recvOnlyOffer)
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-
-	// 	// Create answer
-	// 	answer, err := peerConnection.CreateAnswer(nil)
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-
-	// 	// Sets the LocalDescription, and starts our UDP listeners
-	// 	err = peerConnection.SetLocalDescription(answer)
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-
-	// 	// Get the LocalDescription and take it to base64 so we can paste in browser
-	// 	log.Println(signal.Encode(answer))
-	// }
 }
 
 type sdpServer struct {
@@ -171,18 +130,39 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 		if err != nil {
 			panic(err)
 		}
-
-		// Store the pc handle
-		s.pcUpload[offer.Name] = pc
-
-		// Allow us to receive 1 video track
-		if _, err = pc.AddTransceiver(webrtc.RTPCodecTypeVideo); err != nil {
-			panic(err)
-		}
 	
-		// Set a handler for when a new remote track starts
-		// Add the incoming track to the list of tracks maintained in the server
-		s.localTracks[offer.Name] = addOnTrack(pc)
+		switch offer.Name {
+		case "Publisher":
+			// Store the pc handle
+			s.pcUpload[offer.Name] = pc
+
+			// Allow us to receive 1 video track
+			if _, err = pc.AddTransceiver(webrtc.RTPCodecTypeVideo); err != nil {
+				panic(err)
+			}
+
+			// Set a handler for when a new remote track starts
+			// Add the incoming track to the list of tracks maintained in the server
+			s.localTracks[offer.Name] = addOnTrack(pc)
+			log.Println("Offer")
+		case "Client":
+			if len(s.localTracks) == 0{
+				handler.RespondWithError(w, http.StatusInternalServerError, "No local track available for peer connection")
+				return
+			}
+			for _,v := range s.localTracks{
+				_, err = pc.AddTrack(v)
+				if err != nil {
+					handler.RespondWithError(w, http.StatusInternalServerError, "Unable to add local track to peer connection")
+					return
+				}
+				break
+			}
+			log.Println("Answer")
+		default:
+			handler.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
+			return
+		}
 
 		// Set the remote SessionDescription
 		err = pc.SetRemoteDescription(offer.SD)

@@ -1,62 +1,105 @@
+// this code works the modern way
+"use strict";
+
 /* eslint-env browser */
 var log = msg => {
   document.getElementById('logs').innerHTML += msg + '<br>'
 }
 
-window.createSession = isPublisher => {
-  let pc = new RTCPeerConnection({
-    iceServers: [
-      {
-        urls: 'stun:stun.l.google.com:19302'
-      }
-    ]
-  })
-  pc.oniceconnectionstatechange = e => log(pc.iceConnectionState)
-  pc.onicecandidate = event => {
-    if (event.candidate === null) {
-      document.getElementById('localSessionDescription').value = btoa(JSON.stringify(pc.localDescription))
+var mediaConstraints = {
+  audio: false, // We dont want an audio track
+  video: true // ...and we want a video track
+};
+
+let pc = new RTCPeerConnection({
+  iceServers: [
+    {
+      urls: ['stun:stun.l.google.com:19302','stun:stun.stunprotocol.org'],
     }
-  }
+  ]
+});
 
-  if (isPublisher) {
-    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-      .then(stream => {
-        pc.addStream(document.getElementById('video1').srcObject = stream)
-        pc.createOffer()
-          .then(d => pc.setLocalDescription(d))
-          .catch(log)
-      }).catch(log)
-  } else {
-    pc.addTransceiver('video', {'direction': 'recvonly'})
-    pc.createOffer()
-      .then(d => pc.setLocalDescription(d))
-      .catch(log)
+pc.oniceconnectionstatechange = handleICEConnectionStateChange;
+pc.onicegatheringstatechange = handleICEGatheringStateChange;
+pc.onsignalingstatechange = handleSignalingStateChange;
+pc.onicecandidate = handleICECandidate;
+// pc.onnegotiationneeded = handleNegotiationNeeded;
+pc.ontrack = handleTrack;
 
-    pc.ontrack = function (event) {
-      var el = document.getElementById('video1')
-      el.srcObject = event.streams[0]
-      el.autoplay = true
-      el.controls = true
-    }
-  }
-
-  window.startSession = () => {
-    let sd = document.getElementById('remoteSessionDescription').value
-    if (sd === '') {
-      return alert('Session Description must not be empty')
-    }
-
-    try {
-      pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(sd))))
-    } catch (e) {
-      alert(e)
-    }
-  }
-
-  let btns = document.getElementsByClassName('createSessionButton')
-  for (let i = 0; i < btns.length; i++) {
-    btns[i].style = 'display: none'
-  }
-
-  document.getElementById('signalingContainer').style = 'display: block'
+// Set the handler for ICE connection state
+// This will notify you when the peer has connected/disconnected
+function handleICEConnectionStateChange(event){
+  log("ICEConnectionStateChange: "+pc.iceConnectionState)
 }
+
+function handleICEGatheringStateChange(event){
+  log("ICEGatheringStateChange: "+pc.iceGatheringState)
+}
+
+function handleSignalingStateChange(event){
+  log("SignalingStateChange: "+pc.signalingState)
+}
+
+function handleICECandidate(event) {
+  log("ICECandidate: "+event.candidate)
+  if (event.candidate === null) {
+    document.getElementById('finalLocalSessionDescription').value = JSON.stringify(pc.localDescription)
+  }
+}
+
+function handleTrack(event){
+  var el = document.getElementById('video1')
+  el.srcObject = event.streams[0]
+  el.autoplay = true
+  el.controls = true
+}
+
+function createOffer(){
+  return pc.createOffer()
+  .then(offer => pc.setLocalDescription(offer))
+  .then(() => {
+    document.getElementById('localSessionDescription').value = JSON.stringify(pc.localDescription);
+  })
+}
+
+function sendToServer(url, msg){
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8'
+    },
+    body: msg
+  })
+  .then(response => {
+    // Verify HTTP-status is 200-299
+    if (response.ok){ 
+      if (response.headers.get('Content-Type') == "application/json; charset=utf-8") {
+        return response.json();
+      } else {
+        throw new Error("Content-Type expected `application/json; charset=utf-8` but got "+response.headers.get('Content-Type'))
+      }
+    } else {
+      throw new HttpError(response);
+    }
+  })
+  .then(json => { 
+    document.getElementById('remoteSessionDescription').value = JSON.stringify(json.SD)
+    return json.SD
+  })
+}
+
+pc.addTransceiver('video', {'direction': 'recvonly'})
+
+createOffer()
+  .then(() => {
+    let myUsername = "Client";
+    let msg = {
+      Name: myUsername,
+      SD: pc.localDescription
+    };
+    return sendToServer("/sdp", JSON.stringify(msg))
+  })
+  .then(sdp => {
+    pc.setRemoteDescription(sdp)
+  })
+  .catch(log)

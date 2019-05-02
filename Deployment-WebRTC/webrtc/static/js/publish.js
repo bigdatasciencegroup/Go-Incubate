@@ -23,9 +23,8 @@ pc.oniceconnectionstatechange = handleICEConnectionStateChange;
 pc.onicegatheringstatechange = handleICEGatheringStateChange;
 pc.onsignalingstatechange = handleSignalingStateChange;
 pc.onicecandidate = handleICECandidate;
-pc.onnegotiationneeded = handleNegotiationNeeded;
+// pc.onnegotiationneeded = handleNegotiationNeeded;
 // pc.ontrack = handleTrack;
-
 
 async function startMedia(){
   try {
@@ -57,9 +56,6 @@ function handleICECandidate(event) {
   if (event.candidate === null) {
     document.getElementById('finalLocalSessionDescription').value = JSON.stringify(pc.localDescription)
   }
-};
-
-function handleNegotiationNeeded(){
 };
 
 function createOffer(){
@@ -114,6 +110,9 @@ startMedia()
     pc.setRemoteDescription(sdp)
   })
   .catch(log)
+
+// function handleNegotiationNeeded(){
+// };
 
 // This handler for the track event is called by the local WebRTC layer when a 
 // track is added to the connection. 
