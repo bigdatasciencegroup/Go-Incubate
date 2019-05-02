@@ -22,7 +22,7 @@ let pc = new RTCPeerConnection({
 pc.oniceconnectionstatechange = handleICEConnectionStateChange;
 pc.onicegatheringstatechange = handleICEGatheringStateChange;
 pc.onsignalingstatechange = handleSignalingStateChange;
-// pc.onicecandidate = handleICECandidate;
+pc.onicecandidate = handleICECandidate;
 pc.onnegotiationneeded = handleNegotiationNeeded;
 // pc.ontrack = handleTrack;
 
@@ -52,18 +52,21 @@ function handleSignalingStateChange(event){
   log("SignalingStateChange: "+pc.signalingState)
 };
 
-// function handleICECandidate(event) {
-//   if (event.candidate === null) {
-//     document.getElementById('localSessionDescription').value = btoa(JSON.stringify(pc.localDescription))
-//   }
-// };
+function handleICECandidate(event) {
+  log("ICECandidate: "+event.candidate)
+  if (event.candidate === null) {
+    document.getElementById('finalLocalSessionDescription').value = JSON.stringify(pc.localDescription)
+  }
+};
+
+function handleNegotiationNeeded(){
+};
 
 function createOffer(){
   return pc.createOffer()
   .then(offer => pc.setLocalDescription(offer))
   .then(() => {
-    let offerJSON = JSON.stringify(pc.localDescription));
-    document.getElementById('localSessionDescription').value = pc.localDescription;
+    document.getElementById('localSessionDescription').value = JSON.stringify(pc.localDescription);
   })
 }
 
@@ -88,43 +91,29 @@ function sendToServer(url, msg){
     }
   })
   .then(json => { 
-    document.getElementById('remoteSessionDescription').value = json.SDP
-    return json.SDP
+    document.getElementById('remoteSessionDescription').value = JSON.stringify(json.SD)
+    return json.SD
   })
 }
 
-// Start acquiation of media
+// Start acquisition of media
 startMedia()
-
-async function handleNegotiationNeeded(){
-  let p = createOffer()
-  .then(offerJSON => {
+  .then(function(){
+    return createOffer()
+  })
+  .then(() => {
+    let myUsername = "Publisher";
     let msg = {
-      name: myUsername,
-      target: targetUsername,
-      type: "video-offer",
-      sdp: pc.localDescription
-    }
-    return sendToServer("/sdp", msg)
+      Name: myUsername,
+      SD: pc.localDescription
+    };
+    return sendToServer("/sdp", JSON.stringify(msg))
   })
   .then(sdp => {
-    pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(sdp))))
+    // pc.setRemoteDescription(new RTCSessionDescription(sdp))
+    pc.setRemoteDescription(sdp)
   })
-  // .catch(log)
-  // .finally(()=> "3")
-}
-
-  // let sd = document.getElementById('remoteSessionDescription').value
-  // if (sd === '') {
-  //   return alert('Session Description must not be empty')
-  // }
-
-  // try {
-  //   pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(atob(sd))))
-  // } catch (e) {
-  //   alert(e)
-  // }
-// }
+  .catch(log)
 
 // This handler for the track event is called by the local WebRTC layer when a 
 // track is added to the connection. 
@@ -158,6 +147,7 @@ class HttpError extends Error { // (1)
 
 window.addEventListener('unhandledrejection', function(event) {
   // the event object has two special properties:
-  alert(event.promise); // [object Promise] - the promise that generated the error
-  alert(event.reason); // Error: Whoops! - the unhandled error object
+  // alert(event.promise); // [object Promise] - the promise that generated the error
+  // alert(event.reason); // Error: Whoops! - the unhandled error object
+  alert("Event: "+event.promise+". Reason: "+event.reason); 
 });

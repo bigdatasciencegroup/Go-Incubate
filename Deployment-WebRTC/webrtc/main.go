@@ -3,16 +3,15 @@ package main
 import (
 	"html/template"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"time"
+	"encoding/json"
 
 	"github.com/joho/godotenv"
 
 	"github.com/adaickalavan/Go-Incubate/Deployment-WebRTC/webrtc/handler"
-	"github.com/adaickalavan/Go-Incubate/Deployment-WebRTC/webrtc/signal"
 
 	"github.com/pion/rtcp"
 	"github.com/pion/webrtc/v2"
@@ -99,14 +98,19 @@ func main() {
 type sdpServer struct {
 	recoverCount int
 	api          *webrtc.API
-	pcUpload     []*webrtc.PeerConnection
-	pcDownload   []*webrtc.PeerConnection
-	localTracks  []*webrtc.Track
+	pcUpload     map[string]*webrtc.PeerConnection
+	pcDownload   map[string]*webrtc.PeerConnection
+	localTracks  map[string]*webrtc.Track
 	mux          *http.ServeMux
 }
 
 func newSDPServer(api *webrtc.API) *sdpServer {
-	return &sdpServer{api: api}
+	return &sdpServer{
+		api: api,
+		pcUpload: make(map[string]*webrtc.PeerConnection),
+		pcDownload: make(map[string]*webrtc.PeerConnection),
+		localTracks: make(map[string]*webrtc.Track),
+	}
 }
 
 func (s *sdpServer) makeMux() {
@@ -146,18 +150,21 @@ func (s *sdpServer) run(port string) {
 	}
 }
 
+type message struct{
+	Name string   `json:"name"`
+	SD webrtc.SessionDescription `json:"sd"`
+}
+
 func handlerSDP(s *sdpServer) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 
-		body, err := ioutil.ReadAll(r.Body)
-		if err != nil {
+		var offer message
+		decoder := json.NewDecoder(r.Body)
+		if err := decoder.Decode(&offer); err != nil {
 			handler.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
 			return
 		}
-
-		offer := webrtc.SessionDescription{}
-		signal.Decode(string(body), &offer)
 
 		// Create a new RTCPeerConnection
 		pc, err := s.api.NewPeerConnection(peerConnectionConfig)
@@ -166,7 +173,7 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 		}
 
 		// Store the pc handle
-		s.pcUpload = append(s.pcUpload, pc)
+		s.pcUpload[offer.Name] = pc
 
 		// Allow us to receive 1 video track
 		if _, err = pc.AddTransceiver(webrtc.RTPCodecTypeVideo); err != nil {
@@ -175,10 +182,10 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 	
 		// Set a handler for when a new remote track starts
 		// Add the incoming track to the list of tracks maintained in the server
-		s.localTracks = append(s.localTracks, addOnTrack(pc))
+		s.localTracks[offer.Name] = addOnTrack(pc)
 
 		// Set the remote SessionDescription
-		err = pc.SetRemoteDescription(offer)
+		err = pc.SetRemoteDescription(offer.SD)
 		if err != nil {
 			panic(err)
 		}
@@ -196,9 +203,9 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 		}
 
 		handler.RespondWithJSON(w, http.StatusAccepted,
-			map[string]string{
+			map[string]interface{}{
 				"Result": "Successfully received incoming client SDP",
-				"SDP":    signal.Encode(answer),
+				"SD":   answer,
 			})
 	}
 }
