@@ -37,8 +37,6 @@ function join(){
   createOffer()
 }
 
-
-
 async function startMedia(pc){
   try {
     const stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
@@ -57,15 +55,20 @@ async function createOffer(){
 
 function handleICECandidate(username){
   return async function (event) {
-    log("ICECandidate: "+event.candidate)
-    if (event.candidate === null) {
-      document.getElementById('finalLocalSessionDescription').value = JSON.stringify(pc.localDescription)
-      let msg = {
-        Name: username,
-        SD: pc.localDescription
-      };
-      let sdp = await sendToServer("/sdp", JSON.stringify(msg))
-      await pc.setRemoteDescription(new RTCSessionDescription(sdp))
+    try{
+      log("ICECandidate: "+event.candidate)
+      if (event.candidate === null) {
+        document.getElementById('finalLocalSessionDescription').value = JSON.stringify(pc.localDescription)
+        let msg = {
+          Name: username,
+          SD: pc.localDescription
+        };
+        let sdp = await sendToServer("/sdp", JSON.stringify(msg))
+        await pc.setRemoteDescription(new RTCSessionDescription(sdp))
+      }
+    }
+    catch (e){
+      log(e)
     }
   }
 }

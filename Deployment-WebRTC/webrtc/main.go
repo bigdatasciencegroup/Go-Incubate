@@ -136,8 +136,6 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 	
 		switch offer.Name {
 		case "Publisher":
-			log.Println("Publisher")
-			
 			// Allow us to receive 1 video track
 			if _, err = pc.AddTransceiver(webrtc.RTPCodecTypeVideo); err != nil {
 				panic(err)
@@ -151,13 +149,18 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 			// Add the incoming track to the list of tracks maintained in the server
 			addOnTrack(pc, localTrack)
 
-		case "Client":
-			log.Println("Client")
+			log.Println("Publisher")
+			log.Println(s.pcUpload)
 
+		case "Client":
 			if len(s.pcUpload) == 0{
 				handler.RespondWithError(w, http.StatusInternalServerError, "No local track available for peer connection")
 				return
 			}
+
+			// Store the pc handle
+			s.pcDownload[offer.Name] = &pcinfo{pc:pc, track: localTrack}
+
 			for _,v := range s.pcUpload{
 				_, err = pc.AddTrack(v.track)
 				if err != nil {
@@ -166,6 +169,8 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 				}
 				break
 			}
+			log.Println("Client")
+
 		default:
 			handler.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
 			return
