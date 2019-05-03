@@ -54,21 +54,24 @@ func main() {
 	s.run(os.Getenv("LISTENINGADDR"))
 }
 
+type pcinfo struct{
+	pc *webrtc.PeerConnection
+	track *webrtc.Track
+}
+
 type sdpServer struct {
 	recoverCount int
 	api          *webrtc.API
-	pcUpload     map[string]*webrtc.PeerConnection
+	pcUpload     map[string]*pcinfo
 	pcDownload   map[string]*webrtc.PeerConnection
-	localTracks  map[string]*webrtc.Track
 	mux          *http.ServeMux
 }
 
 func newSDPServer(api *webrtc.API) *sdpServer {
 	return &sdpServer{
 		api: api,
-		pcUpload: make(map[string]*webrtc.PeerConnection),
+		pcUpload: make(map[string]*pcinfo),
 		pcDownload: make(map[string]*webrtc.PeerConnection),
-		localTracks: make(map[string]*webrtc.Track),
 	}
 }
 
@@ -133,32 +136,36 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 	
 		switch offer.Name {
 		case "Publisher":
-			// Store the pc handle
-			s.pcUpload[offer.Name] = pc
-
+			log.Println("Publisher")
+			
 			// Allow us to receive 1 video track
 			if _, err = pc.AddTransceiver(webrtc.RTPCodecTypeVideo); err != nil {
 				panic(err)
 			}
 
+			// Store the pc handle
+			localTrack := &webrtc.Track{}
+			s.pcUpload[offer.Name] = &pcinfo{pc:pc, track: localTrack}
+
 			// Set a handler for when a new remote track starts
 			// Add the incoming track to the list of tracks maintained in the server
-			s.localTracks[offer.Name] = addOnTrack(pc)
-			log.Println("Offer")
+			addOnTrack(pc, localTrack)
+
 		case "Client":
-			if len(s.localTracks) == 0{
+			log.Println("Client")
+
+			if len(s.pcUpload) == 0{
 				handler.RespondWithError(w, http.StatusInternalServerError, "No local track available for peer connection")
 				return
 			}
-			for _,v := range s.localTracks{
-				_, err = pc.AddTrack(v)
+			for _,v := range s.pcUpload{
+				_, err = pc.AddTrack(v.track)
 				if err != nil {
 					handler.RespondWithError(w, http.StatusInternalServerError, "Unable to add local track to peer connection")
 					return
 				}
 				break
 			}
-			log.Println("Answer")
 		default:
 			handler.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
 			return
@@ -186,12 +193,11 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 			map[string]interface{}{
 				"Result": "Successfully received incoming client SDP",
 				"SD":   answer,
-			})
+			})	
 	}
 }
 
-func addOnTrack(pc *webrtc.PeerConnection) *webrtc.Track {
-	var localTrack *webrtc.Track
+func addOnTrack(pc *webrtc.PeerConnection, localTrack *webrtc.Track) {
 	// Set a handler for when a new remote track starts, this just distributes all our packets
 	// to connected peers
 	pc.OnTrack(func(remoteTrack *webrtc.Track, receiver *webrtc.RTPReceiver) {
@@ -207,11 +213,12 @@ func addOnTrack(pc *webrtc.PeerConnection) *webrtc.Track {
 		}()
 
 		// Create a local track, all our SFU clients will be fed via this track
-		var newTrackErr error
-		localTrack, newTrackErr = pc.NewTrack(remoteTrack.PayloadType(), remoteTrack.SSRC(), "video", "pion")
+		// var newTrackErr error
+		localTrackNew, newTrackErr := pc.NewTrack(remoteTrack.PayloadType(), remoteTrack.SSRC(), "video", "pion")
 		if newTrackErr != nil {
 			panic(newTrackErr)
 		}
+		*localTrack = *localTrackNew 
 
 		rtpBuf := make([]byte, 1400)
 		for {
@@ -226,8 +233,6 @@ func addOnTrack(pc *webrtc.PeerConnection) *webrtc.Track {
 			}
 		}
 	})
-
-	return localTrack
 }
 
 func handlerJoin(w http.ResponseWriter, r *http.Request) {
