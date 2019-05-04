@@ -31,7 +31,10 @@ function publish(){
 }
 
 function join(){
-  pc.onicecandidate = handleICECandidate("Client");
+  let timestamp = Date.now();
+  let rnd = Math.floor(Math.random()*1000000000);
+  let id = "Client:"+timestamp.toString()+":"+rnd.toString()
+  pc.onicecandidate = handleICECandidate(id);
   pc.ontrack = handleTrack;
   pc.addTransceiver('video', {'direction': 'recvonly'})
   createOffer()
@@ -50,7 +53,7 @@ async function startMedia(pc){
 
 async function createOffer(){
   let offer = await pc.createOffer()
-  pc.setLocalDescription(offer)
+  await pc.setLocalDescription(offer)
 }
 
 function handleICECandidate(username){
@@ -67,7 +70,7 @@ function handleICECandidate(username){
         await pc.setRemoteDescription(new RTCSessionDescription(sdp))
       }
     }
-    catch (e){
+    catch(e){
       log(e)
     }
   }

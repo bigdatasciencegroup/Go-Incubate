@@ -1,13 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"html/template"
 	"io"
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
-	"encoding/json"
 
 	"github.com/joho/godotenv"
 
@@ -54,8 +55,8 @@ func main() {
 	s.run(os.Getenv("LISTENINGADDR"))
 }
 
-type pcinfo struct{
-	pc *webrtc.PeerConnection
+type pcinfo struct {
+	pc    *webrtc.PeerConnection
 	track *webrtc.Track
 }
 
@@ -69,8 +70,8 @@ type sdpServer struct {
 
 func newSDPServer(api *webrtc.API) *sdpServer {
 	return &sdpServer{
-		api: api,
-		pcUpload: make(map[string]*pcinfo),
+		api:        api,
+		pcUpload:   make(map[string]*pcinfo),
 		pcDownload: make(map[string]*webrtc.PeerConnection),
 	}
 }
@@ -112,9 +113,9 @@ func (s *sdpServer) run(port string) {
 	}
 }
 
-type message struct{
-	Name string   `json:"name"`
-	SD webrtc.SessionDescription `json:"sd"`
+type message struct {
+	Name string                    `json:"name"`
+	SD   webrtc.SessionDescription `json:"sd"`
 }
 
 func handlerSDP(s *sdpServer) http.HandlerFunc {
@@ -133,8 +134,8 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 		if err != nil {
 			panic(err)
 		}
-	
-		switch offer.Name {
+
+		switch strings.Split(offer.Name, ":")[0] {
 		case "Publisher":
 			// Allow us to receive 1 video track
 			if _, err = pc.AddTransceiver(webrtc.RTPCodecTypeVideo); err != nil {
@@ -142,26 +143,33 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 			}
 
 			// Store the pc handle
-			localTrack := &webrtc.Track{}
-			s.pcUpload[offer.Name] = &pcinfo{pc:pc, track: localTrack}
-
+			var localTrack *webrtc.Track
+			if k, ok := s.pcUpload[offer.Name]; !ok {
+				localTrack = &webrtc.Track{}
+				s.pcUpload[offer.Name] = &pcinfo{pc: pc, track: localTrack}
+				log.Println("new publisher")
+			} else {
+				localTrack = k.track
+				log.Println("old publisher")
+			}
 			// Set a handler for when a new remote track starts
 			// Add the incoming track to the list of tracks maintained in the server
 			addOnTrack(pc, localTrack)
 
 			log.Println("Publisher")
 			log.Println(s.pcUpload)
+			log.Println(s.pcDownload)
 
 		case "Client":
-			if len(s.pcUpload) == 0{
+			if len(s.pcUpload) == 0 {
 				handler.RespondWithError(w, http.StatusInternalServerError, "No local track available for peer connection")
 				return
 			}
 
 			// Store the pc handle
-			s.pcDownload[offer.Name] = &pcinfo{pc:pc, track: localTrack}
+			s.pcDownload[offer.Name] = pc
 
-			for _,v := range s.pcUpload{
+			for _, v := range s.pcUpload {
 				_, err = pc.AddTrack(v.track)
 				if err != nil {
 					handler.RespondWithError(w, http.StatusInternalServerError, "Unable to add local track to peer connection")
@@ -169,7 +177,10 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 				}
 				break
 			}
+
 			log.Println("Client")
+			log.Println(s.pcUpload)
+			log.Println(s.pcDownload)
 
 		default:
 			handler.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
@@ -197,8 +208,8 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 		handler.RespondWithJSON(w, http.StatusAccepted,
 			map[string]interface{}{
 				"Result": "Successfully received incoming client SDP",
-				"SD":   answer,
-			})	
+				"SD":     answer,
+			})
 	}
 }
 
@@ -223,7 +234,7 @@ func addOnTrack(pc *webrtc.PeerConnection, localTrack *webrtc.Track) {
 		if newTrackErr != nil {
 			panic(newTrackErr)
 		}
-		*localTrack = *localTrackNew 
+		*localTrack = *localTrackNew
 
 		rtpBuf := make([]byte, 1400)
 		for {
