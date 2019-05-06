@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math/rand"
 	"encoding/json"
 	"html/template"
 	"io"
@@ -58,6 +59,7 @@ func main() {
 type pcinfo struct {
 	pc    *webrtc.PeerConnection
 	track *webrtc.Track
+	ssrc uint32
 }
 
 type sdpServer struct {
@@ -144,17 +146,20 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 
 			// Store the pc handle
 			var localTrack *webrtc.Track
+			var ssrc uint32
 			if k, ok := s.pcUpload[offer.Name]; !ok {
 				localTrack = &webrtc.Track{}
-				s.pcUpload[offer.Name] = &pcinfo{pc: pc, track: localTrack}
+				ssrc = rand.Uint32()
+				s.pcUpload[offer.Name] = &pcinfo{pc: pc, track: localTrack, ssrc: ssrc}
 				log.Println("new publisher")
 			} else {
 				localTrack = k.track
+				ssrc = k.ssrc
 				log.Println("old publisher")
 			}
 			// Set a handler for when a new remote track starts
 			// Add the incoming track to the list of tracks maintained in the server
-			addOnTrack(pc, localTrack)
+			addOnTrack(pc, localTrack, ssrc)
 
 			log.Println("Publisher")
 			log.Println(s.pcUpload)
@@ -213,7 +218,7 @@ func handlerSDP(s *sdpServer) http.HandlerFunc {
 	}
 }
 
-func addOnTrack(pc *webrtc.PeerConnection, localTrack *webrtc.Track) {
+func addOnTrack(pc *webrtc.PeerConnection, localTrack *webrtc.Track, ssrc uint32) {
 	// Set a handler for when a new remote track starts, this just distributes all our packets
 	// to connected peers
 	pc.OnTrack(func(remoteTrack *webrtc.Track, receiver *webrtc.RTPReceiver) {
@@ -236,16 +241,29 @@ func addOnTrack(pc *webrtc.PeerConnection, localTrack *webrtc.Track) {
 		}
 		*localTrack = *localTrackNew
 
-		rtpBuf := make([]byte, 1400)
-		for {
-			i, readErr := remoteTrack.Read(rtpBuf)
-			if readErr != nil {
-				panic(readErr)
-			}
+		// rtpBuf := make([]byte, 1400)
+		// for {
+		// 	i, readErr := remoteTrack.Read(rtpBuf)
+		// 	if readErr != nil {
+		// 		panic(readErr)
+		// 	}
 
-			// ErrClosedPipe means we don't have any subscribers, this is ok if no peers have connected yet
-			if _, err := localTrack.Write(rtpBuf[:i]); err != nil && err != io.ErrClosedPipe {
-				panic(err)
+		// 	// ErrClosedPipe means we don't have any subscribers, this is ok if no peers have connected yet
+		// 	if _, err := localTrack.Write(rtpBuf[:i]); err != nil && err != io.ErrClosedPipe {
+		// 		panic(err)
+		// 	}
+		// }
+		log.Println("Track acquired", remoteTrack.Kind(), remoteTrack.Codec())
+		for {
+			rtp, err := remoteTrack.ReadRTP()
+			if err != nil {
+				log.Panic(err)
+			}
+			// rtp.SSRC = ssrc
+			rtp.PayloadType = webrtc.DefaultPayloadTypeVP8
+
+			if err := localTrack.WriteRTP(rtp); err != nil && err != io.ErrClosedPipe {
+				log.Panic(err)
 			}
 		}
 	})
