@@ -13,7 +13,7 @@ services:
       - GROUPNAME=govideo
       - DISPLAYPORT=:30163
       - NODEPORT=:30163
-      - FRAMEINTERVAL=10ms
+      - FRAMEINTERVAL=42ms
     volumes:
       - /tmp/govideo:/tmp  
     networks:

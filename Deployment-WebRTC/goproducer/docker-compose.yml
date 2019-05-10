@@ -12,7 +12,7 @@ services:
       - KAFKAPORT=kafka1:19092
       - COMPRESSIONTYPE=gzip
       - VIDEOLINK=rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov
-      - FRAMEINTERVAL=84ms
+      - FRAMEINTERVAL=60ms
       - VIDEODEVICE=0
     devices: 
       - /dev/video0:/dev/video0   
