@@ -14,7 +14,7 @@ services:
       - GROUPNAME=goconsumer
       - COMPRESSIONTYPE=gzip
       - MODELURLS={"imagenet_1":"http://tfserving:8501/v1/models/tfModel:predict",
-        "imagenet_2":"http://tfserving:8501/v1/models/tfModel:predict"}            
+        "imagenet_2":"http://tfserving:8501/v1/models/tfModel:predict"}         
       - LABELURLS={"imagenet_1":"/go/src/app/assets/imagenetLabels.json",
         "imagenet_2":"/go/src/app/assets/imagenetLabels.json"}  
     volumes:

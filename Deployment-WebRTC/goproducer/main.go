@@ -32,6 +32,38 @@ func main() {
 		p.Close()
 	}()
 
+	go readWebcam(p, frameInterval, topic)
+
+	//Block forever
+	select{}
+}
+
+//Result represents the Kafka queue message format
+type topicMsg struct {
+	Mat      []byte       `json:"mat"`
+	Channels int          `json:"channels"`
+	Rows     int          `json:"rows"`
+	Cols     int          `json:"cols"`
+	Type     gocv.MatType `json:"type"`
+}
+
+func getenvint(str string) int {
+	i, err := strconv.Atoi(os.Getenv(str))
+	if err != nil {
+		log.Fatal(err)
+	}
+	return i
+}
+
+func readWebcam(p *kafka.Producer, frameInterval time.Duration, topic string) {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Println("main.readWebcam():PANICKED AND RESTARTING")
+			log.Println("Panic:", r)
+			go readWebcam(p, frameInterval, topic)
+		}
+	}()
+
 	// Capture video from device
 	webcam, err := gocv.VideoCaptureDevice(getenvint("VIDEODEVICE"))
 	// Capture video from internet stream
@@ -43,14 +75,9 @@ func main() {
 
 	// Stream images from RTSP to Kafka message queue
 	frame := gocv.NewMat()
-	errCount := 0
 	for {
 		if !webcam.Read(&frame) {
-			errCount++
-			if errCount > 30 {
-				panic("Webcam read failure")
-			}
-			continue
+			panic("Webcam read failure")
 		}
 
 		//Form the struct to be sent to Kafka message queue
@@ -85,21 +112,4 @@ func main() {
 		//Read delivery report before producing next message
 		// <-doneChan
 	}
-}
-
-//Result represents the Kafka queue message format
-type topicMsg struct {
-	Mat      []byte       `json:"mat"`
-	Channels int          `json:"channels"`
-	Rows     int          `json:"rows"`
-	Cols     int          `json:"cols"`
-	Type     gocv.MatType `json:"type"`
-}
-
-func getenvint(str string) int {
-	i, err := strconv.Atoi(os.Getenv(str))
-	if err != nil {
-		log.Fatal(err)
-	}
-	return i
 }
