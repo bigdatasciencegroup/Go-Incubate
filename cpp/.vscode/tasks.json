@@ -2,25 +2,22 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build C++ project",
+            "label": "build active file",
             "type": "shell",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "command": "make",
-        },
-        {
-            "label": "Build & run C++ project",
-            "type": "shell",
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
-            "command": "make",
+            "command": "/usr/bin/g++",
             "args": [
-                "run"
-            ]
-        }
+                "-Wall",
+                "-Wextra",
+                "-Werror",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}",
+            ],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared",
+                "clear": true
+            }
+        },
     ]
 }
