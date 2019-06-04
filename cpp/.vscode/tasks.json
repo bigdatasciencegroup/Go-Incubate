@@ -12,6 +12,7 @@
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
+                "`pkg-config --cflags --libs opencv`"
             ],
             "presentation": {
                 "reveal": "silent",
