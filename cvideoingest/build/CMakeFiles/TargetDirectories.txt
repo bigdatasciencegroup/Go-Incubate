@@ -1,0 +1,3 @@
+/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles/rebuild_cache.dir
+/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles/app.dir
+/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles/edit_cache.dir

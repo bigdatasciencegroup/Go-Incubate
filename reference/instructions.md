@@ -63,3 +63,7 @@
     ```go
     ~/GoWorkspace/src/github.com/adaickalavan/Scalable-Deployment-Kuberserving/resnet/1538687457$ docker exec -it goconsumer bash   
     ``` 
+    alternative command
+    ```
+    docker run -it cvideoingest /bin/bash
+    ```

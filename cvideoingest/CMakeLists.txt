@@ -14,9 +14,8 @@ file(GLOB_RECURSE sources_test ./test/*.cpp)
 include_directories( ./include ./src ./lib/*/include)
 
 # target
-message(${sources})
 add_executable(app ${sources})
-# target_compile_options(app PUBLIC -std=c++14 -Wall -Wfloat-conversion)
+target_compile_options(app PUBLIC -std=c++14 -Wall -Wfloat-conversion)
 
 # external libs
 # add_subdirectory( ./lib/Logger )
@@ -24,5 +23,5 @@ add_executable(app ${sources})
 
 # messages
 message("CMAKE source directory = " ${CMAKE_SOURCE_DIR})
-message("CMAKE source directory = " ${PROJECT_SOURCE_DIR})
+message("Project source directory = " ${PROJECT_SOURCE_DIR})
 message("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
