@@ -11,12 +11,12 @@
 /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/foo/foo.cpp
 iostream
 -
-foo.h
-/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/foo/foo.h
 
 /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/main.cpp
 iostream
 -
 foo.h
 /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/foo.h
+gst/gst.h
+/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/gst/gst.h
 

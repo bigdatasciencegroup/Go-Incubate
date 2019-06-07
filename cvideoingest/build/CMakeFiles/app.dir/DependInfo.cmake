@@ -13,7 +13,10 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   ".././include"
   ".././src"
-  ".././lib/*/include"
+  ".././lib"
+  "/usr/local/lib"
+  "/usr/include/glib-2.0"
+  "/usr/include/gstreamer-0.10"
   )
 
 # Targets to which this target links.

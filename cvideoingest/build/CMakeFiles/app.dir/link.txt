@@ -1,1 +1,1 @@
-/usr/bin/g++-7  -g  -rdynamic CMakeFiles/app.dir/src/foo/foo.cpp.o CMakeFiles/app.dir/src/main/main.cpp.o  -o app 
+/usr/bin/g++-7  -g  -rdynamic CMakeFiles/app.dir/src/foo/foo.cpp.o CMakeFiles/app.dir/src/main/main.cpp.o  -o build/bin/app 
