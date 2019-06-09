@@ -1,14 +1,24 @@
 #include <iostream>
 #include "foo.h"
-// #include "gst/gst.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include "gst/gst.h"
+#include "appConfig.h"
 
 int main (int argc, char *argv[]){
+
+    fprintf(stdout,"%s Version %d.%d\n",
+            argv[0],
+            app_VERSION_MAJOR,
+            app_VERSION_MINOR);
+
     std::cout << "Yay success" << std::endl;
     foo();
 
-    // GstElement *pipeline;
-    // GstBus *bus;
-    // GstMessage *msg;
+    GstElement *pipeline;
+    GstBus *bus;
+    GstMessage *msg;
 
     // /* Initialize GStreamer */
     // gst_init (&argc, &argv);

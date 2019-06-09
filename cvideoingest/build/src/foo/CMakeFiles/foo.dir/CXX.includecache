@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/foo/foo.cpp
+iostream
+-
+

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest
+CMAKE_SOURCE_DIR = /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build
+CMAKE_BINARY_DIR = /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/app.dir/depend.make
@@ -57,76 +57,24 @@ include CMakeFiles/app.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/app.dir/flags.make
 
-CMakeFiles/app.dir/src/foo/foo.cpp.o: CMakeFiles/app.dir/flags.make
-CMakeFiles/app.dir/src/foo/foo.cpp.o: ../src/foo/foo.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/app.dir/src/foo/foo.cpp.o"
-	/usr/bin/g++-7  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/foo/foo.cpp.o -c /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/foo/foo.cpp
-
-CMakeFiles/app.dir/src/foo/foo.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/app.dir/src/foo/foo.cpp.i"
-	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/foo/foo.cpp > CMakeFiles/app.dir/src/foo/foo.cpp.i
-
-CMakeFiles/app.dir/src/foo/foo.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/app.dir/src/foo/foo.cpp.s"
-	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/foo/foo.cpp -o CMakeFiles/app.dir/src/foo/foo.cpp.s
-
-CMakeFiles/app.dir/src/foo/foo.cpp.o.requires:
-
-.PHONY : CMakeFiles/app.dir/src/foo/foo.cpp.o.requires
-
-CMakeFiles/app.dir/src/foo/foo.cpp.o.provides: CMakeFiles/app.dir/src/foo/foo.cpp.o.requires
-	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/foo/foo.cpp.o.provides.build
-.PHONY : CMakeFiles/app.dir/src/foo/foo.cpp.o.provides
-
-CMakeFiles/app.dir/src/foo/foo.cpp.o.provides.build: CMakeFiles/app.dir/src/foo/foo.cpp.o
-
-
-CMakeFiles/app.dir/src/main/main.cpp.o: CMakeFiles/app.dir/flags.make
-CMakeFiles/app.dir/src/main/main.cpp.o: ../src/main/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/app.dir/src/main/main.cpp.o"
-	/usr/bin/g++-7  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/main/main.cpp.o -c /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/main.cpp
-
-CMakeFiles/app.dir/src/main/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/app.dir/src/main/main.cpp.i"
-	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/main.cpp > CMakeFiles/app.dir/src/main/main.cpp.i
-
-CMakeFiles/app.dir/src/main/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/app.dir/src/main/main.cpp.s"
-	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/main.cpp -o CMakeFiles/app.dir/src/main/main.cpp.s
-
-CMakeFiles/app.dir/src/main/main.cpp.o.requires:
-
-.PHONY : CMakeFiles/app.dir/src/main/main.cpp.o.requires
-
-CMakeFiles/app.dir/src/main/main.cpp.o.provides: CMakeFiles/app.dir/src/main/main.cpp.o.requires
-	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/main/main.cpp.o.provides.build
-.PHONY : CMakeFiles/app.dir/src/main/main.cpp.o.provides
-
-CMakeFiles/app.dir/src/main/main.cpp.o.provides.build: CMakeFiles/app.dir/src/main/main.cpp.o
-
-
 # Object files for target app
-app_OBJECTS = \
-"CMakeFiles/app.dir/src/foo/foo.cpp.o" \
-"CMakeFiles/app.dir/src/main/main.cpp.o"
+app_OBJECTS =
 
 # External object files for target app
 app_EXTERNAL_OBJECTS =
 
-build/bin/app: CMakeFiles/app.dir/src/foo/foo.cpp.o
-build/bin/app: CMakeFiles/app.dir/src/main/main.cpp.o
-build/bin/app: CMakeFiles/app.dir/build.make
-build/bin/app: CMakeFiles/app.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable build/bin/app"
+bin/app: CMakeFiles/app.dir/build.make
+bin/app: src/foo/libfoo.a
+bin/app: CMakeFiles/app.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Linking CXX executable bin/app"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/app.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/app.dir/build: build/bin/app
+CMakeFiles/app.dir/build: bin/app
 
 .PHONY : CMakeFiles/app.dir/build
 
-CMakeFiles/app.dir/requires: CMakeFiles/app.dir/src/foo/foo.cpp.o.requires
-CMakeFiles/app.dir/requires: CMakeFiles/app.dir/src/main/main.cpp.o.requires
+CMakeFiles/app.dir/requires:
 
 .PHONY : CMakeFiles/app.dir/requires
 
@@ -135,6 +83,6 @@ CMakeFiles/app.dir/clean:
 .PHONY : CMakeFiles/app.dir/clean
 
 CMakeFiles/app.dir/depend:
-	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles/app.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles/app.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/app.dir/depend
 

@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest
+CMAKE_SOURCE_DIR = /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build
+CMAKE_BINARY_DIR = /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,59 +123,18 @@ app/fast:
 	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/build
 .PHONY : app/fast
 
-src/foo/foo.o: src/foo/foo.cpp.o
+#=============================================================================
+# Target rules for targets named foo
 
-.PHONY : src/foo/foo.o
+# Build rule for target.
+foo: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 foo
+.PHONY : foo
 
-# target to build an object file
-src/foo/foo.cpp.o:
-	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/foo/foo.cpp.o
-.PHONY : src/foo/foo.cpp.o
-
-src/foo/foo.i: src/foo/foo.cpp.i
-
-.PHONY : src/foo/foo.i
-
-# target to preprocess a source file
-src/foo/foo.cpp.i:
-	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/foo/foo.cpp.i
-.PHONY : src/foo/foo.cpp.i
-
-src/foo/foo.s: src/foo/foo.cpp.s
-
-.PHONY : src/foo/foo.s
-
-# target to generate assembly for a file
-src/foo/foo.cpp.s:
-	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/foo/foo.cpp.s
-.PHONY : src/foo/foo.cpp.s
-
-src/main/main.o: src/main/main.cpp.o
-
-.PHONY : src/main/main.o
-
-# target to build an object file
-src/main/main.cpp.o:
-	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/main/main.cpp.o
-.PHONY : src/main/main.cpp.o
-
-src/main/main.i: src/main/main.cpp.i
-
-.PHONY : src/main/main.i
-
-# target to preprocess a source file
-src/main/main.cpp.i:
-	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/main/main.cpp.i
-.PHONY : src/main/main.cpp.i
-
-src/main/main.s: src/main/main.cpp.s
-
-.PHONY : src/main/main.s
-
-# target to generate assembly for a file
-src/main/main.cpp.s:
-	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/main/main.cpp.s
-.PHONY : src/main/main.cpp.s
+# fast build rule for target.
+foo/fast:
+	$(MAKE) -f src/foo/CMakeFiles/foo.dir/build.make src/foo/CMakeFiles/foo.dir/build
+.PHONY : foo/fast
 
 # Help Target
 help:
@@ -186,12 +145,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... app"
 	@echo "... edit_cache"
-	@echo "... src/foo/foo.o"
-	@echo "... src/foo/foo.i"
-	@echo "... src/foo/foo.s"
-	@echo "... src/main/main.o"
-	@echo "... src/main/main.i"
-	@echo "... src/main/main.s"
+	@echo "... foo"
 .PHONY : help
 
 
