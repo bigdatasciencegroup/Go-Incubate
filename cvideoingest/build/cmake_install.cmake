@@ -1,4 +1,4 @@
-# Install script for directory: /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest
+# Install script for directory: /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/src/foo/cmake_install.cmake")
+  include("/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/lib/foo/cmake_install.cmake")
 
 endif()
 
@@ -51,5 +51,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

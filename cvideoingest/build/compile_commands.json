@@ -1,7 +1,12 @@
 [
 {
-  "directory": "/home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/src/foo",
-  "command": "/usr/bin/g++-7   -I/home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build -I/home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/foo  -g   -o CMakeFiles/foo.dir/foo.cpp.o -c /home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/foo/foo.cpp",
-  "file": "/home/adaickalavan/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/foo/foo.cpp"
+  "directory": "/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build",
+  "command": "/usr/bin/g++-7   -I/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/./include -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/glib-2.0 -I/usr/include/gstreamer-1.0  -g   -o CMakeFiles/app.dir/src/main/main.cpp.o -c /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/main.cpp",
+  "file": "/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/main.cpp"
+},
+{
+  "directory": "/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/lib/foo",
+  "command": "/usr/bin/g++-7   -I/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/./include  -g   -o CMakeFiles/foo.dir/foo.cpp.o -c /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/lib/foo/foo.cpp",
+  "file": "/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/lib/foo/foo.cpp"
 }
 ]
