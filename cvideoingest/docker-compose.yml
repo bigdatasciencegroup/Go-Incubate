@@ -4,7 +4,7 @@ services:
   cvideoingest:
     image: cvideoingest
     container_name: cvideoingest   
-    restart: unless-stopped #Ensures that intermittent failures in the Docker environment do not result in unnecessary failures of the service.
+    restart: on-failure #Ensures that intermittent failures in the Docker environment do not result in unnecessary failures of the service.
 #     networks:
 #       - zookeeper_dockerNet 
 

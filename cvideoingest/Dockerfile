@@ -26,18 +26,18 @@ RUN cmake -E make_directory build && \
     cmake -E chdir ./build cmake -DCMAKE_BUILD_TYPE=Release .. && \
     cmake --build ./build
 
+# Check if the program has dynamic dependencies
+# RUN cd /home/build/bin && ldd app
+
 # Multistage build
 FROM alpine AS runtime
 
 # Label
 LABEL author Adaickalavan
 
-# Install runtime tools
-RUN apk update && apk add --no-cache \ 
-    libstdc++ bash
-
 # Copy needed source
-COPY --from=build /home/build/bin/app /home/build/bin/app
+COPY --from=build /home/build/bin /home/build/bin
+COPY --from=build /home/build/lib /home/build/lib
 
 # Command to execute when the image loads
 CMD ["/home/build/bin/app"]
