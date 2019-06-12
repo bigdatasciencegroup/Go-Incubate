@@ -1,4 +1,4 @@
 .vscode
-build
-docker-compose.yml
-Dockerfile
+./build/
+./docker-compose.yml
+./Dockerfile
