@@ -5,7 +5,17 @@ services:
     image: cvideoingest
     container_name: cvideoingest   
     restart: on-failure #Ensures that intermittent failures in the Docker environment do not result in unnecessary failures of the service.
-#     networks:
+    environment:
+      - DISPLAY=$DISPLAY 
+      # - PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native
+      # - XAUTHORITY=$XAUTHORITY
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ${XDG_RUNTIME_DIR}/pulse/native:${XDG_RUNTIME_DIR}/pulse/native
+      - ~/.config/pulse/cookie:/root/.config/pulse/cookie
+    devices:
+      - /dev/snd:/dev/snd
+    #     networks:
 #       - zookeeper_dockerNet 
 
 # networks:

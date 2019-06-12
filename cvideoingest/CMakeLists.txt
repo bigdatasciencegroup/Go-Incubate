@@ -8,39 +8,30 @@ PROJECT(cvideoingest VERSION 0.1.0)
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/bin/)
 SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/lib/)
 
-# Testing
-ENABLE_TESTING()
-
-# set config parameters
+# Set config parameters
 # set (app_VERSION_MAJOR 1)
 # set (app_VERSION_MINOR 0)
 
-# configure a header file to pass some of the CMake settings to the source code
+# Configure a header file to pass some of the CMake settings to the source code
 # CONFIGURE_FILE ("${PROJECT_SOURCE_DIR}/appConfig.h.in" "${PROJECT_BINARY_DIR}/appConfig.h")
 
-# files
+# Files
 # FILE(GLOB_RECURSE sources      ./src/*.cpp)
 # FILE(GLOB_RECURSE headers      ./src/*.h ./include/*.h)
 # FILE(GLOB_RECURSE sources_test ./test/*.cpp)
-
-
-
-# External includes
-INCLUDE_DIRECTORIES(/usr/include/gstreamer-1.0/) 
-INCLUDE_DIRECTORIES(/usr/include/gstreamer-1.0/gst/) 
-INCLUDE_DIRECTORIES(/usr/include/glib-2.0/)    
-INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/glib-2.0/include/)  
-INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/)  
-
-
-# Internal includes
-INCLUDE_DIRECTORIES(./include/)
-ADD_SUBDIRECTORY(./lib/foo/)
 
 # Library
 # SHARED for dynamic library
 # STATIC for static library
 # ADD_LIBRARY(foo ./src/foo/*.cpp)
+
+# Internal includes
+INCLUDE_DIRECTORIES(./include/)
+
+# External includes
+INCLUDE_DIRECTORIES(/usr/include/gstreamer-1.0) 
+INCLUDE_DIRECTORIES(/usr/include/glib-2.0)  
+INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/glib-2.0/include)  
 
 # Static compile
 # SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
@@ -51,13 +42,24 @@ ADD_SUBDIRECTORY(./lib/foo/)
 # ADD_EXECUTABLE(app ${sources} ${headers})
 ADD_EXECUTABLE(app ./src/main/main.cpp)
 
-# Link all libraries
+# Internal libraries
+ADD_SUBDIRECTORY(./lib/foo/)
+
+# Link internal libraries
 TARGET_LINK_LIBRARIES(app foo)
+
+# Link external libraries
+TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgstreamer-1.0.so) 
+TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgobject-2.0.so)  
+TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libglib-2.0.so)  
+
+# Testing
+ENABLE_TESTING()
 
 # Test
 # ADD_TEST(appTest app)
 
-# messages
+# Messages
 MESSAGE("CMAKE source directory = " ${CMAKE_SOURCE_DIR})
 MESSAGE("Project source directory = " ${PROJECT_SOURCE_DIR})
 MESSAGE("Project binary directory = " ${PROJECT_BINARY_DIR})

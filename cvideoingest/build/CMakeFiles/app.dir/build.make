@@ -64,11 +64,11 @@ CMakeFiles/app.dir/src/main/main.cpp.o: ../src/main/main.cpp
 
 CMakeFiles/app.dir/src/main/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/app.dir/src/main/main.cpp.i"
-	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/main.cpp > CMakeFiles/app.dir/src/main/main.cpp.i
+	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_PREPROCESSED_SOURCE
 
 CMakeFiles/app.dir/src/main/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/app.dir/src/main/main.cpp.s"
-	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/main.cpp -o CMakeFiles/app.dir/src/main/main.cpp.s
+	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_ASSEMBLY_SOURCE
 
 CMakeFiles/app.dir/src/main/main.cpp.o.requires:
 
@@ -91,6 +91,9 @@ app_EXTERNAL_OBJECTS =
 bin/app: CMakeFiles/app.dir/src/main/main.cpp.o
 bin/app: CMakeFiles/app.dir/build.make
 bin/app: lib/libfoo.a
+bin/app: /usr/lib/x86_64-linux-gnu/libgstreamer-1.0.so
+bin/app: /usr/lib/x86_64-linux-gnu/libgobject-2.0.so
+bin/app: /usr/lib/x86_64-linux-gnu/libglib-2.0.so
 bin/app: CMakeFiles/app.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bin/app"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/app.dir/link.txt --verbose=$(VERBOSE)

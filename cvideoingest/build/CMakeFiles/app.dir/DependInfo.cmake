@@ -6,16 +6,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/main.cpp" "/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles/app.dir/src/main/main.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  ".././include"
   "/usr/include/gstreamer-1.0"
-  "/usr/include/gstreamer-1.0/gst"
   "/usr/include/glib-2.0"
   "/usr/lib/x86_64-linux-gnu/glib-2.0/include"
-  "/usr/lib/x86_64-linux-gnu"
-  ".././include"
   )
 
 # Targets to which this target links.

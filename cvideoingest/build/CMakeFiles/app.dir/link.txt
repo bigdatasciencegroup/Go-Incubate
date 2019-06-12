@@ -1,1 +1,1 @@
-/usr/bin/g++-7  -g  -rdynamic CMakeFiles/app.dir/src/main/main.cpp.o  -o bin/app lib/libfoo.a 
+/usr/bin/g++-7     CMakeFiles/app.dir/src/main/main.cpp.o  -o bin/app -Wl,-rpath,/usr/lib/x86_64-linux-gnu lib/libfoo.a /usr/lib/x86_64-linux-gnu/libgstreamer-1.0.so /usr/lib/x86_64-linux-gnu/libgobject-2.0.so /usr/lib/x86_64-linux-gnu/libglib-2.0.so 
