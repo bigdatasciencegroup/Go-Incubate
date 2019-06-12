@@ -64,11 +64,11 @@ lib/foo/CMakeFiles/foo.dir/foo.cpp.o: ../lib/foo/foo.cpp
 
 lib/foo/CMakeFiles/foo.dir/foo.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/foo.dir/foo.cpp.i"
-	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_PREPROCESSED_SOURCE
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/lib/foo && /usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/lib/foo/foo.cpp > CMakeFiles/foo.dir/foo.cpp.i
 
 lib/foo/CMakeFiles/foo.dir/foo.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/foo.dir/foo.cpp.s"
-	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_ASSEMBLY_SOURCE
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/lib/foo && /usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/lib/foo/foo.cpp -o CMakeFiles/foo.dir/foo.cpp.s
 
 lib/foo/CMakeFiles/foo.dir/foo.cpp.o.requires:
 
