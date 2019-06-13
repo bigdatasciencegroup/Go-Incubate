@@ -16,6 +16,7 @@ int main (int argc, char *argv[]){
     std::cout << "Yay success" << std::endl;
     foo51.print();
 
+
     GstElement *pipeline, *source, *sink;
     GstBus *bus;
     GstMessage *msg;

@@ -49,9 +49,9 @@ ADD_SUBDIRECTORY(./lib/foo/)
 TARGET_LINK_LIBRARIES(app foo)
 
 # Link external libraries
-TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgstreamer-1.0.so) 
-TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgobject-2.0.so)  
-TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libglib-2.0.so)  
+TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgstreamer-1.0.so)
+TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgobject-2.0.so)
+TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libglib-2.0.so)
 
 # Testing
 ENABLE_TESTING()
