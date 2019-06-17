@@ -17,6 +17,7 @@ services:
       - /dev/snd:/dev/snd
     #     networks:
 #       - zookeeper_dockerNet 
+    command: 89 97 
 
 # networks:
 #   zookeeper_dockerNet:

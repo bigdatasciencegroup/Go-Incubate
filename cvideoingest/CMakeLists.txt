@@ -4,6 +4,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0 FATAL_ERROR)
 # Project name
 PROJECT(cvideoingest VERSION 0.1.0)
 
+# Include CMAKE
+INCLUDE(${CMAKE_ROOT}/Modules/FindPkgConfig.cmake)
+
 # Build settings
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/bin/)
 SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/lib/)
@@ -43,7 +46,7 @@ INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/glib-2.0/include)
 ADD_EXECUTABLE(app ./src/main/main.cpp)
 
 # Internal libraries
-ADD_SUBDIRECTORY(./lib/foo/)
+ADD_SUBDIRECTORY(./libs/foo/)
 
 # Link internal libraries
 TARGET_LINK_LIBRARIES(app foo)

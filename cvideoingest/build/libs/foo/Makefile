@@ -91,14 +91,14 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles/progress.marks
-	$(MAKE) -f CMakeFiles/Makefile2 all
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/libs/foo/CMakeFiles/progress.marks
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(MAKE) -f CMakeFiles/Makefile2 libs/foo/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	$(MAKE) -f CMakeFiles/Makefile2 clean
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(MAKE) -f CMakeFiles/Makefile2 libs/foo/clean
 .PHONY : clean
 
 # The main clean target
@@ -108,71 +108,60 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(MAKE) -f CMakeFiles/Makefile2 libs/foo/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	$(MAKE) -f CMakeFiles/Makefile2 preinstall
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(MAKE) -f CMakeFiles/Makefile2 libs/foo/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
-# Target rules for targets named app
+# Convenience name for target.
+libs/foo/CMakeFiles/foo.dir/rule:
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(MAKE) -f CMakeFiles/Makefile2 libs/foo/CMakeFiles/foo.dir/rule
+.PHONY : libs/foo/CMakeFiles/foo.dir/rule
 
-# Build rule for target.
-app: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 app
-.PHONY : app
+# Convenience name for target.
+foo: libs/foo/CMakeFiles/foo.dir/rule
 
-# fast build rule for target.
-app/fast:
-	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/build
-.PHONY : app/fast
-
-#=============================================================================
-# Target rules for targets named foo
-
-# Build rule for target.
-foo: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 foo
 .PHONY : foo
 
 # fast build rule for target.
 foo/fast:
-	$(MAKE) -f libs/foo/CMakeFiles/foo.dir/build.make libs/foo/CMakeFiles/foo.dir/build
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(MAKE) -f libs/foo/CMakeFiles/foo.dir/build.make libs/foo/CMakeFiles/foo.dir/build
 .PHONY : foo/fast
 
-src/main/main.o: src/main/main.cpp.o
+foo.o: foo.cpp.o
 
-.PHONY : src/main/main.o
+.PHONY : foo.o
 
 # target to build an object file
-src/main/main.cpp.o:
-	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/main/main.cpp.o
-.PHONY : src/main/main.cpp.o
+foo.cpp.o:
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(MAKE) -f libs/foo/CMakeFiles/foo.dir/build.make libs/foo/CMakeFiles/foo.dir/foo.cpp.o
+.PHONY : foo.cpp.o
 
-src/main/main.i: src/main/main.cpp.i
+foo.i: foo.cpp.i
 
-.PHONY : src/main/main.i
+.PHONY : foo.i
 
 # target to preprocess a source file
-src/main/main.cpp.i:
-	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/main/main.cpp.i
-.PHONY : src/main/main.cpp.i
+foo.cpp.i:
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(MAKE) -f libs/foo/CMakeFiles/foo.dir/build.make libs/foo/CMakeFiles/foo.dir/foo.cpp.i
+.PHONY : foo.cpp.i
 
-src/main/main.s: src/main/main.cpp.s
+foo.s: foo.cpp.s
 
-.PHONY : src/main/main.s
+.PHONY : foo.s
 
 # target to generate assembly for a file
-src/main/main.cpp.s:
-	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/main/main.cpp.s
-.PHONY : src/main/main.cpp.s
+foo.cpp.s:
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(MAKE) -f libs/foo/CMakeFiles/foo.dir/build.make libs/foo/CMakeFiles/foo.dir/foo.cpp.s
+.PHONY : foo.cpp.s
 
 # Help Target
 help:
@@ -182,12 +171,11 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... app"
-	@echo "... test"
 	@echo "... foo"
-	@echo "... src/main/main.o"
-	@echo "... src/main/main.i"
-	@echo "... src/main/main.s"
+	@echo "... test"
+	@echo "... foo.o"
+	@echo "... foo.i"
+	@echo "... foo.s"
 .PHONY : help
 
 
@@ -199,6 +187,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

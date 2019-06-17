@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/main.cpp" "/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles/app.dir/src/main/main.cpp.o"
+  "/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/libs/foo/foo.cpp" "/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/libs/foo/CMakeFiles/foo.dir/foo.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -18,7 +18,6 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/libs/foo/CMakeFiles/foo.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

@@ -40,4 +40,4 @@ RUN cd /home/build/bin && ldd app
 # COPY --from=build /home/build/lib /home/build/lib
 
 # Command to execute when the image loads
-CMD ["/home/build/bin/app"]
+ENTRYPOINT ["/home/build/bin/app"]

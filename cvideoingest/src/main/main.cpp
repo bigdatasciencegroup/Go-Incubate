@@ -5,7 +5,8 @@
 #include "foo.h"
 #include "gst/gst.h"
 
-int main (int argc, char *argv[]){
+
+int main(int argc, char *argv[]){
 
     // fprintf(stdout,"%s Version %d.%d\n",
     //         argv[0],
@@ -13,8 +14,16 @@ int main (int argc, char *argv[]){
     //         app_VERSION_MINOR);
 
     foo foo51(4);
-    std::cout << "Yay success" << std::endl;
+    std::cout << "Yay success" << "\n";
+    std::cout << argv[0] << "\n";
+    std::cout << argv[1] << "\n";
+    std::cout << argv[2] << "\n";
     foo51.print();
+
+
+    int x=1, y=3, z=7;
+    duplicate(x, y, z);
+    std::cout << "x=" << x << ", y=" << y << ", z=" << z;
 
 
     GstElement *pipeline, *source, *sink;
@@ -23,7 +32,7 @@ int main (int argc, char *argv[]){
     GstStateChangeReturn ret;
 
     /* Initialize GStreamer */
-    gst_init (&argc, &argv);
+    gst_init(&argc, &argv);
 
     /* Create the elements */
     source = gst_element_factory_make ("videotestsrc", "source");
