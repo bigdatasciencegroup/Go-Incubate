@@ -64,11 +64,11 @@ libs/foo/CMakeFiles/foo.dir/foo.cpp.o: ../libs/foo/foo.cpp
 
 libs/foo/CMakeFiles/foo.dir/foo.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/foo.dir/foo.cpp.i"
-	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/libs/foo && /usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/libs/foo/foo.cpp > CMakeFiles/foo.dir/foo.cpp.i
+	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_PREPROCESSED_SOURCE
 
 libs/foo/CMakeFiles/foo.dir/foo.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/foo.dir/foo.cpp.s"
-	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/libs/foo && /usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/libs/foo/foo.cpp -o CMakeFiles/foo.dir/foo.cpp.s
+	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_ASSEMBLY_SOURCE
 
 libs/foo/CMakeFiles/foo.dir/foo.cpp.o.requires:
 
@@ -81,17 +81,43 @@ libs/foo/CMakeFiles/foo.dir/foo.cpp.o.provides: libs/foo/CMakeFiles/foo.dir/foo.
 libs/foo/CMakeFiles/foo.dir/foo.cpp.o.provides.build: libs/foo/CMakeFiles/foo.dir/foo.cpp.o
 
 
+libs/foo/CMakeFiles/foo.dir/foo1.cpp.o: libs/foo/CMakeFiles/foo.dir/flags.make
+libs/foo/CMakeFiles/foo.dir/foo1.cpp.o: ../libs/foo/foo1.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object libs/foo/CMakeFiles/foo.dir/foo1.cpp.o"
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/libs/foo && /usr/bin/g++-7  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/foo.dir/foo1.cpp.o -c /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/libs/foo/foo1.cpp
+
+libs/foo/CMakeFiles/foo.dir/foo1.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/foo.dir/foo1.cpp.i"
+	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_PREPROCESSED_SOURCE
+
+libs/foo/CMakeFiles/foo.dir/foo1.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/foo.dir/foo1.cpp.s"
+	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_ASSEMBLY_SOURCE
+
+libs/foo/CMakeFiles/foo.dir/foo1.cpp.o.requires:
+
+.PHONY : libs/foo/CMakeFiles/foo.dir/foo1.cpp.o.requires
+
+libs/foo/CMakeFiles/foo.dir/foo1.cpp.o.provides: libs/foo/CMakeFiles/foo.dir/foo1.cpp.o.requires
+	$(MAKE) -f libs/foo/CMakeFiles/foo.dir/build.make libs/foo/CMakeFiles/foo.dir/foo1.cpp.o.provides.build
+.PHONY : libs/foo/CMakeFiles/foo.dir/foo1.cpp.o.provides
+
+libs/foo/CMakeFiles/foo.dir/foo1.cpp.o.provides.build: libs/foo/CMakeFiles/foo.dir/foo1.cpp.o
+
+
 # Object files for target foo
 foo_OBJECTS = \
-"CMakeFiles/foo.dir/foo.cpp.o"
+"CMakeFiles/foo.dir/foo.cpp.o" \
+"CMakeFiles/foo.dir/foo1.cpp.o"
 
 # External object files for target foo
 foo_EXTERNAL_OBJECTS =
 
 lib/libfoo.a: libs/foo/CMakeFiles/foo.dir/foo.cpp.o
+lib/libfoo.a: libs/foo/CMakeFiles/foo.dir/foo1.cpp.o
 lib/libfoo.a: libs/foo/CMakeFiles/foo.dir/build.make
 lib/libfoo.a: libs/foo/CMakeFiles/foo.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library ../../lib/libfoo.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library ../../lib/libfoo.a"
 	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/libs/foo && $(CMAKE_COMMAND) -P CMakeFiles/foo.dir/cmake_clean_target.cmake
 	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build/libs/foo && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/foo.dir/link.txt --verbose=$(VERBOSE)
 
@@ -101,6 +127,7 @@ libs/foo/CMakeFiles/foo.dir/build: lib/libfoo.a
 .PHONY : libs/foo/CMakeFiles/foo.dir/build
 
 libs/foo/CMakeFiles/foo.dir/requires: libs/foo/CMakeFiles/foo.dir/foo.cpp.o.requires
+libs/foo/CMakeFiles/foo.dir/requires: libs/foo/CMakeFiles/foo.dir/foo1.cpp.o.requires
 
 .PHONY : libs/foo/CMakeFiles/foo.dir/requires
 

@@ -1,2 +1,2 @@
-/usr/bin/ar qc ../../lib/libfoo.a  CMakeFiles/foo.dir/foo.cpp.o
+/usr/bin/ar qc ../../lib/libfoo.a  CMakeFiles/foo.dir/foo.cpp.o CMakeFiles/foo.dir/foo1.cpp.o
 /usr/bin/ranlib ../../lib/libfoo.a

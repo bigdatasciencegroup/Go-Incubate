@@ -9,6 +9,3 @@ foo::~foo(){
     
 }
 
-void foo::print(){
-    std::cout << "Hello World from foo!\n" << num << std::endl;
-}

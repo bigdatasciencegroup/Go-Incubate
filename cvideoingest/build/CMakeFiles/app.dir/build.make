@@ -64,11 +64,11 @@ CMakeFiles/app.dir/src/main/main.cpp.o: ../src/main/main.cpp
 
 CMakeFiles/app.dir/src/main/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/app.dir/src/main/main.cpp.i"
-	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/main.cpp > CMakeFiles/app.dir/src/main/main.cpp.i
+	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_PREPROCESSED_SOURCE
 
 CMakeFiles/app.dir/src/main/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/app.dir/src/main/main.cpp.s"
-	/usr/bin/g++-7 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/main.cpp -o CMakeFiles/app.dir/src/main/main.cpp.s
+	$(CMAKE_COMMAND) -E cmake_unimplemented_variable CMAKE_CXX_CREATE_ASSEMBLY_SOURCE
 
 CMakeFiles/app.dir/src/main/main.cpp.o.requires:
 

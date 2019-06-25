@@ -4,3 +4,6 @@
 libs/foo/CMakeFiles/foo.dir/foo.cpp.o
  .././include/foo.h
  /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/libs/foo/foo.cpp
+libs/foo/CMakeFiles/foo.dir/foo1.cpp.o
+ .././include/foo.h
+ /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/libs/foo/foo1.cpp

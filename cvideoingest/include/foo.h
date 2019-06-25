@@ -3,7 +3,7 @@
 
 class foo
 {
-    int num;
+        int num;
     public:
         foo(int);
         ~foo();

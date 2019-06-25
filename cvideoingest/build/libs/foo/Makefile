@@ -163,6 +163,33 @@ foo.cpp.s:
 	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(MAKE) -f libs/foo/CMakeFiles/foo.dir/build.make libs/foo/CMakeFiles/foo.dir/foo.cpp.s
 .PHONY : foo.cpp.s
 
+foo1.o: foo1.cpp.o
+
+.PHONY : foo1.o
+
+# target to build an object file
+foo1.cpp.o:
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(MAKE) -f libs/foo/CMakeFiles/foo.dir/build.make libs/foo/CMakeFiles/foo.dir/foo1.cpp.o
+.PHONY : foo1.cpp.o
+
+foo1.i: foo1.cpp.i
+
+.PHONY : foo1.i
+
+# target to preprocess a source file
+foo1.cpp.i:
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(MAKE) -f libs/foo/CMakeFiles/foo.dir/build.make libs/foo/CMakeFiles/foo.dir/foo1.cpp.i
+.PHONY : foo1.cpp.i
+
+foo1.s: foo1.cpp.s
+
+.PHONY : foo1.s
+
+# target to generate assembly for a file
+foo1.cpp.s:
+	cd /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/build && $(MAKE) -f libs/foo/CMakeFiles/foo.dir/build.make libs/foo/CMakeFiles/foo.dir/foo1.cpp.s
+.PHONY : foo1.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -176,6 +203,9 @@ help:
 	@echo "... foo.o"
 	@echo "... foo.i"
 	@echo "... foo.s"
+	@echo "... foo1.o"
+	@echo "... foo1.i"
+	@echo "... foo1.s"
 .PHONY : help
 
 

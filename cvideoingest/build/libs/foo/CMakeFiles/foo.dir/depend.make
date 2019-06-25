@@ -4,3 +4,6 @@
 libs/foo/CMakeFiles/foo.dir/foo.cpp.o: .././include/foo.h
 libs/foo/CMakeFiles/foo.dir/foo.cpp.o: ../libs/foo/foo.cpp
 
+libs/foo/CMakeFiles/foo.dir/foo1.cpp.o: .././include/foo.h
+libs/foo/CMakeFiles/foo.dir/foo1.cpp.o: ../libs/foo/foo1.cpp
+

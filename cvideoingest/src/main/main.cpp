@@ -5,8 +5,7 @@
 #include "foo.h"
 #include "gst/gst.h"
 
-
-int main(int argc, char *argv[]){
+int main(int argc, char* argv[]){
 
     // fprintf(stdout,"%s Version %d.%d\n",
     //         argv[0],
@@ -15,16 +14,25 @@ int main(int argc, char *argv[]){
 
     foo foo51(4);
     std::cout << "Yay success" << "\n";
-    std::cout << argv[0] << "\n";
-    std::cout << argv[1] << "\n";
-    std::cout << argv[2] << "\n";
+    // std::cout << argv[0] << "\n";
+    // std::cout << argv[1] << "\n";
+    // std::cout << argv[2] << "\n";
     foo51.print();
+    const char* foo = "hello";
+    const char* bar = foo;
+    // foo = "lovw";
+    for (int i = 0; i<=3; ++i){
+        std::cout << *(foo+i);
+    }
+    std::cout<<"\n";
+    // for (int i = 0; i<=3; ++i){
+    //     std::cout << *(bar+i);
+    // }
+
+    std::cout << "\n";
 
 
-    int x=1, y=3, z=7;
-    duplicate(x, y, z);
-    std::cout << "x=" << x << ", y=" << y << ", z=" << z;
-
+  
 
     GstElement *pipeline, *source, *sink;
     GstBus *bus;
@@ -35,6 +43,7 @@ int main(int argc, char *argv[]){
     gst_init(&argc, &argv);
 
     /* Create the elements */
+    // source = gst_element_factory_make ("uridecodebin", "source");
     source = gst_element_factory_make ("videotestsrc", "source");
     sink = gst_element_factory_make ("autovideosink", "sink");
 
@@ -56,6 +65,9 @@ int main(int argc, char *argv[]){
 
     /* Modify the source's properties */
     g_object_set (source, "pattern", 0, NULL);
+    /* Set the URI to play */
+    // g_object_set (source, "uri", "https://www.freedesktop.org/software/gstreamer-sdk/data/media/sintel_trailer-480p.webm", NULL);
+
 
     /* Start playing */
     ret = gst_element_set_state (pipeline, GST_STATE_PLAYING);
