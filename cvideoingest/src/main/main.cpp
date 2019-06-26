@@ -12,7 +12,7 @@ int main(int argc, char* argv[]){
     //         app_VERSION_MAJOR,
     //         app_VERSION_MINOR);
 
-    foo foo51(4);
+    foo foo51();
     std::cout << "Yay success" << "\n";
     // std::cout << argv[0] << "\n";
     // std::cout << argv[1] << "\n";

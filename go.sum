@@ -1,3 +1,5 @@
+github.com/Adaickalavan/Deep-Learning-for-Time-Series-and-NLP v0.0.0-20180713194047-29ce593f574d h1:Gs1+owErpJkKyiPRbzoGpzUKykXTQzmrEeZh7EZgjYo=
+github.com/Adaickalavan/Deep-Learning-for-Time-Series-and-NLP v0.0.0-20180713194047-29ce593f574d/go.mod h1:oMuRB60/EXmnGSdli+D9myGDPievvyGZSajHSitUhPA=
 github.com/confluentinc/confluent-kafka-go v1.0.0 h1:y+G9NTXsvoelf1cRzjtLKOZsPqh71noS4+t+e+eINIk=
 github.com/confluentinc/confluent-kafka-go v1.0.0/go.mod h1:u2zNLny2xq+5rWeTQjFHbDzzNuba4P1vo31r9r4uAdg=
 gocv.io/x/gocv v0.19.0/go.mod h1:3qacsKAMRS0sZmeLySWcbFeVEU3t86igWaQleAgiuBg=
