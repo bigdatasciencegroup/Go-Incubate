@@ -2,6 +2,7 @@
 #define FOO_H
 
 #include <string>
+using namespace std;
 
 class foo
 {
@@ -16,18 +17,19 @@ class foo
         // copy contructor
         foo(const foo& x);
         // copy assignment
-        foo& operator= (const foo&);
+        foo& operator=(const foo&);
         // move constructor
-        foo(foo&& x) : ptr(x.ptr) {x.ptr=nullptr;}
+        foo(foo&& x);
         // move assignment
-        foo& operator= (foo&& x) {
-        delete ptr; 
-        ptr = x.ptr;
-        x.ptr=nullptr;
-        return *this;
-        }
-        // access content:
+        foo& operator=(foo&& x);
+
+        // const function
         const string& content() const;
+        void print() const;
+
+        // non-const function
+        foo operator+(const foo& rhs);
+
 };
 
 #endif

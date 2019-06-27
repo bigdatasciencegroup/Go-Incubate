@@ -12,103 +12,92 @@ int main(int argc, char* argv[]){
     //         app_VERSION_MAJOR,
     //         app_VERSION_MINOR);
 
-    foo foo51();
-    std::cout << "Yay success" << "\n";
-    // std::cout << argv[0] << "\n";
-    // std::cout << argv[1] << "\n";
-    // std::cout << argv[2] << "\n";
-    foo51.print();
-    const char* foo = "hello";
-    const char* bar = foo;
-    // foo = "lovw";
-    for (int i = 0; i<=3; ++i){
-        std::cout << *(foo+i);
-    }
-    std::cout<<"\n";
-    // for (int i = 0; i<=3; ++i){
-    //     std::cout << *(bar+i);
-    // }
-
-    std::cout << "\n";
-
-
+    const char* foo1 = "hello";
+    const char* bar1 = foo1;
+ 
+    foo foo2("Exam");
+    foo bar = foo("ple");  // move-construction
+    foo2 = foo2 + bar;            // move-assignment
+    std::cout << foo2.content() << "\n";
+    std::cout << foo1 << "\n";
+    std::cout << bar1 << "\n";
   
 
-    GstElement *pipeline, *source, *sink;
-    GstBus *bus;
-    GstMessage *msg;
-    GstStateChangeReturn ret;
+    // GstElement *pipeline, *source, *sink;
+    // GstBus *bus;
+    // GstMessage *msg;
+    // GstStateChangeReturn ret;
 
-    /* Initialize GStreamer */
-    gst_init(&argc, &argv);
+    // /* Initialize GStreamer */
+    // gst_init(&argc, &argv);
 
-    /* Create the elements */
-    // source = gst_element_factory_make ("uridecodebin", "source");
-    source = gst_element_factory_make ("videotestsrc", "source");
-    sink = gst_element_factory_make ("autovideosink", "sink");
+    // /* Create the elements */
+    // // source = gst_element_factory_make ("uridecodebin", "source");
+    // source = gst_element_factory_make ("videotestsrc", "source");
+    // sink = gst_element_factory_make ("autovideosink", "sink");
 
-    /* Create the empty pipeline */
-    pipeline = gst_pipeline_new ("test-pipeline");
+    // /* Create the empty pipeline */
+    // pipeline = gst_pipeline_new ("test-pipeline");
 
-    if (!pipeline || !source || !sink) {
-        g_printerr ("Not all elements could be created.\n");
-        return -1;
-    }
+    // if (!pipeline || !source || !sink) {
+    //     g_printerr ("Not all elements could be created.\n");
+    //     return -1;
+    // }
 
-    /* Build the pipeline */
-    gst_bin_add_many (GST_BIN (pipeline), source, sink, NULL);
-    if (gst_element_link (source, sink) != TRUE) {
-        g_printerr ("Elements could not be linked.\n");
-        gst_object_unref (pipeline);
-        return -1;
-    }
+    // /* Build the pipeline */
+    // gst_bin_add_many (GST_BIN (pipeline), source, sink, NULL);
+    // if (gst_element_link (source, sink) != TRUE) {
+    //     g_printerr ("Elements could not be linked.\n");
+    //     gst_object_unref (pipeline);
+    //     return -1;
+    // }
 
-    /* Modify the source's properties */
-    g_object_set (source, "pattern", 0, NULL);
-    /* Set the URI to play */
-    // g_object_set (source, "uri", "https://www.freedesktop.org/software/gstreamer-sdk/data/media/sintel_trailer-480p.webm", NULL);
+    // /* Modify the source's properties */
+    // g_object_set (source, "pattern", 0, NULL);
+    // /* Set the URI to play */
+    // // g_object_set (source, "uri", "https://www.freedesktop.org/software/gstreamer-sdk/data/media/sintel_trailer-480p.webm", NULL);
 
 
-    /* Start playing */
-    ret = gst_element_set_state (pipeline, GST_STATE_PLAYING);
-    if (ret == GST_STATE_CHANGE_FAILURE) {
-        g_printerr ("Unable to set the pipeline to the playing state.\n");
-        gst_object_unref (pipeline);
-        return -1;
-    }
+    // /* Start playing */
+    // ret = gst_element_set_state (pipeline, GST_STATE_PLAYING);
+    // if (ret == GST_STATE_CHANGE_FAILURE) {
+    //     g_printerr ("Unable to set the pipeline to the playing state.\n");
+    //     gst_object_unref (pipeline);
+    //     return -1;
+    // }
 
-    /* Wait until error or EOS */
-    bus = gst_element_get_bus (pipeline);
-    msg = gst_bus_timed_pop_filtered (bus, GST_CLOCK_TIME_NONE, (GstMessageType)(GST_MESSAGE_ERROR | GST_MESSAGE_EOS));
+    // /* Wait until error or EOS */
+    // bus = gst_element_get_bus (pipeline);
+    // msg = gst_bus_timed_pop_filtered (bus, GST_CLOCK_TIME_NONE, (GstMessageType)(GST_MESSAGE_ERROR | GST_MESSAGE_EOS));
 
-    /* Parse message */
-    if (msg != NULL) {
-        GError *err;
-        gchar *debug_info;
+    // /* Parse message */
+    // if (msg != NULL) {
+    //     GError *err;
+    //     gchar *debug_info;
 
-        switch (GST_MESSAGE_TYPE (msg)) {
-        case GST_MESSAGE_ERROR:
-            gst_message_parse_error (msg, &err, &debug_info);
-            g_printerr ("Error received from element %s: %s\n", GST_OBJECT_NAME (msg->src), err->message);
-            g_printerr ("Debugging information: %s\n", debug_info ? debug_info : "none");
-            g_clear_error (&err);
-            g_free (debug_info);
-            break;
-        case GST_MESSAGE_EOS:
-            g_print ("End-Of-Stream reached.\n");
-            break;
-        default:
-            /* We should not reach here because we only asked for ERRORs and EOS */
-            g_printerr ("Unexpected message received.\n");
-            break;
-        }
-        gst_message_unref (msg);
-    }
+    //     switch (GST_MESSAGE_TYPE (msg)) {
+    //     case GST_MESSAGE_ERROR:
+    //         gst_message_parse_error (msg, &err, &debug_info);
+    //         g_printerr ("Error received from element %s: %s\n", GST_OBJECT_NAME (msg->src), err->message);
+    //         g_printerr ("Debugging information: %s\n", debug_info ? debug_info : "none");
+    //         g_clear_error (&err);
+    //         g_free (debug_info);
+    //         break;
+    //     case GST_MESSAGE_EOS:
+    //         g_print ("End-Of-Stream reached.\n");
+    //         break;
+    //     default:
+    //         /* We should not reach here because we only asked for ERRORs and EOS */
+    //         g_printerr ("Unexpected message received.\n");
+    //         break;
+    //     }
+    //     gst_message_unref (msg);
+    // }
 
-    /* Free resources */
-    gst_object_unref (bus);
-    gst_element_set_state (pipeline, GST_STATE_NULL);
-    gst_object_unref (pipeline);
-    return 0;
+    // /* Free resources */
+    // gst_object_unref (bus);
+    // gst_element_set_state (pipeline, GST_STATE_NULL);
+    // gst_object_unref (pipeline);
+    // return 0;
 
 }

@@ -7,6 +7,8 @@
 #IncludeRegexTransform: 
 
 .././include/foo.h
+string
+-
 
 /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/src/main/main.cpp
 iostream

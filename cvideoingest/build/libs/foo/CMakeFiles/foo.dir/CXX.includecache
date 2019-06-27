@@ -7,11 +7,15 @@
 #IncludeRegexTransform: 
 
 .././include/foo.h
+string
+-
 
 /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/libs/foo/foo.cpp
 foo.h
 /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/libs/foo/foo.h
 iostream
+-
+string
 -
 
 /home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/cvideoingest/libs/foo/foo1.cpp
