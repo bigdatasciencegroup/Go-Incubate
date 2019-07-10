@@ -54,7 +54,7 @@
     list <packageName>
     ```
 
-1. Show model parameters
+1. Show tensorflow saved model parameters
     ```go
     saved_model_cli show --dir ~/GoWorkspace/src/github.com/adaickalavan/Scalable-Deployment-Kubernetes/tfserving/resnet/1538687457 --all
     ```
@@ -67,3 +67,4 @@
     ```
     docker run -it cvideoingest /bin/bash
     ```
+1. To visualize Godoc of our own package    

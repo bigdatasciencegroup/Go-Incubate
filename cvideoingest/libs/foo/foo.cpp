@@ -52,3 +52,7 @@ const string& foo::content() const{
 foo foo::operator+(const foo& rhs){
     return foo(content()+rhs.content());
 }
+
+foo duplicate (const foo& x){
+    return foo("duplicated");
+}

@@ -17,12 +17,15 @@ int main(int argc, char* argv[]){
  
     foo foo2("Exam");
     foo bar = foo("ple");  // move-construction
+    foo bar3 = foo2;
     foo2 = foo2 + bar;            // move-assignment
     std::cout << foo2.content() << "\n";
     std::cout << foo1 << "\n";
     std::cout << bar1 << "\n";
+    std::cout << bar3.content() << "\n";
+    foo foo4 = duplicate(foo2);
+    std::cout << foo4.content() << "\n";
   
-
     // GstElement *pipeline, *source, *sink;
     // GstBus *bus;
     // GstMessage *msg;
