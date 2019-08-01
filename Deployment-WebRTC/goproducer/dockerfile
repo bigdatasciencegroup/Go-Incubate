@@ -18,13 +18,7 @@ RUN go mod download
 COPY . .
 
 # Build the executable to `/app`. Mark the build as statically linked.
-RUN go build -o ./app .
-
-# Final stage
-FROM scratch
-
-# Import the compiled executable from the first stage.
-COPY --from=buildstage src/app /app
+RUN go build -o /app .
 
 # Run the compiled binary when the conainer starts
 ENTRYPOINT ["/app"]

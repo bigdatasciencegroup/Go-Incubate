@@ -61,7 +61,7 @@
 
 1. Start bash inside a docker container
     ```go
-    ~/GoWorkspace/src/github.com/adaickalavan/Scalable-Deployment-Kuberserving/resnet/1538687457$ docker exec -it goconsumer bash   
+    ~/GoWorkspace/src/github.com/adaickalavan/Scalable-Deployment-Kubernetes/tfserving/resnet/1538687457$ docker exec -it goconsumer bash   
     ``` 
     alternative command
     ```
