@@ -24,8 +24,7 @@ RUN go build -o ./app .
 FROM scratch
 
 # Import the compiled executable from the first stage.
-COPY --from=builder src/app /app
-COPY --from=builder src/.env /.env
+COPY --from=buildstage src/app /app
 
 # Run the compiled binary when the conainer starts
 ENTRYPOINT ["/app"]

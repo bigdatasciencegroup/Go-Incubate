@@ -1,6 +1,6 @@
 module goproducer
 
-go 1.12
+go 1.11
 
 require (
 	github.com/confluentinc/confluent-kafka-go v0.11.6
