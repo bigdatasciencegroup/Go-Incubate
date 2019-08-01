@@ -1,7 +1,7 @@
 package main
 
 import (
-	"confluentkafkago"
+	"goproducer/confluentkafkago"
 	"encoding/json"
 	"log"
 	"os"

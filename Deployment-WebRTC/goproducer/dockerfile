@@ -18,7 +18,7 @@ RUN go mod download
 COPY . .
 
 # Build the executable to `/app`. Mark the build as statically linked.
-RUN CGO_ENABLED=0 go build -o ./app .
+RUN go build -o ./app .
 
 # Final stage
 FROM scratch

@@ -1,4 +1,4 @@
-module github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/goproducer
+module goproducer
 
 go 1.12
 
