@@ -1,7 +1,7 @@
 package main
 
 import (
-	"goproducer/pkg/confluentkafkago"
+	"github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/goproducer/confluentkafkago/goproducer/confluentkafkago"
 	"encoding/json"
 	"log"
 	"os"
