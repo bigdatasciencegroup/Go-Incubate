@@ -1,8 +1,9 @@
 package main
 
 import (
-	"goproducer/confluentkafkago"
 	"encoding/json"
+	"goproducer/confluentkafkago"
+	"image"
 	"log"
 	"os"
 	"strconv"
@@ -32,10 +33,12 @@ func main() {
 		p.Close()
 	}()
 
-	go readWebcam(p, frameInterval, topic)
+	fx, _ := strconv.ParseFloat(os.Getenv("IMAGESCALEX"), 64)
+	fy, _ := strconv.ParseFloat(os.Getenv("IMAGESCALEY"), 64)
+	go readWebcam(p, frameInterval, topic, fx, fy)
 
 	//Block forever
-	select{}
+	select {}
 }
 
 //Result represents the Kafka queue message format
@@ -55,12 +58,12 @@ func getenvint(str string) int {
 	return i
 }
 
-func readWebcam(p *kafka.Producer, frameInterval time.Duration, topic string) {
+func readWebcam(p *kafka.Producer, frameInterval time.Duration, topic string, fx float64, fy float64) {
 	defer func() {
 		if r := recover(); r != nil {
 			log.Println("main.readWebcam():PANICKED AND RESTARTING")
 			log.Println("Panic:", r)
-			go readWebcam(p, frameInterval, topic)
+			go readWebcam(p, frameInterval, topic, fx, fy)
 		}
 	}()
 
@@ -74,11 +77,16 @@ func readWebcam(p *kafka.Producer, frameInterval time.Duration, topic string) {
 	defer webcam.Close()
 
 	// Stream images from RTSP to Kafka message queue
+	origframe := gocv.NewMat()
 	frame := gocv.NewMat()
+	sz := image.Point{}
 	for {
-		if !webcam.Read(&frame) {
+		if !webcam.Read(&origframe) {
 			panic("Webcam read failure")
 		}
+
+		//Downsize frame
+		gocv.Resize(origframe, &frame, sz, fx, fy, gocv.InterpolationFlags(1))
 
 		//Form the struct to be sent to Kafka message queue
 		doc := topicMsg{

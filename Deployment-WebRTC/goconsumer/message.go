@@ -12,6 +12,7 @@ import (
 )
 
 var statusColor = color.RGBA{200, 150, 50, 0}
+var bkgColor = color.RGBA{255, 255, 255, 0}
 
 func message(ev *kafka.Message) error {
 
@@ -31,6 +32,8 @@ func message(ev *kafka.Message) error {
 		return err
 	}
 
+	frameOut := frame.Clone()
+
 	// Form output image
 	for ind := 0; ind < len(modelParams); ind++ {
 		mp := modelParams[ind]
@@ -43,7 +46,15 @@ func message(ev *kafka.Message) error {
 
 		// Write prediction to frame
 		gocv.PutText(
-			&frame,
+			&frameOut,
+			mp.modelName+" : "+mp.pred,
+			image.Pt(10, ind*20+20),
+			gocv.FontHersheyPlain, 1.2,
+			bkgColor, 6,
+		)
+		// Write prediction to frame
+		gocv.PutText(
+			&frameOut,
 			mp.modelName+" : "+mp.pred,
 			image.Pt(10, ind*20+20),
 			gocv.FontHersheyPlain, 1.2,
@@ -56,10 +67,10 @@ func message(ev *kafka.Message) error {
 
 	// Write image to output Kafka queue
 	select {
-	case videoDisplay <- frame:
+	case videoDisplay <- frameOut:
 	default:
 	}
-	// videoDisplay <- frame
+	// videoDisplay <- frameOut
 
 	return nil
 }
