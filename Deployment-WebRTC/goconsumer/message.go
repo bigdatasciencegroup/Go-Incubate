@@ -47,7 +47,7 @@ func message(ev *kafka.Message) error {
 		// Write prediction to frame
 		gocv.PutText(
 			&frameOut,
-			mp.modelName+" : "+mp.pred,
+			mp.pred,
 			image.Pt(10, ind*20+20),
 			gocv.FontHersheyPlain, 1.2,
 			bkgColor, 6,
@@ -55,7 +55,7 @@ func message(ev *kafka.Message) error {
 		// Write prediction to frame
 		gocv.PutText(
 			&frameOut,
-			mp.modelName+" : "+mp.pred,
+			mp.pred,
 			image.Pt(10, ind*20+20),
 			gocv.FontHersheyPlain, 1.2,
 			statusColor, 2,
