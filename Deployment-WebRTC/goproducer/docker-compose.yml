@@ -6,7 +6,7 @@ services:
   goproducer:
     image: goproducer
     container_name: goproducer 
-    restart: always 
+    # restart: always 
     environment:
       - TOPICNAME=videocam
       - KAFKAPORT=kafka1:19092
@@ -14,8 +14,8 @@ services:
       - VIDEOLINK=rtsp://184.72.239.149/vod/mp4:BigBuckBunny_175k.mov
       - FRAMEINTERVAL=70ms
       - VIDEODEVICE=0
-      - IMAGESCALEX=0.4
-      - IMAGESCALEY=0.4
+      - IMAGESCALEX=0.5
+      - IMAGESCALEY=0.5
     devices: 
       - /dev/video0:/dev/video0   
     networks:
