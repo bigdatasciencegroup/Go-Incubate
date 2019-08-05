@@ -13,6 +13,7 @@ import (
 
 var statusColor = color.RGBA{200, 150, 50, 0}
 var bkgColor = color.RGBA{255, 255, 255, 0}
+var boxColor = color.RGBA{0, 0, 255, 0}
 
 func message(ev *kafka.Message) error {
 
@@ -60,6 +61,20 @@ func message(ev *kafka.Message) error {
 			gocv.FontHersheyPlain, 1.2,
 			statusColor, 2,
 		)
+		if mp.modelName == "emonet_1" {
+			// draw a rectangle around each face on the original image,
+			// along with text identifying as "Human"
+			for index, r := range res.Rects {
+				gocv.Rectangle(&frameOut, r, boxColor, 2)
+				gocv.PutText(
+					&frameOut,
+					res.ClassArr[index],
+					image.Pt(r.Min.X, r.Min.Y - 5),
+					gocv.FontHersheyPlain, 1.2,
+					statusColor, 2,
+				)
+			}
+		}
 
 		// Post next frame
 		mp.modelHandler.Post(models.Input{Img: frame})

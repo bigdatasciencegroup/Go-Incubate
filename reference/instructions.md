@@ -76,3 +76,9 @@ lsblk
 Plug it in. If it automounts, unmount it.
 Type: sudo mkswap /dev/sdb1 (or whatever your device path is)
 Then type: sudo swapon -p 32767 /dev/sdb1 (the 32767 makes it a higher priority and will thus be used before the hard drive swap drive)
+
+
+1. Enable display access from docker to linux desktop:
+```
+xhost +
+```

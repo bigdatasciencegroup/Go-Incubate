@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"image"
 
 	"gocv.io/x/gocv"
 )
@@ -21,6 +22,8 @@ type Input struct {
 //Output represents output of machine learning model
 type Output struct {
 	Class string
+	Rects []image.Rectangle
+	ClassArr []string
 }
 
 type baseHandler struct {

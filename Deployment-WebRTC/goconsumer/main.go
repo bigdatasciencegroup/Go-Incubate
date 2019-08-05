@@ -51,6 +51,11 @@ func init() {
 			if err != nil {
 				log.Fatal("Failed to create modelHandler", err)
 			}
+		case "emonet":
+			modelHandler, err = models.NewEmonet(modelurl, labelurl)
+			if err != nil {
+				log.Fatal("Failed to create modelHandler", err)
+			}
 		default:
 			log.Fatal("Model not recognised")
 		}
