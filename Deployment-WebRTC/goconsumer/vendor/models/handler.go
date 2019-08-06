@@ -22,8 +22,8 @@ type Input struct {
 //Output represents output of machine learning model
 type Output struct {
 	Class string
-	Rects []image.Rectangle
 	ClassArr []string
+	Rects []image.Rectangle
 }
 
 type baseHandler struct {

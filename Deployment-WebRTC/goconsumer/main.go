@@ -7,6 +7,7 @@ import (
 	"models"
 	"os"
 	"strings"
+	"strconv"
 	"time"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
@@ -36,7 +37,6 @@ func init() {
 	}
 
 	//Create models and start prediction
-	ind := -1
 	for modelName, modelurl := range modelurls {
 		labelurl, ok := labelurls[modelName]
 		if !ok {
@@ -49,20 +49,23 @@ func init() {
 		case "imagenet":
 			modelHandler, err = models.NewImagenet(modelurl, labelurl)
 			if err != nil {
-				log.Fatal("Failed to create modelHandler", err)
+				log.Fatal("Failed to create imagenet modelHandler", err)
 			}
 		case "emonet":
 			modelHandler, err = models.NewEmonet(modelurl, labelurl)
 			if err != nil {
-				log.Fatal("Failed to create modelHandler", err)
+				log.Fatal("Failed to create emonet modelHandler", err)
 			}
 		default:
 			log.Fatal("Model not recognised")
 		}
 		go modelHandler.Predict()
 
-		ind = ind + 1
-		modelParams[ind] = &modelParam{
+		num, err := strconv.Atoi(parts[1])
+		if err != nil{
+			log.Fatal("Incorrect model number", err)
+		}
+		modelParams[num] = &modelParam{
 			modelHandler: modelHandler,
 			modelName:    modelName,
 			pred:         "Nothing"}

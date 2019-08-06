@@ -6,6 +6,7 @@ import (
 	"image/color"
 	"log"
 	"models"
+	"strings"
 
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"gocv.io/x/gocv"
@@ -33,35 +34,42 @@ func message(ev *kafka.Message) error {
 		return err
 	}
 
+	// Clone frame
 	frameOut := frame.Clone()
 
 	// Form output image
 	for ind := 0; ind < len(modelParams); ind++ {
 		mp := modelParams[ind]
-
-		// Get prediction
-		res, err := mp.modelHandler.Get()
-		if err == nil {
-			mp.pred = res.Class
-		}
-
-		// Write prediction to frame
-		gocv.PutText(
-			&frameOut,
-			mp.pred,
-			image.Pt(10, ind*20+20),
-			gocv.FontHersheyPlain, 1.2,
-			bkgColor, 6,
-		)
-		// Write prediction to frame
-		gocv.PutText(
-			&frameOut,
-			mp.pred,
-			image.Pt(10, ind*20+20),
-			gocv.FontHersheyPlain, 1.2,
-			statusColor, 2,
-		)
-		if mp.modelName == "emonet_1" {
+		parts := strings.Split(mp.modelName, "_")
+		switch parts[0] {
+		case "imagenet":
+			// Get prediction
+			res, err := mp.modelHandler.Get()
+			if err == nil{
+				mp.pred = res.Class
+			}
+			// Write prediction to frame
+			gocv.PutText(
+				&frameOut,
+				mp.pred,
+				image.Pt(10, ind*20+20),
+				gocv.FontHersheyPlain, 1.2,
+				bkgColor, 6,
+			)
+			// Write prediction to frame
+			gocv.PutText(
+				&frameOut,
+				mp.pred,
+				image.Pt(10, ind*20+20),
+				gocv.FontHersheyPlain, 1.2,
+				statusColor, 2,
+			)
+		case "emonet":
+			// Get prediction
+			res, err := mp.modelHandler.Get()
+			if err != nil{
+				break
+			}
 			// draw a rectangle around each face on the original image,
 			// along with text identifying as "Human"
 			for index, r := range res.Rects {
@@ -71,9 +79,18 @@ func message(ev *kafka.Message) error {
 					res.ClassArr[index],
 					image.Pt(r.Min.X, r.Min.Y - 5),
 					gocv.FontHersheyPlain, 1.2,
+					bkgColor, 6,
+				)
+				gocv.PutText(
+					&frameOut,
+					res.ClassArr[index],
+					image.Pt(r.Min.X, r.Min.Y - 5),
+					gocv.FontHersheyPlain, 1.2,
 					statusColor, 2,
 				)
 			}
+		default:
+			log.Fatal("Model not recognised")	
 		}
 
 		// Post next frame

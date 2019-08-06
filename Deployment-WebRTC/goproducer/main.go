@@ -59,13 +59,13 @@ func getenvint(str string) int {
 }
 
 func readWebcam(p *kafka.Producer, frameInterval time.Duration, topic string, fx float64, fy float64) {
-	// defer func() {
-	// 	if r := recover(); r != nil {
-	// 		log.Println("main.readWebcam():PANICKED AND RESTARTING")
-	// 		log.Println("Panic:", r)
-	// 		go readWebcam(p, frameInterval, topic, fx, fy)
-	// 	}
-	// }()
+	defer func() {
+		if r := recover(); r != nil {
+			log.Println("main.readWebcam():PANICKED AND RESTARTING")
+			log.Println("Panic:", r)
+			go readWebcam(p, frameInterval, topic, fx, fy)
+		}
+	}()
 
 	// Capture video from device
 	webcam, err := gocv.VideoCaptureDevice(getenvint("VIDEODEVICE"))

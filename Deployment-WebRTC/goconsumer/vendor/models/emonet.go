@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"image"
 	"io/ioutil"
 	"log"
@@ -13,9 +12,19 @@ import (
 	"gocv.io/x/gocv"
 )
 
+const (
+	width  = 48
+	height = 48
+)
+
+type stdImg [height][width][1]float32
+
 type emonet struct {
 	baseHandler
 	faceCascade gocv.CascadeClassifier
+	minSize     image.Point
+	maxSize     image.Point
+	sz          image.Point
 }
 
 //NewEmonet returns a new handle to specified machine learning model
@@ -37,7 +46,8 @@ func NewEmonet(modelurl string, labelurl string) (Handler, error) {
 	faceCascade := gocv.NewCascadeClassifier()
 	xmlFile := "/go/src/app/vendor/models/haarcascade_frontalface_default.xml"
 	if !faceCascade.Load(xmlFile) {
-		fmt.Printf("Error reading cascade file: %v\n", xmlFile)
+		log.Println("Error reading cascade file:", xmlFile)
+		return &emonet{}, errors.New("Error reading cascade file")
 	}
 
 	return &emonet{
@@ -48,6 +58,9 @@ func NewEmonet(modelurl string, labelurl string) (Handler, error) {
 			chOut:  make(chan Output),
 		},
 		faceCascade: faceCascade,
+		minSize:     image.Point{X: width, Y: height},
+		maxSize:     image.Point{X: 50000, Y: 50000},
+		sz:          image.Point{X: width, Y: height},
 	}, nil
 }
 
@@ -65,94 +78,99 @@ func (emn *emonet) Predict() {
 	//Write initial prediction into shared output channel
 	emn.chOut <- Output{Class: "Nothing"}
 
-	// prepare image matrix
-	minSize := image.Point{X: 48, Y: 48}
-	maxSize := image.Point{X: 50000, Y: 50000}
-	sz := image.Point{X: 48, Y: 48}
-
 	for elem := range emn.chIn {
 		img := elem.Img
+		// imgGray := gocv.NewMat()
 
 		// Convert img to gray scale
+		// gocv.CvtColor(img, &imgGray, gocv.ColorConversionCode(6))
 		gocv.CvtColor(img, &img, gocv.ColorConversionCode(6))
 
 		// Detect faces
-		rects := emn.faceCascade.DetectMultiScaleWithParams(img, 1.3, 5, 0, minSize, maxSize)
-		fmt.Printf("found %d faces\n", len(rects))
+		// rects := emn.faceCascade.DetectMultiScale(img)
+		// rects := emn.faceCascade.DetectMultiScaleWithParams(imgGray, 1.3, 5, 0, emn.minSize, emn.maxSize)
+		rects := emn.faceCascade.DetectMultiScaleWithParams(img, 1.3, 5, 0, emn.minSize, emn.maxSize)
+		log.Println("found", len(rects), "faces")
 
 		classArr := []string{}
+		facesArr := []stdImg{}
+		rectArr := []image.Rectangle{}
 		for _, r := range rects {
 			//Crop and resize image
 			imgFace := img.Region(r)
 			imgFaceDet := imgFace.Clone()
-			gocv.Resize(imgFaceDet, &imgFaceDet, sz, 0, 0, 1)
-			// imgFaceDet.DivideFloat(float32(255))
+			// gocv.CvtColor(imgFaceDet, &imgFaceDet, gocv.ColorConversionCode(6))
+			gocv.Resize(imgFaceDet, &imgFaceDet, emn.sz, 0, 0, 1)
+
+			// Convert OpenCV Mat to MatTypeCV32F
 			imgFaceDet.ConvertTo(&imgFaceDet, gocv.MatType(5))
-
-			// window1 := gocv.NewWindow("OrigFace")
-			// window2 := gocv.NewWindow("CropFace")
-			// // defer window.Close()
-			// window2.IMShow(imgFaceDet)
-			// window2.WaitKey(1)
-			// window1.IMShow(imgGray)
-			// window1.WaitKey(1)
-
-			imgTensor, err := (&imgFaceDet).DataPtrFloat32()
+			// Normalize image
+			imgFaceDet.DivideFloat(float32(255))
+			// Convert MatTypeCV32F to slice of float32
+			imgSlice, err := imgFaceDet.DataPtrFloat32()
 			if err != nil {
-				log.Println("cv mat error ", err)
+				log.Println("Error in DataPtrFloat32 of OpenCV Mat. ", err)
+				continue
 			}
 
-			// sz.X is columns
-			// sz.Y is rows
-			var imageTensorArr [48][48][1]float32
-			for row := 0; row < sz.Y; row++ {
-				for col := 0; col < sz.X; col++ {
-					imageTensorArr[row][col][0] = imgTensor[row*48+col]
+			// Convert slice into multidimensional array
+			var imgTensor stdImg
+			for row := 0; row < height; row++ {
+				for col := 0; col < width; col++ {
+					imgTensor[row][col][0] = imgSlice[row*width+col]
 				}
 			}
 
-			//Prepare request message
-			inference := inferTensor{
-				InstancesTensor: []instanceTensor{
-					instanceTensor{ImgTensor: imageTensorArr},
-				},
-			}
+			rectArr = append(rectArr, r)
+			facesArr = append(facesArr, imgTensor)
+		}
 
-			//Query the machine learning model
-			reqBody, err := json.Marshal(inference)
-			if err != nil {
-				log.Println("Error in Marshal: ", err)
-				continue
-			}
-			req, err := http.NewRequest("POST", emn.url, bytes.NewBuffer(reqBody))
-			if err != nil {
-				log.Println("Error in NewRequest: ", err)
-				continue
-			}
-			req.Header.Add("Content-Type", "application/json")
-			res, err := http.DefaultClient.Do(req)
-			if err != nil {
-				log.Println("Error in DefaultClient: ", err)
-				continue
-			}
-			defer res.Body.Close()
+		if len(facesArr) == 0 {
+			continue
+		}
 
-			// body, err := ioutil.ReadAll(res.Body)
-			// fmt.Println(string(body))
+		//Prepare request message
+		inference := inferTensor{
+			InstancesTensor: facesArr,
+		}
 
-			//Process response from machine learning model
-			decoder := json.NewDecoder(res.Body)
-			if err := decoder.Decode(&resBody); err != nil {
-				log.Println("Error in Decode: ", err)
-				continue
-			}
-			predClass := resBody.PredictionsTensor[0]
-			valMax := float32(0)
+		//Query the machine learning model
+		reqBody, err := json.Marshal(inference)
+		if err != nil {
+			log.Println("Error in Marshal: ", err)
+			continue
+		}
+		req, err := http.NewRequest("POST", emn.url, bytes.NewBuffer(reqBody))
+		if err != nil {
+			log.Println("Error in NewRequest: ", err)
+			continue
+		}
+		req.Header.Add("Content-Type", "application/json")
+		res, err := http.DefaultClient.Do(req)
+		if err != nil {
+			log.Println("Error in DefaultClient: ", err)
+			continue
+		}
+		defer res.Body.Close()
+
+		// body, err := ioutil.ReadAll(res.Body)
+		// log.Println(string(body))
+
+		//Process response from machine learning model
+		decoder := json.NewDecoder(res.Body)
+		if err := decoder.Decode(&resBody); err != nil {
+			log.Println("Error in Decode: ", err)
+			continue
+		}
+
+		for ii := range facesArr {
+			probabilities := resBody.PredictionsTensor[ii]
+			probMax := float32(0)
 			indexMax := 6
-			for index, val := range predClass {
-				if val > valMax {
-					valMax = val
-					indexMax = index
+			for jj, prob := range probabilities {
+				if prob > probMax {
+					probMax = prob
+					indexMax = jj
 				}
 			}
 			pred, _ := emn.labels[indexMax]
@@ -160,16 +178,12 @@ func (emn *emonet) Predict() {
 		}
 
 		//Write prediction into shared output channel
-		emn.chOut <- Output{Rects: rects, ClassArr: classArr}
+		emn.chOut <- Output{Rects: rectArr, ClassArr: classArr}
 	}
 }
 
 type inferTensor struct {
-	InstancesTensor []instanceTensor `json:"instances"`
-}
-
-type instanceTensor struct {
-	ImgTensor [48][48][1]float32 `json:"conv2d_1_input"` //json name must end with `_bytes` for json to know that it is binary data
+	InstancesTensor []stdImg `json:"instances"`
 }
 
 type responseBodyTensor struct {

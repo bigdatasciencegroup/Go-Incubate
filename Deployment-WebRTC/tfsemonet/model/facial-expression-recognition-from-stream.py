@@ -5,23 +5,25 @@ import tensorflow
 
 #-----------------------------
 #opencv initialization
-
-face_cascade = cv2.CascadeClassifier('/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/haarcascade_frontalface_default.xml')
-
-cap = cv2.VideoCapture(2)
+# cap = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(0)
 #-----------------------------
 #face expression recognizer initialization
 from tensorflow.keras.models import model_from_json
-model = model_from_json(open("/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_structure.json", "r").read())
-model.load_weights('/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_weights.h5') #load weights
+# model = model_from_json(open("/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_structure.json", "r").read())
+# model.load_weights('/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_weights.h5') #load weights
+# face_cascade = cv2.CascadeClassifier('/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/haarcascade_frontalface_default.xml')
 
+model = model_from_json(open("/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_structure.json", "r").read())
+model.load_weights('/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_weights.h5') #load weights
+face_cascade = cv2.CascadeClassifier('/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/haarcascade_frontalface_default.xml')
 #-----------------------------
 
 model.summary()
-path = '/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/cnn/1/'
+# path = '/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/cnn/1/'
 
 # Export the model to a SavedModel
-tensorflow.keras.experimental.export_saved_model(model, path)
+# tensorflow.keras.experimental.export_saved_model(model, path)
 
 # Recreate the exact same model
 # new_model = tensorflow.keras.experimental.load_from_saved_model('path_to_saved_model')
@@ -40,7 +42,6 @@ while(True):
 	faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 
 	#print(faces) #locations of detected faces
-
 	for (x,y,w,h) in faces:
 		cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2) #draw rectangle to main image
 		
