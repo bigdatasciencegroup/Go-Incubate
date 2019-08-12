@@ -10,13 +10,13 @@ cap = cv2.VideoCapture(0)
 #-----------------------------
 #face expression recognizer initialization
 from tensorflow.keras.models import model_from_json
-# model = model_from_json(open("/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_structure.json", "r").read())
-# model.load_weights('/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_weights.h5') #load weights
-# face_cascade = cv2.CascadeClassifier('/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/haarcascade_frontalface_default.xml')
+model = model_from_json(open("/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_structure.json", "r").read())
+model.load_weights('/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_weights.h5') #load weights
+face_cascade = cv2.CascadeClassifier('/home/adaickalavan/go/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/haarcascade_frontalface_default.xml')
 
-model = model_from_json(open("/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_structure.json", "r").read())
-model.load_weights('/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_weights.h5') #load weights
-face_cascade = cv2.CascadeClassifier('/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/haarcascade_frontalface_default.xml')
+# model = model_from_json(open("/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_structure.json", "r").read())
+# model.load_weights('/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/facial_expression_model_weights.h5') #load weights
+# face_cascade = cv2.CascadeClassifier('/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/Deployment-WebRTC/tfsemonet/model/haarcascade_frontalface_default.xml')
 #-----------------------------
 
 model.summary()
