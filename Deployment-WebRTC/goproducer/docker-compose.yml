@@ -6,7 +6,6 @@ services:
   goproducer:
     image: goproducer
     container_name: goproducer 
-    # restart: always 
     environment:
       - TOPICNAME=videocam
       - KAFKAPORT=kafka1:19092
@@ -17,7 +16,7 @@ services:
       - IMAGESCALEX=0.5
       - IMAGESCALEY=0.5
     devices: 
-      - /dev/video2:/dev/video0   
+      - /dev/video0:/dev/video0   
     networks:
       - zookeeper_dockerNet 
         # To ensure that the containers in different docker-compose files communicate with each other, we place them on the same network. The complete network name is 'zookeeper_dockerNet'. It is derived by joining the name of the folder from which the network originates (i.e., zookeeper) and the name of the network (i.e., dockerNet).

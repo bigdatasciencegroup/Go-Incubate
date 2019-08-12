@@ -14,18 +14,18 @@ services:
       - COMPRESSIONTYPE=gzip
       - DISPLAY=$DISPLAY
 
-      # - MODELURLS={"imagenet_0":"http://tfsimagenet:8501/v1/models/tfModel:predict"}      
-      # - LABELURLS={"imagenet_0":"/go/src/app/assets/imagenetLabels.json"}  
+      - MODELURLS={"imagenet_0":"http://tfsimagenet:8501/v1/models/tfModel:predict"}      
+      - LABELURLS={"imagenet_0":"/go/src/app/assets/imagenetLabels.json"}  
 
       # - MODELURLS={"imagenet_0":"http://tfsimagenet:8501/v1/models/tfModel:predict",
       #   "imagenet_1":"http://tfsimagenet:8501/v1/models/tfModel:predict"}       
       # - LABELURLS={"imagenet_0":"/go/src/app/assets/imagenetLabels.json",
       #   "imagenet_1":"/go/src/app/assets/imagenetLabels.json"}  
 
-      - MODELURLS={"imagenet_0":"http://tfsimagenet:8501/v1/models/tfModel:predict",
-        "emonet_1":"http://tfsemonet:8501/v1/models/tfModel:predict"}       
-      - LABELURLS={"imagenet_0":"/go/src/app/assets/imagenetLabels.json",
-        "emonet_1":"/go/src/app/assets/emonetLabels.json"}  
+      # - MODELURLS={"imagenet_0":"http://tfsimagenet:8501/v1/models/tfModel:predict",
+      #   "emonet_1":"http://tfsemonet:8501/v1/models/tfModel:predict"}       
+      # - LABELURLS={"imagenet_0":"/go/src/app/assets/imagenetLabels.json",
+      #   "emonet_1":"/go/src/app/assets/emonetLabels.json"}  
 
     volumes:
       - /tmp/goconsumer:/tmp
