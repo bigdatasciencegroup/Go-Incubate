@@ -1,0 +1,21 @@
+FROM debian AS baseimage
+
+# RUN apt-get install git
+
+WORKDIR /src
+
+RUN git clone http://137.40.71.211/adaickalavan.meiyappan/scalable-deployment.git
+
+# FROM tensorflow/serving
+
+# # Author label
+# LABEL Author Adaickalavan Meiyappan
+
+# # Copy model data to the container's model folder
+# COPY --from=baseimage src/app 
+# COPY --from=baseimage src/.env /.env
+
+# COPY ./cnn /models/tfModel
+
+# # Add environment variable
+# ENV MODEL_NAME tfModel

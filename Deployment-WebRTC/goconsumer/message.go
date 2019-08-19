@@ -45,7 +45,7 @@ func message(ev *kafka.Message) error {
 		case "imagenet":
 			// Get prediction
 			res, err := mp.modelHandler.Get()
-			if err == nil{
+			if err == nil {
 				mp.pred = res.Class
 			}
 			// Write prediction to frame
@@ -67,30 +67,36 @@ func message(ev *kafka.Message) error {
 		case "emonet":
 			// Get prediction
 			res, err := mp.modelHandler.Get()
-			if err != nil{
+			if err != nil {
 				break
 			}
 			// draw a rectangle around each face on the original image,
 			// along with text identifying as "Human"
+			var rMinY int
 			for index, r := range res.Rects {
 				gocv.Rectangle(&frameOut, r, boxColor, 2)
+				if r.Min.Y-5 < 10 {
+					rMinY = 10
+				} else {
+					rMinY = r.Min.Y
+				}
 				gocv.PutText(
 					&frameOut,
 					res.ClassArr[index],
-					image.Pt(r.Min.X, r.Min.Y - 5),
+					image.Pt(r.Min.X, rMinY),
 					gocv.FontHersheyPlain, 1.2,
 					bkgColor, 6,
 				)
 				gocv.PutText(
 					&frameOut,
 					res.ClassArr[index],
-					image.Pt(r.Min.X, r.Min.Y - 5),
+					image.Pt(r.Min.X, rMinY),
 					gocv.FontHersheyPlain, 1.2,
 					statusColor, 2,
 				)
 			}
 		default:
-			log.Fatal("Model not recognised")	
+			log.Fatal("Model not recognised")
 		}
 
 		// Post next frame
