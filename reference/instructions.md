@@ -82,3 +82,10 @@ Then type: sudo swapon -p 32767 /dev/sdb1 (the 32767 makes it a higher priority 
 ```
 xhost +
 ```
+
+1. To enable DOcker to work behind a proxy, see instructions at
+```
+https://stackoverflow.com/questions/23111631/cannot-download-docker-images-behind-a-proxy
+```
+
+1. 
