@@ -88,4 +88,6 @@ xhost +
 https://stackoverflow.com/questions/23111631/cannot-download-docker-images-behind-a-proxy
 ```
 
-1. 
+1. Set up user name/email address
+$ git config --global user.name <username>
+$ git config --global user.email <mailaddress>
