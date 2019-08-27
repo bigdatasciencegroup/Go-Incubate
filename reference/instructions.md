@@ -81,9 +81,8 @@ Then type: sudo swapon -p 32767 /dev/sdb1 (the 32767 makes it a higher priority 
 1. Enable display access from docker to linux desktop:
 ```
 xhost +
-```
 
-1. To enable DOcker to work behind a proxy, see instructions at
+1. To enable Docker to work behind a proxy, see instructions at
 ```
 https://stackoverflow.com/questions/23111631/cannot-download-docker-images-behind-a-proxy
 ```
@@ -91,3 +90,13 @@ https://stackoverflow.com/questions/23111631/cannot-download-docker-images-behin
 1. Set up user name/email address
 $ git config --global user.name <username>
 $ git config --global user.email <mailaddress>
+
+1. To run unit tests in python. For info see : https://realpython.com/python-testing/
+```python
+python -m unittest discover -s <path to test folder>
+```
+```
+$ python -m unittest discover -s tests -t src
+```
+unittest will change to the src/ directory, scan for all test*.py files inside the the tests directory, and execute them.
+
