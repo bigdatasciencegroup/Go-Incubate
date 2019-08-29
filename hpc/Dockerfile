@@ -5,21 +5,11 @@ FROM ubuntu AS build
 RUN apt-get update && apt-get -y install \
     g++ cmake git pkg-config
 
-# Install gstreamer
-RUN apt-get -y install \
-    libgstreamer1.0-0 gstreamer1.0-plugins-base \
-    gstreamer1.0-plugins-good gstreamer1.0-plugins-bad \
-    gstreamer1.0-plugins-ugly gstreamer1.0-libav \
-    gstreamer1.0-doc gstreamer1.0-tools \
-    gstreamer1.0-x gstreamer1.0-alsa \
-    gstreamer1.0-gl gstreamer1.0-gtk3 \
-    gstreamer1.0-qt5 gstreamer1.0-pulseaudio
-
 # Change working directory
-WORKDIR /home
+WORKDIR /src
 
 # Copy the current folder which contains C++ source code to the Docker image
-COPY . /home/
+COPY . /src/
 
 # Use cmake to compile the cpp source file 
 RUN cmake -E make_directory build && \
@@ -27,7 +17,7 @@ RUN cmake -E make_directory build && \
     cmake --build ./build
 
 # Check if the program has dynamic dependencies
-RUN cd /home/build/bin && ldd app
+RUN cd /src/build/bin && ldd app
 
 # # Multistage build
 # FROM alpine AS runtime
@@ -40,4 +30,4 @@ RUN cd /home/build/bin && ldd app
 # COPY --from=build /home/build/lib /home/build/lib
 
 # Command to execute when the image loads
-ENTRYPOINT ["/home/build/bin/app"]
+ENTRYPOINT ["/src/build/bin/app"]

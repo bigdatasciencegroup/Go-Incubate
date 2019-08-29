@@ -2,7 +2,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0 FATAL_ERROR)
 
 # Project name
-PROJECT(cvideoingest VERSION 0.1.0)
+PROJECT(hpc VERSION 0.1.0)
 
 # Include CMAKE
 INCLUDE(${CMAKE_ROOT}/Modules/FindPkgConfig.cmake)
@@ -23,6 +23,8 @@ SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/lib/)
 # FILE(GLOB_RECURSE headers      ./src/*.h ./include/*.h)
 # FILE(GLOB_RECURSE sources_test ./test/*.cpp)
 
+INCLUDE(FindOpenMP)
+
 # Library
 # SHARED for dynamic library
 # STATIC for static library
@@ -32,9 +34,9 @@ SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/lib/)
 INCLUDE_DIRECTORIES(./include/)
 
 # External includes
-INCLUDE_DIRECTORIES(/usr/include/gstreamer-1.0) 
-INCLUDE_DIRECTORIES(/usr/include/glib-2.0)  
-INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/glib-2.0/include)  
+# INCLUDE_DIRECTORIES(/usr/include/gstreamer-1.0) 
+# INCLUDE_DIRECTORIES(/usr/include/glib-2.0)  
+# INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/glib-2.0/include)  
 
 # Static compile
 # SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
@@ -51,10 +53,10 @@ ADD_SUBDIRECTORY(./libs/foo/)
 # Link internal libraries
 TARGET_LINK_LIBRARIES(app foo)
 
-# Link external libraries
-TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgstreamer-1.0.so)
-TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgobject-2.0.so)
-TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libglib-2.0.so)
+# # Link external libraries
+# TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgstreamer-1.0.so)
+# TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgobject-2.0.so)
+# TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libglib-2.0.so)
 
 # Testing
 ENABLE_TESTING()
