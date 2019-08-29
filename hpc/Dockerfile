@@ -1,5 +1,5 @@
 # Base image
-FROM ubuntu AS build
+FROM ubuntu:latest AS build
 
 # Install build tools
 RUN apt-get update && apt-get -y install \

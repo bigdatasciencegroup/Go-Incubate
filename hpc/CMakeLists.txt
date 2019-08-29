@@ -2,7 +2,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0 FATAL_ERROR)
 
 # Project name
-PROJECT(hpc VERSION 0.1.0)
+PROJECT(app VERSION 0.1.0)
 
 # Include CMAKE
 INCLUDE(${CMAKE_ROOT}/Modules/FindPkgConfig.cmake)
@@ -22,8 +22,6 @@ SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/lib/)
 # FILE(GLOB_RECURSE sources      ./src/*.cpp)
 # FILE(GLOB_RECURSE headers      ./src/*.h ./include/*.h)
 # FILE(GLOB_RECURSE sources_test ./test/*.cpp)
-
-INCLUDE(FindOpenMP)
 
 # Library
 # SHARED for dynamic library
@@ -57,6 +55,8 @@ TARGET_LINK_LIBRARIES(app foo)
 # TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgstreamer-1.0.so)
 # TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgobject-2.0.so)
 # TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libglib-2.0.so)
+FIND_PACKAGE(OpenMP REQUIRED) # Find the package
+TARGET_LINK_LIBRARIES(app ${OpenMP_CXX_LIBRARIES}) # Link against it for C++
 
 # Testing
 ENABLE_TESTING()
