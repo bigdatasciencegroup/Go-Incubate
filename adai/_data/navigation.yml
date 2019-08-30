@@ -15,36 +15,23 @@ main:
 
 # documentation links
 docs:
-  - title: Guide
-  # - title: Docker
+  - title: Setups and Standards
     children:
+      - title: "Guide"
+        url: /docs/guide/
       - title: "Docker"
         url: /docs/docker/
-  # - title: Git
-  #   children:
       - title: "Git"
         url: /docs/git/
-  # - title: Kafka
-  #   children:
       - title: "Kafka"
         url: /docs/kafka/
-  # - title: Kubernetes
-  #   children:
       - title: "Kubernetes"
         url: /docs/kubernetes/
-  # - title: Linux
-  #   children:
       - title: "Linux"
         url: /docs/linux/
-  # - title: Microservices
-  #   children:
       - title: "Microservices"
         url: /docs/microservices/
-  # - title: Python
-  #   children:
       - title: "Python"
         url: /docs/python/
-  # - title: TensorFlow
-  #   children:
       - title: "TensorFlow"
         url: /docs/tensorflow/

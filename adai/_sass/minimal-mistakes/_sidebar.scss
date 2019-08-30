@@ -72,6 +72,13 @@
 }
 
 .sidebar__right {
+
+  /* Start of my additions */
+  p, li{  
+    text-align: left;  
+  }
+  /* End of my additions */
+  
   margin-bottom: 1em;
 
   @include breakpoint($large) {
