@@ -96,31 +96,34 @@ author:
   avatar           : "/assets/images/Adai-774x781.jpg" # e.g. "/assets/images/bio-photo.jpg"
   bio              : "If nothing goes right, go left!"
   location         : "Malaysia & Singapore"
-  email            : adaickalavan@gmail.com
-  uri              : "https://adaickalavan.github.io/"
-  calendar         : "/calendar/"
-  bitbucket        :
-  codepen          :
-  dribbble         :
-  flickr           :
-  facebook         :
-  foursquare       :
-  github           : "adaickalavan"
-  google_plus      :
-  keybase          :
-  instagram        :
-  lastfm           :
-  linkedin         : "adaickalavan"
-  pinterest        :
-  soundcloud       :
-  stackoverflow    : # "123456/username" (the last part of your profile url, e.g. http://stackoverflow.com/users/123456/username)
-  steam            :
-  tumblr           :
-  twitter          :
-  vine             :
-  weibo            :
-  xing             :
-  youtube          : # "https://youtube.com/c/MichaelRoseDesign"
+  email            : "adaickalavan@gmail.com"
+  links:
+      - label: "Website"
+        icon: "fas fa-fw fa-link"
+        url: "https://adaickalavan.github.io/"
+      - label: "Schedule a Chat"
+        icon: "fa fa-fw fa-calendar"
+        url: "/calendar/"
+      - label: "LinkedIn"
+        icon: "fab fa-fw fa-linkedin"
+        url: "https://www.linkedin.com/in/adaickalavan"
+      - label: "GitHub"
+        icon: "fab fa-fw fa-github"
+        url: "https://adaickalavan.github.io/"
+
+
+# Site Footer
+footer:
+  links:
+    - label: "Schedule a Chat"
+      icon: "fa fa-fw fa-calendar"
+      url: "/calendar/"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/adaickalavan"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://adaickalavan.github.io/"
 
 
 # Reading Files
@@ -178,6 +181,14 @@ kramdown:
   smart_quotes: lsquo,rsquo,ldquo,rdquo
   enable_coderay: false
 
+collections:
+  portfolio:
+    output: true
+    permalink: /:collection/:path/
+  docs:
+    output: true
+    permalink: /:collection/:path/
+
 # Defaults
 defaults:
   # _portfolio
@@ -188,7 +199,7 @@ defaults:
       layout: single
       author_profile: true
       share: true
-      comments: true
+      comment: true
   # _posts
   - scope:
       path: ""
@@ -197,7 +208,7 @@ defaults:
       layout: single
       author_profile: true
       read_time: true
-      comments: true
+      comment: true
       share: true
       related: true
   # _pages
@@ -292,12 +303,3 @@ compress_html:
   clippings: all
   ignore:
     envs: development
-
-
-collections:
-  portfolio:
-    output: true
-    permalink: /:collection/:path/
-  docs:
-    output: true
-    permalink: /:collection/:path/
