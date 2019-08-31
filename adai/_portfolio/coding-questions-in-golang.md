@@ -10,7 +10,7 @@ feature_row:
 
 {% include feature_row %}
 
-{% include toc %}
+<!-- {% include toc %} -->
 
 In this post, we will answer several programming challenge questions in Golang. These questions are often asked as part of interviews. Although there may be built-in methods to solve these problems, we shall only use basic data structures to solve each of them.
 

@@ -5,7 +5,7 @@ header:
   teaser: assets/images/gopher_docker.jpg
 ---
 
-{% include toc %}
+<!-- {% include toc %} -->
 
 ## Info
 

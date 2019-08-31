@@ -7,7 +7,7 @@ header:
 
 {% include feature_row %}
 
-{% include toc %}
+<!-- {% include toc %} -->
 
 ## Project
 

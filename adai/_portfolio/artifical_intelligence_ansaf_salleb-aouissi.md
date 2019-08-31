@@ -17,12 +17,12 @@ gallery_07_02:
   - url: /assets/images/artificial_intelligence_p03_04.jpg
     image_path: /assets/images/artificial_intelligence_p03_04.jpg
   - url: /assets/images/artificial_intelligence_p03_03.jpg
-    image_path: /assets/images/artificial_intelligence_p03_03.jpg 
+    image_path: /assets/images/artificial_intelligence_p03_03.jpg   
 ---
 
 {% include feature_row %}
 
-{% include toc %}
+<!-- {% include toc %} -->
 
 ## Review
 

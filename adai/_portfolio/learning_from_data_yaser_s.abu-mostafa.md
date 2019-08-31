@@ -9,7 +9,7 @@ feature_row:
 
 {% include feature_row type="center"%}
 
-{% include toc %}
+<!-- {% include toc %} -->
 
 ## Review
 

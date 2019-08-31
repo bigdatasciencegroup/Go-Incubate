@@ -16,7 +16,7 @@ minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt"
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Signal Processing & Machine Learning"
+title                    : "Statistical Signal Processing & Machine Learning"
 title_separator          : "|"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "Adaickalavan"
@@ -301,9 +301,10 @@ defaults:
       share: true
       related: true
       classes: wide
+      toc: true
   # _pages
   - scope:
-      path: ""
+      path: "_pages"
       type: pages
     values:
       layout: single
@@ -328,3 +329,4 @@ defaults:
 maps:
   google:
     api_key: AIzaSyA4vnO8pNFkNCuuugSwFkps7MGgTPNJf2w  
+  

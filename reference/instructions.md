@@ -22,6 +22,7 @@
     ```text
     bundle exec jekyll serve --watch --incremental
     ```
+    JEKYLL_ENV=production jekyll build --watch --incremental
 
 1. Transfer docker image without using internet based repository
     You will need to save the Docker image as a tar file:

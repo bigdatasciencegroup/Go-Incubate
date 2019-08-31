@@ -5,7 +5,7 @@ header:
   teaser: assets/images/icecream.jpg
 ---
 
-{% include toc %}
+<!-- {% include toc %} -->
 
 ## Info
 

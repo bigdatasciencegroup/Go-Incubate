@@ -6,12 +6,11 @@ header:
 feature_row:
   - image_path: assets/images/deep_learning_c4w3_p01_01_yolo.jpg 
   - image_path: assets/images/deep_learning_c4w4_p02_01_nst.jpg
-toc: true  
 ---
 
 {% include feature_row %}
 
-{% include toc %}
+<!-- {% include toc %} -->
 
 ## Review
 
