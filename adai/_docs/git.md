@@ -1,7 +1,6 @@
 ---
 title: "Git"
 permalink: /docs/git/
-toc: true
 ---
 
 ## Tutorial

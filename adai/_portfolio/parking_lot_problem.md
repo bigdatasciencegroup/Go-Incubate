@@ -5,7 +5,7 @@ header:
   teaser: assets/images/parkinglot_01.jpg
 ---
 
-{% include toc %}
+<!-- {% include toc %} -->
 
 ## Info
 

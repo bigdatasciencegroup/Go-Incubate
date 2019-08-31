@@ -1,7 +1,6 @@
 ---
 title: "Linux"
 permalink: /docs/linux/
-toc: true
 ---
 
 ## Configuration

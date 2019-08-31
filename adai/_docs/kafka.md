@@ -1,7 +1,6 @@
 ---
 title: "Kafka"
 permalink: /docs/kafka/
-toc: true
 ---
 
 ## Apache Kafka

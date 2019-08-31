@@ -1,7 +1,6 @@
 ---
 title: "Kubernetes"
 permalink: /docs/kubernetes/
-toc: true
 ---
 
 + Container orchestration system: automates container deployment, scaling, networking, storage, and scheduling.

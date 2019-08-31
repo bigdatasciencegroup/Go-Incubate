@@ -1,7 +1,6 @@
 ---
 title: "Microservices"
 permalink: /docs/microservices/
-toc: true
 ---
 
 1. A generic microservices architecture is as follows:

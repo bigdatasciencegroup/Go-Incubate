@@ -10,7 +10,7 @@ feature_row:
 
 {% include feature_row %}
 
-{% include toc %}
+<!-- {% include toc %} -->
 
 ## Summary
 This page contains different Python implementations for recognising handwritten digits from the famous MNIST database.

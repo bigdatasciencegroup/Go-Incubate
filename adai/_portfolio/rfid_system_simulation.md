@@ -13,7 +13,7 @@ gallery_01:
 
 {% include feature_row %}
 
-{% include toc %}
+<!-- {% include toc %} -->
 
 ## Info
 We will describe how to simulate the wireless communication chain of a phase-shift keyed (PSK) modulated radio freqeuncy identification (RFID) system in Matlab. We endeavour to provide the mathematical equations and corresponding Matlab code to model the transmitter, wireless channel, analog front-end, and a digital baseband receiver of a RFID system. 

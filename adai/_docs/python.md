@@ -1,7 +1,6 @@
 ---
 title: "Python"
 permalink: /docs/python/
-toc: true
 ---
 
 ## Code style

@@ -10,7 +10,7 @@ feature_row:
 
 {% include feature_row %}
 
-{% include toc %}
+<!-- {% include toc %} -->
 
 ## Introduction
 

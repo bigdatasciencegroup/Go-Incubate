@@ -1,7 +1,6 @@
 ---
 title: "Docker"
 permalink: /docs/docker/
-toc: true
 ---
 
 ## Docker File
