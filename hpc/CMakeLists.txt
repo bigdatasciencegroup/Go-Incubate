@@ -8,7 +8,7 @@ PROJECT(app VERSION 0.1.0)
 INCLUDE(${CMAKE_ROOT}/Modules/FindPkgConfig.cmake)
 
 # Build settings
-SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/bin/)
+SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/)
 SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/lib/)
 
 # Set config parameters
