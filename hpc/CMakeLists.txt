@@ -23,6 +23,10 @@ SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/lib/)
 # FILE(GLOB_RECURSE headers      ./src/*.h ./include/*.h)
 # FILE(GLOB_RECURSE sources_test ./test/*.cpp)
 
+# Find packages
+FIND_PACKAGE(OpenMP REQUIRED) # Find the package
+FIND_PACKAGE(MPI REQUIRED) # Find the package
+
 # Library
 # SHARED for dynamic library
 # STATIC for static library
@@ -32,9 +36,7 @@ SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/lib/)
 INCLUDE_DIRECTORIES(./include/)
 
 # External includes
-# INCLUDE_DIRECTORIES(/usr/include/gstreamer-1.0) 
-# INCLUDE_DIRECTORIES(/usr/include/glib-2.0)  
-# INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/glib-2.0/include)  
+INCLUDE_DIRECTORIES(${MPI_INCLUDE_PATH}) 
 
 # Static compile
 # SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
@@ -46,17 +48,17 @@ INCLUDE_DIRECTORIES(./include/)
 ADD_EXECUTABLE(app ./src/main/main.cpp)
 
 # Internal libraries
-ADD_SUBDIRECTORY(./libs/lec03/)
+ADD_SUBDIRECTORY(./libs/lec04)
 
 # Link internal libraries
-TARGET_LINK_LIBRARIES(app lec03)
+TARGET_LINK_LIBRARIES(app lec04)
 
-# # Link external libraries
-FIND_PACKAGE(OpenMP REQUIRED) # Find the package
+# Link external libraries
 TARGET_LINK_LIBRARIES(app ${OpenMP_CXX_LIBRARIES}) # Link against it for C++
+TARGET_LINK_LIBRARIES(app ${MPI_CXX_LIBRARIES}) # Link against it for C++
 
 # Testing
-ENABLE_TESTING()
+# ENABLE_TESTING()
 
 # Test
 # ADD_TEST(appTest app)

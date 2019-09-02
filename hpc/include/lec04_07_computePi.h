@@ -1,5 +1,5 @@
-#ifndef LEC03_01_COMPUTEPI_H
-#define LEC03_01_COMPUTEPI_H
+#ifndef LEC04_07_COMPUTEPI_H
+#define LEC04_07_COMPUTEPI_H
 
 #include <random>
 

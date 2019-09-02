@@ -1,0 +1,1 @@
+ADD_LIBRARY(lec04 ./lec04_07_computePi.cpp)

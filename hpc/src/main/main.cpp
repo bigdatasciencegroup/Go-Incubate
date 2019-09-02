@@ -1,16 +1,16 @@
 #include <iostream>
 #include <random>
 #include <omp.h>
-#include "foo.h"
-#include "lec03_01_computePi.h"
+#include "mpi.h"
+#include "lec04_07_computePi.h"
 
 int main(int argc, char* argv[]){
 
-    //Lec03_01_computePi
+    //Lec04_07_computePi
     computePi pi(1000000);
     pi.get();
 
-    //Lec03_02_computePiOmp
-    
+    //Lec04_09_computePiOmp
+
 
 }
