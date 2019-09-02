@@ -1,0 +1,1 @@
+ADD_LIBRARY(lec03 ./lec03_01_computePi.cpp)

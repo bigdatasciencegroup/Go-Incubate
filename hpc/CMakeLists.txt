@@ -47,14 +47,13 @@ ADD_EXECUTABLE(app ./src/main/main.cpp)
 
 # Internal libraries
 ADD_SUBDIRECTORY(./libs/foo/)
+ADD_SUBDIRECTORY(./libs/lec03/)
 
 # Link internal libraries
 TARGET_LINK_LIBRARIES(app foo)
+TARGET_LINK_LIBRARIES(app lec03)
 
 # # Link external libraries
-# TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgstreamer-1.0.so)
-# TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libgobject-2.0.so)
-# TARGET_LINK_LIBRARIES(app /usr/lib/x86_64-linux-gnu/libglib-2.0.so)
 FIND_PACKAGE(OpenMP REQUIRED) # Find the package
 TARGET_LINK_LIBRARIES(app ${OpenMP_CXX_LIBRARIES}) # Link against it for C++
 

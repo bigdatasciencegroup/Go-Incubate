@@ -11,14 +11,10 @@ services:
     #   - /tmp/.X11-unix:/tmp/.X11-unix
     # devices:
     #   - /dev/snd:/dev/snd
-    #     networks:
-#       - zookeeper_dockerNet 
+    # networks:
+    #   - zookeeper_dockerNet 
     command: 89 97 
 
 # networks:
 #   zookeeper_dockerNet:
 #     external: true #Label the other docker-compose network as an external network to the current docker-compose file
-
-
-# run the following command in a terminal to disable access control and provide access to screen 
-# xhost
