@@ -46,11 +46,9 @@ INCLUDE_DIRECTORIES(./include/)
 ADD_EXECUTABLE(app ./src/main/main.cpp)
 
 # Internal libraries
-ADD_SUBDIRECTORY(./libs/foo/)
 ADD_SUBDIRECTORY(./libs/lec03/)
 
 # Link internal libraries
-TARGET_LINK_LIBRARIES(app foo)
 TARGET_LINK_LIBRARIES(app lec03)
 
 # # Link external libraries
