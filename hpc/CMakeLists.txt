@@ -24,8 +24,8 @@ SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/lib/)
 # FILE(GLOB_RECURSE sources_test ./test/*.cpp)
 
 # Find packages
-FIND_PACKAGE(OpenMP REQUIRED) # Find the package
-FIND_PACKAGE(MPI REQUIRED) # Find the package
+FIND_PACKAGE(OpenMP REQUIRED) # Find OPENMP package
+FIND_PACKAGE(MPI REQUIRED) # Find OPENMPI package
 
 # Library
 # SHARED for dynamic library
@@ -36,7 +36,7 @@ FIND_PACKAGE(MPI REQUIRED) # Find the package
 INCLUDE_DIRECTORIES(./include/)
 
 # External includes
-INCLUDE_DIRECTORIES(${MPI_INCLUDE_PATH}) 
+INCLUDE_DIRECTORIES(${MPI_CXX_INCLUDE_PATH}) 
 
 # Static compile
 # SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
@@ -68,3 +68,4 @@ MESSAGE("CMAKE source directory = " ${CMAKE_SOURCE_DIR})
 MESSAGE("Project source directory = " ${PROJECT_SOURCE_DIR})
 MESSAGE("Project binary directory = " ${PROJECT_BINARY_DIR})
 MESSAGE("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
+# MESSAGE("MPI_INCLUDE_PATH = " ${MPI_INCLUDE_PATH})

@@ -1,12 +1,10 @@
 # Base image
-FROM ubuntu:latest AS build
+FROM ubuntu AS buildstage
 
 # Install build tools
 RUN apt-get update && apt-get -y install \
-    g++ cmake git pkg-config \
-    openmpi-bin openmpi-common \
-    openssh-client openssh-server \
-    libopenmpi1.3 libopenmpi-dbg libopenmpi-dev
+    cmake pkg-config \ 
+    libopenmpi-dev
 
 # Change working directory
 WORKDIR /src
@@ -29,8 +27,8 @@ RUN cd /src/bin && ldd app
 # LABEL author Adaickalavan
 
 # # Copy needed source
-# COPY --from=build /home/build/bin /home/build/bin
-# COPY --from=build /home/build/lib /home/build/lib
+# COPY --from=buildstage /home/build/bin /home/build/bin
+# COPY --from=buildstage /home/build/lib /home/build/lib
 
 # Command to execute when the image loads
 ENTRYPOINT ["/src/bin/app"]
