@@ -1,18 +1,19 @@
 # Base image
-FROM ubuntu AS buildstage
+FROM ubuntu:latest AS buildstage
 
 # Install build tools
-RUN apt-get update && apt-get -y install \
-    cmake pkg-config \ 
+RUN apt-get update 
+RUN apt-get -y install \
+    cmake pkg-config \
     libopenmpi-dev
 
 # Change working directory
 WORKDIR /src
 
 # Copy the current folder which contains C++ source code to the Docker image
-COPY . /src/
+COPY . .
 
-# Use cmake to compile the cpp source file 
+# Use cmake to compile the cpp source file. cmake@v3.10.x .
 RUN cmake -E make_directory build && \
     cmake -E chdir ./build cmake -DCMAKE_BUILD_TYPE=Release .. && \
     cmake --build ./build

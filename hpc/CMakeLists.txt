@@ -1,5 +1,5 @@
 # CMake version 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0 FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10 FATAL_ERROR)
 
 # Project name
 PROJECT(app VERSION 0.1.0)
@@ -8,8 +8,10 @@ PROJECT(app VERSION 0.1.0)
 INCLUDE(${CMAKE_ROOT}/Modules/FindPkgConfig.cmake)
 
 # Build settings
+set(CMAKE_CXX_STANDARD 17)
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/)
 SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/lib/)
+
 
 # Set config parameters
 # set (app_VERSION_MAJOR 1)
@@ -45,17 +47,19 @@ INCLUDE_DIRECTORIES(${MPI_CXX_INCLUDE_PATH})
 
 # Executable
 # ADD_EXECUTABLE(app ${sources} ${headers})
-ADD_EXECUTABLE(app ./src/main/main.cpp)
+ADD_EXECUTABLE(${PROJECT_NAME} ./src/main/main.cpp)
 
 # Internal libraries
 ADD_SUBDIRECTORY(./libs/lec04)
 
 # Link internal libraries
-TARGET_LINK_LIBRARIES(app lec04)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} lec04)
 
 # Link external libraries
-TARGET_LINK_LIBRARIES(app ${OpenMP_CXX_LIBRARIES}) # Link against it for C++
-TARGET_LINK_LIBRARIES(app ${MPI_CXX_LIBRARIES}) # Link against it for C++
+# TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${OpenMP_CXX_LIBRARIES}) # Link against it for C++
+# TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${MPI_CXX_LIBRARIES}) # Link against it for C++
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} OpenMP::OpenMP_CXX)
+TARGET_LINK_LIBRARIES(${PROJECT_NAME} MPI::MPI_CXX)
 
 # Testing
 # ENABLE_TESTING()
