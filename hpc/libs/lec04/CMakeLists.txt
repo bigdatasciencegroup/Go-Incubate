@@ -1,1 +1,1 @@
-ADD_LIBRARY(lec04 ./lec04_07_computePi.cpp)
+add_library(lec04 ./lec0407computePi.cpp)

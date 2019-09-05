@@ -4,7 +4,7 @@ FROM ubuntu:latest AS buildstage
 # Install build tools
 RUN apt-get update 
 RUN apt-get -y install \
-    cmake pkg-config \
+    cmake pkg-config doxygen \
     libopenmpi-dev
 
 # Change working directory
@@ -19,7 +19,7 @@ RUN cmake -E make_directory build && \
     cmake --build ./build
 
 # Check if the program has dynamic dependencies
-RUN cd /src/bin && ldd app
+RUN cd /src/bin && ldd hpc
 
 # # Multistage build
 # FROM alpine AS runtime
@@ -28,8 +28,8 @@ RUN cd /src/bin && ldd app
 # LABEL author Adaickalavan
 
 # # Copy needed source
-# COPY --from=buildstage /home/build/bin /home/build/bin
-# COPY --from=buildstage /home/build/lib /home/build/lib
+# COPY --from=buildstage /src/build /src/build/
+# COPY --from=buildstage /src/bin /src/bin/
 
 # Command to execute when the image loads
-ENTRYPOINT ["/src/bin/app"]
+ENTRYPOINT ["/src/bin/hpc"]

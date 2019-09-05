@@ -1,17 +1,23 @@
-# CMake version 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.10 FATAL_ERROR)
+# CMake version cmake@v3.10.x
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
-# Project name
-PROJECT(app VERSION 0.1.0)
+# Project name and a few useful settings. Other commands can pick up the results
+project(hpc 
+    VERSION 0.1.0 
+    LANGUAGES CXX)
+
+# Must use GNUInstallDirs to install libraries into correct locations on all platforms.
+include(GNUInstallDirs)
 
 # Include CMAKE
-INCLUDE(${CMAKE_ROOT}/Modules/FindPkgConfig.cmake)
+include(${CMAKE_ROOT}/Modules/FindPkgConfig.cmake)
 
 # Build settings
-set(CMAKE_CXX_STANDARD 17)
-SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/)
-SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/lib/)
-
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF) # Let's ensure -std=c++xx instead of -std=g++xx
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/)
+# set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/lib/)
 
 # Set config parameters
 # set (app_VERSION_MAJOR 1)
@@ -20,56 +26,41 @@ SET(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/build/lib/)
 # Configure a header file to pass some of the CMake settings to the source code
 # CONFIGURE_FILE ("${PROJECT_SOURCE_DIR}/appConfig.h.in" "${PROJECT_BINARY_DIR}/appConfig.h")
 
-# Files
-# FILE(GLOB_RECURSE sources      ./src/*.cpp)
-# FILE(GLOB_RECURSE headers      ./src/*.h ./include/*.h)
-# FILE(GLOB_RECURSE sources_test ./test/*.cpp)
-
-# Find packages
-FIND_PACKAGE(OpenMP REQUIRED) # Find OPENMP package
-FIND_PACKAGE(MPI REQUIRED) # Find OPENMPI package
-
-# Library
-# SHARED for dynamic library
-# STATIC for static library
-# ADD_LIBRARY(foo ./src/foo/*.cpp)
+# Docs only available if this is the main app
+find_package(Doxygen)
+# if(Doxygen_FOUND)
+#     add_subdirectory(./docs)
+# else()
+#     message(STATUS "Doxygen not found, not building docs")
+# endif()
 
 # Internal includes
-INCLUDE_DIRECTORIES(./include/)
+include_directories(./include/)
 
 # External includes
-INCLUDE_DIRECTORIES(${MPI_CXX_INCLUDE_PATH}) 
-
-# Static compile
-# SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-# SET(BUILD_SHARED_LIBS OFF)
-# SET(CMAKE_EXE_LINKER_FLAGS "-static")
+include_directories(${MPI_CXX_INCLUDE_PATH}) 
 
 # Executable
-# ADD_EXECUTABLE(app ${sources} ${headers})
-ADD_EXECUTABLE(${PROJECT_NAME} ./src/main/main.cpp)
-
-# Internal libraries
-ADD_SUBDIRECTORY(./libs/lec04)
+add_executable(${PROJECT_NAME} ./apps/main.cpp)
+source_group("Integration" FILES main.cpp)
 
 # Link internal libraries
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} lec04)
+add_subdirectory(./libs/lec04/)
+target_link_libraries(${PROJECT_NAME} lec04)
 
 # Link external libraries
-# TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${OpenMP_CXX_LIBRARIES}) # Link against it for C++
-# TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${MPI_CXX_LIBRARIES}) # Link against it for C++
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} OpenMP::OpenMP_CXX)
-TARGET_LINK_LIBRARIES(${PROJECT_NAME} MPI::MPI_CXX)
-
-# Testing
-# ENABLE_TESTING()
+find_package(OpenMP REQUIRED) # Find OPENMP package
+find_package(MPI REQUIRED) # Find OPENMPI package
+target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)
+target_link_libraries(${PROJECT_NAME} MPI::MPI_CXX)
 
 # Test
-# ADD_TEST(appTest app)
+include(CTest)
+# add_test(NAME appTest COMMAND app)
 
 # Messages
-MESSAGE("CMAKE source directory = " ${CMAKE_SOURCE_DIR})
-MESSAGE("Project source directory = " ${PROJECT_SOURCE_DIR})
-MESSAGE("Project binary directory = " ${PROJECT_BINARY_DIR})
-MESSAGE("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
-# MESSAGE("MPI_INCLUDE_PATH = " ${MPI_INCLUDE_PATH})
+message("CMAKE source directory = " ${CMAKE_SOURCE_DIR})
+message("Project source directory = " ${PROJECT_SOURCE_DIR})
+message("Project binary directory = " ${PROJECT_BINARY_DIR})
+message("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
+message("MPI_INCLUDE_PATH = " ${MPI_INCLUDE_PATH})
