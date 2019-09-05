@@ -34,6 +34,10 @@ find_package(Doxygen)
 #     message(STATUS "Doxygen not found, not building docs")
 # endif()
 
+# Find packages
+find_package(OpenMP REQUIRED) # Find OPENMP package
+find_package(MPI REQUIRED) # Find OPENMPI package
+
 # Internal includes
 include_directories(./include/)
 
@@ -48,11 +52,12 @@ source_group("Integration" FILES main.cpp)
 add_subdirectory(./libs/lec04/)
 target_link_libraries(${PROJECT_NAME} lec04)
 
+add_subdirectory(./libs/slide38/)
+target_link_libraries(${PROJECT_NAME} slide38)
+
 # Link external libraries
-find_package(OpenMP REQUIRED) # Find OPENMP package
-find_package(MPI REQUIRED) # Find OPENMPI package
-target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)
-target_link_libraries(${PROJECT_NAME} MPI::MPI_CXX)
+# target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)
+# target_link_libraries(${PROJECT_NAME} MPI::MPI_CXX)
 
 # Test
 include(CTest)
