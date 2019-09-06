@@ -6,9 +6,8 @@ computepi::computepi(){
 }
 
 double computepi::runPiSerial(int numSteps){
-    double step;
     double x, pi, sum = 0.0;
-    step = 1.0/double(numSteps);
+    double step = 1.0/double(numSteps);
 
     double startTime = omp_get_wtime();
     for (int ii = 0; ii < numSteps; ii++){
