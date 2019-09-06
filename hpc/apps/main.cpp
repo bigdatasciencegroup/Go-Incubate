@@ -1,6 +1,7 @@
 #include <iostream>
 #include "lec0407computePi.h"
-#include "slide38.h"
+#include "helloworld.h"
+#include "computepi.h"
 
 int main(int argc, char* argv[]){
 
@@ -13,12 +14,19 @@ int main(int argc, char* argv[]){
     // std::cout << "Time taken by function: " << duration.count() << " microseconds \n"; 
     
     // Slide 38 - Parallel 'Hello World' program
-    slide38 slide38Inst;
-    slide38Inst.run(); 
+    helloWorld helloWorldInst;
+    helloWorldInst.run(); 
 
-    // Slide 38 - Compute Pi
-    slide38 slide38Inst;
-    slide38Inst.run(); 
+    // Slide 48 - Compute Pi in Serial
+    computepi computePiInst;
+    computePiInst.runPiSerial(100000); 
+
+    // Slide 52 - Compute Pi in Parallel
+    computePiInst.runPiParallel(100000, 1); 
+    computePiInst.runPiParallel(100000, 2); 
+    computePiInst.runPiParallel(100000, 3); 
+    computePiInst.runPiParallel(100000, 4); 
+    
 
     return 0;
 

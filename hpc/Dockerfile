@@ -19,7 +19,7 @@ RUN cmake -E make_directory build && \
     cmake --build ./build
 
 # Check if the program has dynamic dependencies
-RUN cd /src/bin && ldd hpc
+RUN cd /src/bin && ldd apps
 
 # # Multistage build
 # FROM alpine AS runtime
@@ -32,4 +32,4 @@ RUN cd /src/bin && ldd hpc
 # COPY --from=buildstage /src/bin /src/bin/
 
 # Command to execute when the image loads
-ENTRYPOINT ["/src/bin/hpc"]
+ENTRYPOINT ["/src/bin/apps"]

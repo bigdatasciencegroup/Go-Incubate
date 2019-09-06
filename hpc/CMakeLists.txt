@@ -35,25 +35,29 @@ find_package(Doxygen)
 # endif()
 
 # Find packages
-find_package(OpenMP REQUIRED) # Find OPENMP package
-find_package(MPI REQUIRED) # Find OPENMPI package
+# find_package(OpenMP REQUIRED) # Find OPENMP package
+# find_package(MPI REQUIRED) # Find OPENMPI package
 
 # Internal includes
 include_directories(./include/)
 
 # External includes
-include_directories(${MPI_CXX_INCLUDE_PATH}) 
+# include_directories(${MPI_CXX_INCLUDE_PATH}) 
 
 # Executable
-add_executable(${PROJECT_NAME} ./apps/main.cpp)
+# add_executable(${PROJECT_NAME} ./apps/main.cpp)
 source_group("Integration" FILES main.cpp)
 
-# Link internal libraries
-add_subdirectory(./libs/lec04/)
-target_link_libraries(${PROJECT_NAME} lec04)
+# Add subdirectories - executable
+add_subdirectory(./apps/)
 
-add_subdirectory(./libs/slide38/)
-target_link_libraries(${PROJECT_NAME} slide38)
+# Add subdirectories - libraries
+add_subdirectory(./libs/lec04/)
+add_subdirectory(./libs/helloworld/)
+add_subdirectory(./libs/computepi/)
+
+# add_subdirectory(./libs/*)
+# target_link_libraries(${PROJECT_NAME} slide38)
 
 # Link external libraries
 # target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)
@@ -65,6 +69,7 @@ include(CTest)
 
 # Messages
 message("CMAKE source directory = " ${CMAKE_SOURCE_DIR})
+message("CMAKE binary directory = " ${CMAKE_BINARY_DIR})
 message("Project source directory = " ${PROJECT_SOURCE_DIR})
 message("Project binary directory = " ${PROJECT_BINARY_DIR})
 message("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")

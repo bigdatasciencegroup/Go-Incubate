@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG   CMakeFiles/hpc.dir/apps/main.cpp.o  -o ../bin/hpc -Wl,-rpath,/usr/lib/x86_64-linux-gnu/openmpi/lib libs/lec04/liblec04.a /usr/lib/gcc/x86_64-linux-gnu/7/libgomp.so -lpthread -pthread /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi_cxx.so /usr/lib/x86_64-linux-gnu/openmpi/lib/libmpi.so 

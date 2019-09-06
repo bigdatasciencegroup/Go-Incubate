@@ -1,2 +1,0 @@
-/usr/bin/ar qc liblec04.a  CMakeFiles/lec04.dir/lec0407computePi.cpp.o
-/usr/bin/ranlib liblec04.a
