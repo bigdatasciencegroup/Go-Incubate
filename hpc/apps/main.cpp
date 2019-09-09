@@ -19,14 +19,24 @@ int main(int argc, char* argv[]){
 
     // Slide 48 - Compute Pi in Serial
     computepi computePiInst;
-    computePiInst.runPiSerial(100000); 
+    computePiInst.runPiSerial(1e8); 
 
-    // Slide 52 - Compute Pi in Parallel
-    computePiInst.runPiParallel(100000, 1); 
-    computePiInst.runPiParallel(100000, 2); 
-    computePiInst.runPiParallel(100000, 3); 
-    computePiInst.runPiParallel(100000, 4); 
-    
+    // Slide 52 - Compute Pi in Parallel with false sharing
+    computePiInst.runPiParallel(1e8, 1); 
+    computePiInst.runPiParallel(1e8, 2); 
+    computePiInst.runPiParallel(1e8, 3); 
+    computePiInst.runPiParallel(1e8, 4); 
+
+    // Slide 57 - Compute Pi in Parallel with padding
+    computePiInst.runPiParallelPad(1e8, 1); 
+    computePiInst.runPiParallelPad(1e8, 2); 
+    computePiInst.runPiParallelPad(1e8, 3); 
+    computePiInst.runPiParallelPad(1e8, 4); 
+
+    // Slide 69 - Compute Pi in Parallel with synchronisation
+    computePiInst.runPiParallelSync(1e8, 3); 
+
+
 
     return 0;
 
