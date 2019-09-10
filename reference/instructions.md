@@ -71,33 +71,41 @@
 1. To visualize Godoc of our own package    
 
 1. Get thumbdrive device path
-```
-lsblk
-```
-Plug it in. If it automounts, unmount it.
-Type: sudo mkswap /dev/sdb1 (or whatever your device path is)
-Then type: sudo swapon -p 32767 /dev/sdb1 (the 32767 makes it a higher priority and will thus be used before the hard drive swap drive)
+    ```
+    lsblk
+    ```
+    Plug it in. If it automounts, unmount it.
+    Type: sudo mkswap /dev/sdb1 (or whatever your device path is)
+    Then type: sudo swapon -p 32767 /dev/sdb1 (the 32767 makes it a higher priority and will thus be used before the hard drive swap drive)
 
 
 1. Enable display access from docker to linux desktop:
-```
-xhost +
+    ```
+    xhost +
+    ```
 
 1. To enable Docker to work behind a proxy, see instructions at
-```
-https://stackoverflow.com/questions/23111631/cannot-download-docker-images-behind-a-proxy
-```
+    ```
+    https://stackoverflow.com/questions/23111631/cannot-download-docker-images-behind-a-proxy
+    ```
 
 1. Set up user name/email address
-$ git config --global user.name <username>
-$ git config --global user.email <mailaddress>
+    ```
+    $ git config --global user.name <username>
+    $ git config --global user.email <mailaddress>
+    ```
+
+1. To save Git password
+    ```bash
+    $ git config --global credential.helper store
+    ```
 
 1. To run unit tests in python. For info see : https://realpython.com/python-testing/
-```python
-python -m unittest discover -s <path to test folder>
-```
-```
-$ python -m unittest discover -s tests -t src
-```
-unittest will change to the src/ directory, scan for all test*.py files inside the the tests directory, and execute them.
+    ```python
+    python -m unittest discover -s <path to test folder>
+    ```
+    ```
+    $ python -m unittest discover -s tests -t src
+    ```
+    unittest will change to the src/ directory, scan for all test*.py files inside the the tests directory, and execute them.
 
