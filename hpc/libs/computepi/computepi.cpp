@@ -17,7 +17,7 @@ double computepi::runPiSerial(int numSteps){
     double totalTime = omp_get_wtime() - startTime;
     pi = step * sum;
     
-    printf("computePi.runPiSerial(). Pi = %f. Time = %f\n", pi, totalTime);
+    printf("computePi.runPiSerial(). Pi = %f. Time = %f sec\n", pi, totalTime);
     return pi;
 }
 
@@ -49,7 +49,7 @@ double computepi::runPiParallel(int numSteps, int nThreadsInput){
     double totalTime = omp_get_wtime() - startTime;
     double pi = sumTotal*step;
     
-    printf("computePi.runPiParallel(). Pi = %f. Time = %f\n", pi, totalTime);
+    printf("computePi.runPiParallel(). Pi = %f. Time = %f sec\n", pi, totalTime);
     return pi;
 }
 
@@ -82,7 +82,7 @@ double computepi::runPiParallelPad(int numSteps, int nThreadsInput){
     double totalTime = omp_get_wtime() - startTime;
     double pi = sumTotal*step;
     
-    printf("computePi.runPiParallelPad(). Pi = %f. Time = %f\n", pi, totalTime);
+    printf("computePi.runPiParallelPad(). Pi = %f. Time = %f sec\n", pi, totalTime);
     return pi;
 }
 
@@ -116,6 +116,28 @@ double computepi::runPiParallelSync(int numSteps, int nThreadsInput){
     double totalTime = omp_get_wtime() - startTime;
     double pi = sumMaster*step;
     
-    printf("computePi.runPiParallelSync(). Pi = %f. Time = %f\n", pi, totalTime);
+    printf("computePi.runPiParallelSync(). Pi = %f. Time = %f sec\n", pi, totalTime);
+    return pi;
+}
+
+double computepi::runPiWorkSharing(int numSteps){
+    double pi, sum = 0.0;
+    double step = 1.0/double(numSteps);
+
+    double startTime = omp_get_wtime();
+    #pragma omp parallel 
+    {
+        double x;
+        #pragma omp for reduction(+:sum)
+        for (int ii = 0; ii < numSteps; ii++){
+            x = (ii + 0.5)*step;
+            sum = sum + 4.0/(1.0+x*x);
+        }
+
+    }
+    double totalTime = omp_get_wtime() - startTime;
+    pi = step * sum;
+    
+    printf("computePi.runPiWorkSharing(). Pi = %f. Time = %f sec\n", pi, totalTime);
     return pi;
 }

@@ -36,6 +36,8 @@ int main(int argc, char* argv[]){
     // Slide 69 - Compute Pi in Parallel with synchronisation
     computePiInst.runPiParallelSync(1e8, 3); 
 
+    // Slide 88 - Compute Pi with WorkSharing
+    computePiInst.runPiWorkSharing(1e8); 
 
 
     return 0;
