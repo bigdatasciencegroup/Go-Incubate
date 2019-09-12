@@ -13,6 +13,11 @@ int main(int argc, char* argv[]){
     // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start); 
     // std::cout << "Time taken by function: " << duration.count() << " microseconds \n"; 
     
+    const char* s = getenv("PATH");
+    printf("%s\n",s);
+    const char* w = getenv("KITE");
+    printf("%s\n",w);
+
     // Slide 38 - Parallel 'Hello World' program
     helloWorld helloWorldInst;
     helloWorldInst.run(); 

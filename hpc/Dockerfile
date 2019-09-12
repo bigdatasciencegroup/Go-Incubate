@@ -2,10 +2,11 @@
 FROM ubuntu:latest AS buildstage
 
 # Install build tools
-RUN apt-get update 
+RUN apt-get update --fix-missing
 RUN apt-get -y install \
     cmake pkg-config doxygen \
-    libopenmpi-dev
+    libopenmpi-dev \
+    libcpprest-dev
 
 # Change working directory
 WORKDIR /src
@@ -15,6 +16,7 @@ COPY . .
 
 # Use cmake to compile the cpp source file. cmake@v3.10.x .
 RUN cmake -E make_directory build && \
+    # cmake -E chdir ./build cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/x86_64-linux-gnu/cmake .. && \
     cmake -E chdir ./build cmake -DCMAKE_BUILD_TYPE=Release .. && \
     cmake --build ./build
 

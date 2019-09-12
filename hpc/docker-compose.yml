@@ -5,8 +5,8 @@ services:
     image: hpc
     container_name: hpc   
     restart: on-failure #Ensures that intermittent failures in the Docker environment do not result in unnecessary failures of the service.
-    # environment:
-    #   - DISPLAY=unix$DISPLAY
+    environment:
+      - PATH=SUCCESS
     # volumes:
     #   - /tmp/.X11-unix:/tmp/.X11-unix
     # devices:

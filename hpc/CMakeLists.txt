@@ -37,6 +37,8 @@ find_package(Doxygen)
 # Find packages
 # find_package(OpenMP REQUIRED) # Find OPENMP package
 # find_package(MPI REQUIRED) # Find OPENMPI package
+# include_directories(/usr/lib/x86_64-linux-gnu/cmake/)
+# find_package(cpprestsdk REQUIRED)
 
 # Internal includes
 include_directories(./include/)
