@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -DNDEBUG   CMakeFiles/tutorial.dir/tutorial.cpp.o  -o ../../bin/tutorial ../libs/helloworld/libhelloworld.a ../libs/computepi/libcomputepi.a /usr/lib/gcc/x86_64-linux-gnu/7/libgomp.so -lpthread 

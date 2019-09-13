@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/hpc/apps/mandel.c
+stdio.h
+-
+omp.h
+-
+

@@ -1,22 +1,11 @@
 #include <iostream>
-#include "lec0407computePi.h"
 #include "helloworld.h"
 #include "computepi.h"
 
 int main(int argc, char* argv[]){
-
-    //Lec0407computePiSer
-    // auto start = std::chrono::high_resolution_clock::now(); 
-    // computePi piSerial(1000000);
-    // piSerial.get();
-    // auto stop = std::chrono::high_resolution_clock::now(); 
-    // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start); 
-    // std::cout << "Time taken by function: " << duration.count() << " microseconds \n"; 
-    
-    const char* s = getenv("PATH");
+   
+    const char* s = getenv("ENVVAR");
     printf("%s\n",s);
-    const char* w = getenv("KITE");
-    printf("%s\n",w);
 
     // Slide 38 - Parallel 'Hello World' program
     helloWorld helloWorldInst;
@@ -43,6 +32,7 @@ int main(int argc, char* argv[]){
 
     // Slide 88 - Compute Pi with WorkSharing
     computePiInst.runPiWorkSharing(1e8); 
+
 
 
     return 0;

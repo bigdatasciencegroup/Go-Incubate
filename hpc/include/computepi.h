@@ -13,6 +13,7 @@ class computepi
         double runPiParallelPad(int numSteps, int numThreads);
         double runPiParallelSync(int numSteps, int numThreads);
         double runPiWorkSharing(int numSteps);
+        double runPiTest(int numSteps);
 };
 
 #endif

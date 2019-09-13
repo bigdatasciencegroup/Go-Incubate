@@ -1,5 +1,9 @@
-add_executable(apps ./main.cpp)
+# Executable 1
+add_executable(tutorial ./tutorial.cpp)
+target_link_libraries(tutorial helloworld)
+target_link_libraries(tutorial computepi)
 
-target_link_libraries(apps lec04)
-target_link_libraries(apps helloworld)
-target_link_libraries(apps computepi)
+# Executable 2
+add_executable(mandel ./mandel.c)
+find_package(OpenMP REQUIRED) # Find OPENMP package
+target_link_libraries(mandel OpenMP::OpenMP_C)

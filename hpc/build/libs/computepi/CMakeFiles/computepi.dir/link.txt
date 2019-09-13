@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcomputepi.a  CMakeFiles/computepi.dir/computepi.cpp.o
+/usr/bin/ranlib libcomputepi.a

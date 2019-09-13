@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+.././include/computepi.h
+
+/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/hpc/libs/computepi/computepi.cpp
+iostream
+-
+omp.h
+-
+computepi.h
+/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/hpc/libs/computepi/computepi.h
+

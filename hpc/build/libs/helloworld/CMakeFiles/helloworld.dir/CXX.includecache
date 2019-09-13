@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+.././include/helloworld.h
+random
+-
+
+/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/hpc/libs/helloworld/helloworld.cpp
+iostream
+-
+omp.h
+-
+helloworld.h
+/home/administrator/GoWorkspace/src/github.com/Adaickalavan/Go-Incubate/hpc/libs/helloworld/helloworld.h
+

@@ -21,7 +21,7 @@ RUN cmake -E make_directory build && \
     cmake --build ./build
 
 # Check if the program has dynamic dependencies
-RUN cd /src/bin && ldd apps
+RUN cd /src/bin && ldd tutorial && ldd mandel
 
 # # Multistage build
 # FROM alpine AS runtime
@@ -34,4 +34,4 @@ RUN cd /src/bin && ldd apps
 # COPY --from=buildstage /src/bin /src/bin/
 
 # Command to execute when the image loads
-ENTRYPOINT ["/src/bin/apps"]
+# ENTRYPOINT ["/src/bin/tutorial"]

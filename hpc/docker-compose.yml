@@ -6,15 +6,7 @@ services:
     container_name: hpc   
     restart: on-failure #Ensures that intermittent failures in the Docker environment do not result in unnecessary failures of the service.
     environment:
-      - PATH=SUCCESS
-    # volumes:
-    #   - /tmp/.X11-unix:/tmp/.X11-unix
-    # devices:
-    #   - /dev/snd:/dev/snd
-    # networks:
-    #   - zookeeper_dockerNet 
-    # command: 89 97 
-
-# networks:
-#   zookeeper_dockerNet:
-#     external: true #Label the other docker-compose network as an external network to the current docker-compose file
+      - ENVVAR=successfully retrieved env variable
+    # Name of executable to be run
+    # command: /src/bin/tutorial
+    command: /src/bin/mandel
