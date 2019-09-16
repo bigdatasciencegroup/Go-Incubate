@@ -33,8 +33,5 @@ int main(int argc, char* argv[]){
     // Slide 88 - Compute Pi with WorkSharing
     computePiInst.runPiWorkSharing(1e8); 
 
-
-
     return 0;
-
 }
