@@ -11,4 +11,4 @@ target_link_libraries(mandel OpenMP::OpenMP_C)
 # Executable 2
 add_executable(linked ./linked.c)
 find_package(OpenMP REQUIRED) # Find OPENMP package
-target_link_libraries(mandel OpenMP::OpenMP_C)
+target_link_libraries(linked OpenMP::OpenMP_C)

@@ -1,8 +1,8 @@
 # Base image
-FROM ubuntu:latest AS buildstage
+FROM ubuntu:bionic-20190807 AS buildstage
 
 # Install build tools
-RUN apt-get update --fix-missing
+RUN apt-get update && apt-get upgrade -y
 RUN apt-get -y install \
     cmake pkg-config doxygen \
     libopenmpi-dev \
@@ -23,8 +23,7 @@ RUN cmake -E make_directory build && \
 # Check if the program has dynamic dependencies
 RUN cd /src/bin && \ 
     ldd tutorial && \
-    ldd mandel && \
-    ldd linked
+    ldd mandel
 
 # # Multistage build
 # FROM alpine AS runtime
