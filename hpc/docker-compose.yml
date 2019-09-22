@@ -10,4 +10,5 @@ services:
     # Name of executable to be run
     # command: /src/bin/tutorial
     # command: /src/bin/mandel
-    command: /src/bin/linked
+    # command: /src/bin/linked
+    command: /src/bin/prodCons

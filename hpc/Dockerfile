@@ -23,7 +23,9 @@ RUN cmake -E make_directory build && \
 # Check if the program has dynamic dependencies
 RUN cd /src/bin && \ 
     ldd tutorial && \
-    ldd mandel
+    ldd mandel && \
+    ldd linked && \
+    ldd prodCons
 
 # # Multistage build
 # FROM alpine AS runtime
