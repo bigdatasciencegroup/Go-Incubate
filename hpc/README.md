@@ -12,17 +12,17 @@ For easy reference, each code solution is named according to the slide on which 
 1. Slide 57 - Compute Pi in Parallel with padding
 1. Slide 69 - Compute Pi in Parallel with synchronisation
 1. Slide 88 - Compute Pi with WorkSharing
-    + main file: `apps/tutorial.c`
+    + main file: `/apps/tutorial.c`
     + to execute, set: `command: /src/bin/tutorial` in `docker-compose.yaml` file
 1. Slide 119 - Mandel Brot
-    + main file: `apps/mandel.c`
+    + main file: `/apps/mandel.c`
     + to execute, set: `command: /src/bin/mandel` in `docker-compose.yaml` file    
 1. Slide 124 - Linked list computed serially
 1. Slide 128 - Linked list without Tasks
 1. Slide 143 - Linked list with Tasks
-    + main file: `apps/linked.c`
+    + main file: `/apps/linked.c`
     + to execute, set: `command: /src/bin/linked` in `docker-compose.yaml` file
 1. Slide 166 - Producer Consumer
-    + main file: `apps/prodCons.c`
+    + main file: `/apps/prodCons.c`
     + to execute, set: `command: /src/bin/prodCons` in `docker-compose.yaml` file
 1. Slide 
