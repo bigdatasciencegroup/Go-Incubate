@@ -48,7 +48,7 @@ int main()
   double *A = (double *)malloc(N * sizeof(double));
 
   runtime = omp_get_wtime();
-  #pragma omp parallel 
+  #pragma omp parallel
   {
     #pragma omp sections
     {
@@ -57,18 +57,20 @@ int main()
         fill_rand(N, A); // Producer: fill an array of data
         #pragma omp flush
         #pragma atomic write
-          flag = 1;
-        #pragma omp flush (flag)
+        flag = 1;
+        #pragma omp flush(flag)
       }
       #pragma omp section
       {
-        while(1){
+        while (1)
+        {
           #pragma omp flush(flag)
           #pragma omp atomic read
-            flagTemp = flag;
-          if(flagTemp == 1){
+          flagTemp = flag;
+          if (flagTemp == 1)
+          {
             break;
-          }  
+          }
         }
         #pragma omp flush
         sum = Sum_array(N, A); // Consumer: sum the array

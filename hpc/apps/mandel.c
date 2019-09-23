@@ -13,6 +13,7 @@ struct d_complex{
 
 int testpoint(struct d_complex c);
 
+// Slide 119 - Mandel Brot
 int main(){
     double area, error, eps  = 1.0e-5;
     struct d_complex c;
