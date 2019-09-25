@@ -8,7 +8,7 @@ services:
     environment:
       - ENVVAR=successfully retrieved env variable
     # Name of executable to be run
-    # command: /src/bin/tutorial
+    command: /src/bin/tutorial
     # command: /src/bin/mandel
     # command: /src/bin/linked
-    command: /src/bin/prodCons
+    # command: /src/bin/prodCons
