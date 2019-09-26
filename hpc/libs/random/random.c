@@ -28,11 +28,15 @@
 //      Written by Tim Mattson, 9/2007.
 //      changed to drandom() to avoid collision with standard libraries, 11/2011
 
+#include <omp.h>
+
 static long MULTIPLIER  = 1366;
 static long ADDEND      = 150889;
 static long PMOD        = 714025;
 long random_last = 0;
 double random_low, random_hi;
+
+#pragma omp threadprivate(random_last)
 
 double drandom()
 {

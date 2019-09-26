@@ -92,6 +92,7 @@ History:
 
 static long num_trials = 10000;
 
+
 int main()
 {
    long i;
@@ -99,10 +100,12 @@ int main()
    double pi, x, y, test;
    double r = 1.0; // radius of circle. Side of squrare is 2*r
 
+   // omp_set_num_threads(0);
+
    seed(-r, r); // The circle and square are centered at the origin
-   #pragma omp parallel 
+   #pragma omp parallel
    {
-      #pragma omp for private(x, y, test) reduction(+ : Ncirc)
+      #pragma omp for private(x, y, test) firstprivate(r) reduction(+ : Ncirc)
       for (i = 0; i < num_trials; i++)
       {
          x = drandom();
