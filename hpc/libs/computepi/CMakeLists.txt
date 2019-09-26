@@ -1,6 +1,6 @@
 add_library(computepi 
-    ./computepi.cpp
-    ./random.c)
+    ./computepi.cpp 
+    ./computepi.h)
 
 # Find packages
 find_package(OpenMP REQUIRED) # Find OPENMP package

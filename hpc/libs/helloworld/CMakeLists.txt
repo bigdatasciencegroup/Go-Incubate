@@ -1,4 +1,6 @@
-add_library(helloworld ./helloworld.cpp)
+add_library(helloworld 
+    ./helloworld.cpp
+    ./helloworld.h)
 
 # Find packages
 find_package(OpenMP REQUIRED) # Find OPENMP package

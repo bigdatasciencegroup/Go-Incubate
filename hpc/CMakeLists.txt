@@ -33,7 +33,7 @@ find_package(Doxygen)
 # find_package(cpprestsdk REQUIRED)
 
 # Internal includes
-include_directories(./include/)
+# include_directories(./include/)
 
 # External includes
 # include_directories(${MPI_CXX_INCLUDE_PATH}) 
@@ -44,6 +44,7 @@ add_subdirectory(./apps/)
 # Add subdirectories - libraries
 add_subdirectory(./libs/helloworld/)
 add_subdirectory(./libs/computepi/)
+add_subdirectory(./libs/random/)
 
 # Link external libraries
 # target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)
