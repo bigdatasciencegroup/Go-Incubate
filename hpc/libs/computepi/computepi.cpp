@@ -5,6 +5,7 @@
 computepi::computepi(){
 }
 
+// Serial computation
 double computepi::runPiSerial(int numSteps){
     double x, pi, sum = 0.0;
     double step = 1.0/double(numSteps);
@@ -21,6 +22,7 @@ double computepi::runPiSerial(int numSteps){
     return pi;
 }
 
+// Use of array and cyclic for loop. But incurs false sharing due to shared cache line.
 double computepi::runPiParallel(int numSteps, int nThreadsInput){
     double x;
     double step = 1.0/double(numSteps);
@@ -53,6 +55,7 @@ double computepi::runPiParallel(int numSteps, int nThreadsInput){
     return pi;
 }
 
+// Use of array and cyclic for loop. Array is padded to avoid false sharing.
 double computepi::runPiParallelPad(int numSteps, int nThreadsInput){
     double x;
     int pad = 8;
@@ -86,6 +89,7 @@ double computepi::runPiParallelPad(int numSteps, int nThreadsInput){
     return pi;
 }
 
+// 
 double computepi::runPiParallelSync(int numSteps, int nThreadsInput){
     double x;
     double step = 1.0/double(numSteps);
@@ -120,6 +124,7 @@ double computepi::runPiParallelSync(int numSteps, int nThreadsInput){
     return pi;
 }
 
+// Work sharing construct using `#pragma omp for reduction`
 double computepi::runPiWorkSharing(int numSteps){
     double pi, sum = 0.0;
     double step = 1.0/double(numSteps);
@@ -155,7 +160,6 @@ double computepi::runPiTest(int numSteps){
             x = (ii + 0.5)*step;
             sum = sum + 4.0/(1.0+x*x);
         }
-
     }
     double totalTime = omp_get_wtime() - startTime;
     pi = step * sum;

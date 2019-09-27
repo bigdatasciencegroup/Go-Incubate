@@ -90,8 +90,8 @@ History:
 // The monte carlo pi program
 //
 
-static long num_trials = 10000;
-
+static long num_trials = 23;
+#pragma omp threadprivate(num_trials)
 
 int main()
 {
@@ -100,10 +100,10 @@ int main()
    double pi, x, y, test;
    double r = 1.0; // radius of circle. Side of squrare is 2*r
 
-   // omp_set_num_threads(0);
+   omp_set_num_threads(4);
 
    seed(-r, r); // The circle and square are centered at the origin
-   #pragma omp parallel
+   #pragma omp parallel default(none) shared(Ncirc, x, y, test, r) copyin(num_trials)
    {
       #pragma omp for private(x, y, test) firstprivate(r) reduction(+ : Ncirc)
       for (i = 0; i < num_trials; i++)
@@ -121,5 +121,6 @@ int main()
    pi = 4.0 * ((double)Ncirc / (double)num_trials);
    printf("\n %ld trials, pi is %lf \n", num_trials, pi);
    printer12();
+
    return 0;
 }
