@@ -89,7 +89,7 @@ double computepi::runPiParallelPad(int numSteps, int nThreadsInput){
     return pi;
 }
 
-// 
+// Use of cyclic for loop with `#pragma omp critical` for synchronisation
 double computepi::runPiParallelSync(int numSteps, int nThreadsInput){
     double x;
     double step = 1.0/double(numSteps);

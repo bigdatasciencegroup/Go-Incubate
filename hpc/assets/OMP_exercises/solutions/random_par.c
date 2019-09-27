@@ -94,18 +94,16 @@ void seed(double low_in, double hi_in)
 // the sequence by increments of "nthreads" and adust seeds so each 
 // thread starts with the right offset
 //
-
       nthreads = omp_get_num_threads();
       iseed = PMOD/MULTIPLIER;     // just pick a reasonable seed
       pseed[0][0] = iseed;
       mult_n = MULTIPLIER;
       for (i = 1; i < nthreads; ++i)
       {
-	iseed = (unsigned long long)((MULTIPLIER * iseed) % PMOD);
-	pseed[i][0] = iseed;
-	mult_n = (mult_n * MULTIPLIER) % PMOD;
+         iseed = (unsigned long long)((MULTIPLIER * iseed) % PMOD);
+         pseed[i][0] = iseed;
+         mult_n = (mult_n * MULTIPLIER) % PMOD;
       }
-
    }
    random_last = (unsigned long long) pseed[id][0];
 }
