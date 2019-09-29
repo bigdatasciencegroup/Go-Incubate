@@ -84,13 +84,12 @@ History:
 #include <stdio.h>
 #include <omp.h>
 #include "random.h"
-#include "test12.h"
 
 //
 // The monte carlo pi program
 //
 
-static long num_trials = 23;
+static long num_trials = 10000;
 #pragma omp threadprivate(num_trials)
 
 int main()
@@ -102,9 +101,9 @@ int main()
 
    omp_set_num_threads(4);
 
-   seed(-r, r); // The circle and square are centered at the origin
    #pragma omp parallel default(none) shared(Ncirc, x, y, test, r) copyin(num_trials)
    {
+      seed(-r, r); // The circle and square are centered at the origin
       #pragma omp for private(x, y, test) firstprivate(r) reduction(+ : Ncirc)
       for (i = 0; i < num_trials; i++)
       {
@@ -120,7 +119,6 @@ int main()
 
    pi = 4.0 * ((double)Ncirc / (double)num_trials);
    printf("\n %ld trials, pi is %lf \n", num_trials, pi);
-   printer12();
 
    return 0;
 }

@@ -29,23 +29,29 @@
 //      changed to drandom() to avoid collision with standard libraries, 11/2011
 
 #include <omp.h>
+#include <stdio.h>
 
-static long MULTIPLIER  = 1366;
-static long ADDEND      = 150889;
-static long PMOD        = 714025;
-long random_last = 0;
+static unsigned long long MULTIPLIER  = 764261123;
+static unsigned long long PMOD        = 2147483647;
+static unsigned long long mult_n;
 double random_low, random_hi;
+
+#define MAX_THREADS 128
+static unsigned long long pseed[MAX_THREADS][4]; //[4] to padd to cache line
+                                                 //size to avoid false sharing
+
+unsigned long long random_last = 0;
 #pragma omp threadprivate(random_last)
 
 double drandom()
 {
-    long random_next;
+    unsigned long long random_next;
     double ret_val;
 
 // 
 // compute an integer random number from zero to mod
 //
-    random_next = (MULTIPLIER  * random_last + ADDEND)% PMOD;
+    random_next = (unsigned long long)((mult_n  * random_last)% PMOD);
     random_last = random_next;
 
 //
@@ -59,17 +65,34 @@ double drandom()
 //
 void seed(double low_in, double hi_in)
 {
-   if(low_in < hi_in)
-   { 
-      random_low = low_in;
-      random_hi  = hi_in;
-   }
-   else
-   {
-      random_low = hi_in;
-      random_hi  = low_in;
-   }
-   random_last = PMOD/ADDEND;  // just pick something
+    int id = omp_get_thread_num();
+
+    #pragma omp single
+    {
+        if(low_in < hi_in)
+        { 
+            random_low = low_in;
+            random_hi  = hi_in;
+        }
+        else
+        {
+            random_low = hi_in;
+            random_hi  = low_in;
+        }
+
+        int nthreads = omp_get_num_threads();
+        unsigned long long iseed = PMOD/MULTIPLIER;     // just pick a reasonable seed
+        pseed[0][0] = iseed;
+        mult_n = MULTIPLIER;
+        for (int i = 1; i < nthreads; ++i)
+        {
+            iseed = (unsigned long long)((MULTIPLIER * iseed) % PMOD);
+            pseed[i][0] = iseed;
+            mult_n = (mult_n * MULTIPLIER) % PMOD;
+        }
+    }
+
+   random_last = (unsigned long long) pseed[id][0];
 
 }
 //**********************************************************

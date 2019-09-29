@@ -13,3 +13,4 @@ services:
     # command: /src/bin/linked
     # command: /src/bin/prodCons
     command: /src/bin/pi_mc
+    # command: /src/bin/trial

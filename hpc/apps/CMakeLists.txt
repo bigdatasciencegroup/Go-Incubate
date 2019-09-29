@@ -1,5 +1,8 @@
 # include_directories(./include/)
 
+# Executable 0
+add_executable(trial ./trial.c)
+
 # Executable 1
 add_executable(tutorial ./tutorial.cpp)
 target_link_libraries(tutorial PRIVATE helloworld)
