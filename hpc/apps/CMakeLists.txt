@@ -1,7 +1,7 @@
 # include_directories(./include/)
 
 # Executable 0
-add_executable(trial ./trial.c)
+# add_executable(trial ./trial.c)
 
 # Executable 1
 add_executable(tutorial ./tutorial.cpp)
@@ -31,3 +31,10 @@ find_package(OpenMP REQUIRED) # Find OPENMP package
 target_link_libraries(pi_mc OpenMP::OpenMP_C)
 target_link_libraries(pi_mc random)
 target_include_directories(pi_mc PUBLIC ../libs/random/)
+
+# Executable 6
+add_executable(trial ./trial.c)
+find_package(OpenMP REQUIRED) # Find OPENMP package
+target_link_libraries(trial OpenMP::OpenMP_C)
+target_link_libraries(trial trialRandom)
+target_include_directories(trial PUBLIC ../libs/trialRandom/)

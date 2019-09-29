@@ -45,6 +45,7 @@ add_subdirectory(./apps/)
 add_subdirectory(./libs/helloworld/)
 add_subdirectory(./libs/computepi/)
 add_subdirectory(./libs/random/)
+add_subdirectory(./libs/trialRandom/)
 
 # Link external libraries
 # target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)
