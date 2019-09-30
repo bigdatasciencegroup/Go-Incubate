@@ -6,4 +6,4 @@ add_library(random
 find_package(OpenMP REQUIRED) # Find OPENMP package
 
 # Link external libraries
-target_link_libraries(random OpenMP::OpenMP_C)
+target_link_libraries(random PRIVATE OpenMP::OpenMP_C)

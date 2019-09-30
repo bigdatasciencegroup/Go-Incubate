@@ -107,6 +107,9 @@ int main()
 
    #pragma omp parallel default(none) shared(Ncirc, x, y, test, r) copyin(num_trials)
    {
+      #pragma omp single
+         printf("Num of threads %d\n",omp_get_num_threads());
+
       seed(-r, r); // The circle and square are centered at the origin
       
       #pragma omp for private(x, y, test) firstprivate(r) reduction(+ : Ncirc)
