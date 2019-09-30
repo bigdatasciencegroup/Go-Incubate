@@ -1,5 +1,5 @@
 # Base image
-FROM ubuntu:bionic-20190807 AS buildstage
+FROM ubuntu AS buildstage
 
 # Install build tools
 RUN apt-get update && apt-get upgrade -y
@@ -16,16 +16,16 @@ COPY . .
 
 # Use cmake to compile the cpp source file. cmake@v3.10.x .
 RUN cmake -E make_directory build && \
-    # cmake -E chdir ./build cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/x86_64-linux-gnu/cmake .. && \
     cmake -E chdir ./build cmake -DCMAKE_BUILD_TYPE=Release .. && \
     cmake --build ./build
 
-# Check if the program has dynamic dependencies
+# # Check if the program has dynamic dependencies
 # RUN cd /src/bin && \ 
 #     ldd tutorial && \
 #     ldd mandel && \
 #     ldd linked && \
-#     ldd prodCons
+#     ldd prodCons && \
+#     ldd pi_mc
 
 # # Multistage build
 # FROM alpine AS runtime
@@ -37,5 +37,5 @@ RUN cmake -E make_directory build && \
 # COPY --from=buildstage /src/build /src/build/
 # COPY --from=buildstage /src/bin /src/bin/
 
-# Command to execute when the image loads
+# # Command to execute when the image loads
 # ENTRYPOINT ["/src/bin/tutorial"]

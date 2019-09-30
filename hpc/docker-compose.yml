@@ -12,5 +12,4 @@ services:
     # command: /src/bin/mandel
     # command: /src/bin/linked
     # command: /src/bin/prodCons
-    # command: /src/bin/pi_mc
-    command: /src/bin/trial
+    command: /src/bin/pi_mc

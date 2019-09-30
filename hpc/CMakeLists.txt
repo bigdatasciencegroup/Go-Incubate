@@ -12,8 +12,8 @@ include(GNUInstallDirs)
 include(${CMAKE_ROOT}/Modules/FindPkgConfig.cmake)
 
 # Build settings
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+# set(CMAKE_C_STANDARD 11)
+# set(CMAKE_C_STANDARD_REQUIRED ON)
 # set(CMAKE_CXX_STANDARD 11)
 # set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # set(CMAKE_CXX_EXTENSIONS OFF) # Let's ensure -std=c++xx instead of -std=g++xx
@@ -27,9 +27,8 @@ find_package(Doxygen)
 # else()
 #     message(STATUS "Doxygen not found, not building docs")
 # endif()
-# find_package(OpenMP REQUIRED) # Find OPENMP package
+
 # find_package(MPI REQUIRED) # Find OPENMPI package
-# include_directories(/usr/lib/x86_64-linux-gnu/cmake/)
 # find_package(cpprestsdk REQUIRED)
 
 # Internal includes
@@ -45,10 +44,8 @@ add_subdirectory(./apps/)
 add_subdirectory(./libs/helloworld/)
 add_subdirectory(./libs/computepi/)
 add_subdirectory(./libs/random/)
-add_subdirectory(./libs/trialRandom/)
 
 # Link external libraries
-# target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)
 # target_link_libraries(${PROJECT_NAME} MPI::MPI_CXX)
 
 # Test

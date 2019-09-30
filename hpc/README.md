@@ -6,23 +6,70 @@ For easy reference, each code solution is named according to the slide on which 
 
 
 **List of exercises**
-1. Slide 38 - Parallel 'Hello World' program
-1. Slide 48 - Compute Pi in Serial
-1. Slide 52 - Compute Pi in Parallel with false sharing
-1. Slide 57 - Compute Pi in Parallel with padding
-1. Slide 69 - Compute Pi in Parallel with synchronisation
-1. Slide 88 - Compute Pi with WorkSharing
-    + main file: `/apps/tutorial.c`
-    + to execute, set: `command: /src/bin/tutorial` in `docker-compose.yaml` file
-1. Slide 119 - Mandel Brot
-    + main file: `/apps/mandel.c`
-    + to execute, set: `command: /src/bin/mandel` in `docker-compose.yaml` file    
-1. Slide 124 - Linked list computed serially
-1. Slide 128 - Linked list without Tasks
-1. Slide 143 - Linked list with Tasks
-    + main file: `/apps/linked.c`
-    + to execute, set: `command: /src/bin/linked` in `docker-compose.yaml` file
-1. Slide 166 - Producer Consumer
-    + main file: `/apps/prodCons.c`
-    + to execute, set: `command: /src/bin/prodCons` in `docker-compose.yaml` file
-1. Slide 
+
+In order to run the solutions for the exercise, the following steps
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;border-color:#aaa;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aaa;color:#333;background-color:#fff;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aaa;color:#fff;background-color:#f38630;}
+.tg .tg-0z1f{background-color:#FCFBE3;border-color:#000000;text-align:left;vertical-align:top}
+.tg .tg-wp8o{border-color:#000000;text-align:center;vertical-align:top}
+.tg .tg-kvc3{background-color:#FCFBE3;border-color:#000000;text-align:left;vertical-align:middle}
+.tg .tg-73oq{border-color:#000000;text-align:left;vertical-align:top}
+.tg .tg-0a7q{border-color:#000000;text-align:left;vertical-align:middle}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg-wp8o">Exercise</th>
+    <th class="tg-wp8o">Instructions to run</th>
+  </tr>
+  <tr>
+    <td class="tg-0z1f">Slide 38 - Parallel 'Hello World' program</td>
+    <td class="tg-kvc3" rowspan="6">1) Main file: `/apps/tutorial.cpp`<br><br>2) To execute, set: `command: /src/bin/tutorial` in `docker-compose.yaml` file<br></td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Slide 48 - Compute Pi in serial</td>
+  </tr>
+  <tr>
+    <td class="tg-0z1f">Slide 52 - Compute Pi in parallel with false sharing</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Slide 57 - Compute Pi in parallel with padding</td>
+  </tr>
+  <tr>
+    <td class="tg-0z1f">Slide 69 - Compute Pi in parallel with synchronization</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Slide 88 - Compute Pi with WorkSharing</td>
+  </tr>
+  <tr>
+    <td class="tg-kvc3">Slide 119 - Mandel Brot</td>
+    <td class="tg-kvc3">1) Main file: `/apps/mandel.c`<br><br>2) To execute, set: `command: /src/bin/mandel` in `docker-compose.yaml` file</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Slide 124 - Linked list computed serially</td>
+    <td class="tg-0a7q" rowspan="3">1) Main file: `/apps/linked.c`<br><br>2) To execute, set: `command: /src/bin/linked` in `docker-compose.yaml` file</td>
+  </tr>
+  <tr>
+    <td class="tg-0z1f">Slide 128 - Linked list in parallel without Tasks</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Slide 143 - Linked list in parallel with Tasks</td>
+  </tr>
+  <tr>
+    <td class="tg-kvc3">Slide 166 - Producer Consumer</td>
+    <td class="tg-0z1f">1) Main file: `/apps/prodCons.c`<br><br>2) To execute, set: `command: /src/bin/prodCons` in `docker-compose.yaml` file</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Slide 177 - Parallel Monte Carlo computation of PI</td>
+    <td class="tg-0a7q" rowspan="3">1) Main file: `/apps/pi_mc.c`<br><br>2) To execute, set: `command: /src/bin/pi_mc` in `docker-compose.yaml` file</td>
+  </tr>
+  <tr>
+    <td class="tg-0z1f">Slide 181 - Thread safe random number generator</td>
+  </tr>
+  <tr>
+    <td class="tg-73oq">Slide 185 - Leap frog method to avoid overlapped random number sequence</td>
+  </tr>
+</table>    
+ 

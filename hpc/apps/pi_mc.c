@@ -81,6 +81,7 @@ History:
    Written by Tim Mattson, 9/2007.
 
 */
+
 #include <stdio.h>
 #include <omp.h>
 #include "random.h"
@@ -92,6 +93,9 @@ History:
 static long num_trials = 10000;
 #pragma omp threadprivate(num_trials)
 
+// Slide 177 - Parallel Monte Carlo computation of PI
+// Slide 181 - Thread safe random number generator
+// Slide 185 - Leap frog method to avoid overlapped random number sequence
 int main()
 {
    long i;
