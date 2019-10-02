@@ -9,7 +9,7 @@ message("LIB PUBLIC HEADERS directory = " ${LIB_PUBLIC_HEADERS})
 # Set Doxygen variables
 set(DOXYGEN_INPUT_DIR ${PROJECT_SOURCE_DIR}/libs/)
 set(DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/doxygen)
-set(DOXYGEN_RECURSIVE YES)
+# set(DOXYGEN_RECURSIVE YES)
 set(DOXYGEN_INDEX_FILE ${DOXYGEN_OUTPUT_DIR}/html/index.html)
 set(DOXYFILE_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
 set(DOXYFILE_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
@@ -44,7 +44,7 @@ add_custom_command(OUTPUT ${SPHINX_INDEX_FILE}
 	COMMAND 
 		${SPHINX_EXECUTABLE} -b html
 		# Tell Breathe where to find the Doxygen output
-		-Dbreathe_projects.CatCutifier=${DOXYGEN_OUTPUT_DIR}/xml
+		-Dbreathe_projects.cppdocu=${DOXYGEN_OUTPUT_DIR}/xml
 		${SPHINX_SOURCE} ${SPHINX_BUILD}
 	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 	DEPENDS 

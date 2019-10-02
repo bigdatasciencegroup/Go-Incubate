@@ -1,8 +1,5 @@
 #include "tutorial.h"
 
-/**
-  A fluffy feline
-*/
-int make_par() {
-	return 3;
+int func1(int y, double r) {
+	return (int)y*r;
 }
