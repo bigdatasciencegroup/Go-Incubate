@@ -8,4 +8,4 @@ services:
     environment:
       - ENVVAR=successfully retrieved env variable
     # Name of executable to be run
-    command: /src/bin/tutorial
+    command: ["mpirun", "-np", "4", "/src/bin/tutorial"]

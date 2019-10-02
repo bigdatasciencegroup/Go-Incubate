@@ -2,11 +2,10 @@
 FROM ubuntu AS buildstage
 
 # Install build tools
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update --fix-missing && apt-get upgrade -y
 RUN apt-get -y install \
     cmake pkg-config doxygen \
-    libopenmpi-dev \
-    libcpprest-dev
+    libopenmpi-dev
 
 # Change working directory
 WORKDIR /src

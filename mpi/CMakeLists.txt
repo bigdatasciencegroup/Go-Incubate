@@ -21,41 +21,27 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin/)
 
 # Find packages
 # Docs only available if this is the main app
-find_package(Doxygen)
+# find_package(Doxygen)
 # if(Doxygen_FOUND)
 #     add_subdirectory(./docs)
 # else()
 #     message(STATUS "Doxygen not found, not building docs")
 # endif()
 
-# find_package(MPI REQUIRED) # Find OPENMPI package
-# find_package(cpprestsdk REQUIRED)
-
-# Internal includes
-# include_directories(./include/)
-
-# External includes
-# include_directories(${MPI_CXX_INCLUDE_PATH}) 
-
 # Add subdirectories - executable
 add_subdirectory(./apps/)
 
 # Add subdirectories - libraries
 add_subdirectory(./libs/helloworld/)
-# add_subdirectory(./libs/computepi/)
-# add_subdirectory(./libs/random/)
-
-# Link external libraries
-# target_link_libraries(${PROJECT_NAME} MPI::MPI_CXX)
 
 # Test
-include(CTest)
+# include(CTest)
 # add_test(NAME appTest COMMAND app)
 
 # Messages
-message("CMAKE source directory = " ${CMAKE_SOURCE_DIR})
-message("CMAKE binary directory = " ${CMAKE_BINARY_DIR})
-message("Project source directory = " ${PROJECT_SOURCE_DIR})
-message("Project binary directory = " ${PROJECT_BINARY_DIR})
-message("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
-message("MPI_INCLUDE_PATH = " ${MPI_INCLUDE_PATH})
+# message("CMAKE source directory = " ${CMAKE_SOURCE_DIR})
+# message("CMAKE binary directory = " ${CMAKE_BINARY_DIR})
+# message("Project source directory = " ${PROJECT_SOURCE_DIR})
+# message("Project binary directory = " ${PROJECT_BINARY_DIR})
+# message("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
+# message("MPI_INCLUDE_PATH = " ${MPI_INCLUDE_PATH})

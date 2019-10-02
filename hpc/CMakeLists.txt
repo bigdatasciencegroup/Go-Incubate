@@ -46,7 +46,7 @@ add_subdirectory(./libs/computepi/)
 add_subdirectory(./libs/random/)
 
 # Link external libraries
-# target_link_libraries(${PROJECT_NAME} MPI::MPI_CXX)
+# target_link_libraries(${PROJECT_NAME} MPI::MPI_C)
 
 # Test
 include(CTest)
