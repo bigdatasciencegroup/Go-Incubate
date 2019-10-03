@@ -28,6 +28,12 @@ int main(int argc,char **argv) {
         printf("There are %d processes. Printed by rank %d\n", world_size, world_rank);
     }
 
+    //
+    FILE *fp;
+    char text[] = "", 
+    fp = fopen (["../data/data.txt" world_rank], "w");
+    fclose(fp);
+
     ierr = MPI_Finalize();
     
     return 0;
