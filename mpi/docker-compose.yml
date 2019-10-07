@@ -1,7 +1,7 @@
 version: '3'
 services:
 
-  hpc:
+  mpi:
     image: mpi
     container_name: mpi   
     restart: on-failure #Ensures that intermittent failures in the Docker environment do not result in unnecessary failures of the service.

@@ -22,3 +22,7 @@ add_executable(randommax ./randommax.c)
 find_package(MPI REQUIRED)
 target_link_libraries(randommax PRIVATE MPI::MPI_C)
 
+# Exercise 10 & 11 (jordan)
+add_executable(jordan ./jordan.c)
+find_package(MPI REQUIRED)
+target_link_libraries(jordan PRIVATE MPI::MPI_C)

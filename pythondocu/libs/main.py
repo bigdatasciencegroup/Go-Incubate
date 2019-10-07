@@ -20,13 +20,13 @@ def fetch_bigtable_rows(big_table, keys, other_silly_variable=None):
             longer name than the other args, and which does nothing.
 
     Returns:
-        A dict mapping keys to the corresponding table row data
+        dict mapping keys to the corresponding table row data
         fetched. Each row is represented as a tuple of strings. For
         example:
 
         {'Serak': ('Rigel VII', 'Preparer'),
-         'Zim': ('Irk', 'Invader'),
-         'Lrrr': ('Omicron Persei 8', 'Emperor')}
+        'Zim': ('Irk', 'Invader'),
+        'Lrrr': ('Omicron Persei 8', 'Emperor')}
 
         If a key from the keys argument is missing from the dictionary,
         then that row was not found in the table.
