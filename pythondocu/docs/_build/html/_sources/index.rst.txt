@@ -4,7 +4,7 @@ Welcome to pythondocu's documentation!
 .. automodule:: libs.main
     :members:
 
-.. automodule:: module
+.. automodule:: libs.function
     :members:
 
 .. toctree::

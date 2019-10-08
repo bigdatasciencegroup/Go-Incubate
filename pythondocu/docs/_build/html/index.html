@@ -82,6 +82,7 @@
               <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">Welcome to pythondocu’s documentation!</a><ul>
 <li><a class="reference internal" href="#main-py">main.py</a></li>
+<li><a class="reference internal" href="#function-py">function.py</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
@@ -163,53 +164,76 @@ Longer class information….</p>
 <dl class="attribute">
 <dt id="libs.main.SampleClass.likes_spam">
 <code class="sig-name descname">likes_spam</code><a class="headerlink" href="#libs.main.SampleClass.likes_spam" title="Permalink to this definition">¶</a></dt>
-<dd><p>A boolean indicating if we like SPAM or not.</p>
+<dd><p>A boolean indicating if we like spam or not.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="libs.main.SampleClass.eggs">
 <code class="sig-name descname">eggs</code><a class="headerlink" href="#libs.main.SampleClass.eggs" title="Permalink to this definition">¶</a></dt>
-<dd><p>An integer count of the eggs we have laid.</p>
+<dd><p>An integer count of the eggs.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="libs.main.SampleClass.public_method">
 <code class="sig-name descname">public_method</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#libs.main.SampleClass.public_method" title="Permalink to this definition">¶</a></dt>
-<dd><p>Performs operation blah.</p>
+<dd><p>Performs operation multiplication.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="function">
-<dt id="libs.main.fetch_bigtable_rows">
-<code class="sig-prename descclassname">libs.main.</code><code class="sig-name descname">fetch_bigtable_rows</code><span class="sig-paren">(</span><em class="sig-param">big_table</em>, <em class="sig-param">keys</em>, <em class="sig-param">other_silly_variable=None</em><span class="sig-paren">)</span><a class="headerlink" href="#libs.main.fetch_bigtable_rows" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fetches rows from a Bigtable.</p>
+<dt id="libs.main.fetch_data_rows">
+<code class="sig-prename descclassname">libs.main.</code><code class="sig-name descname">fetch_data_rows</code><span class="sig-paren">(</span><em class="sig-param">ml_layer</em>, <em class="sig-param">keys</em>, <em class="sig-param">other_variable=None</em><span class="sig-paren">)</span><a class="headerlink" href="#libs.main.fetch_data_rows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches rows from a data.</p>
 <p>Retrieves rows pertaining to the given keys from the Table instance
-represented by big_table.  Silly things may happen if
-other_silly_variable is not None.</p>
+represented by ml_layer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>big_table</strong> – An open Bigtable Table instance.</p></li>
+<li><p><strong>ml_layer</strong> – An open data Table instance.</p></li>
 <li><p><strong>keys</strong> – A sequence of strings representing the key of each table row
 to fetch.</p></li>
-<li><p><strong>other_silly_variable</strong> – Another optional variable, that has a much
-longer name than the other args, and which does nothing.</p></li>
+<li><p><strong>other_variable</strong> – Another optional variable, that has a much
+longer name than the other args.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><p>dict mapping keys to the corresponding table row data
-fetched. Each row is represented as a tuple of strings. For
-example:</p>
-<p>{‘Serak’: (‘Rigel VII’, ‘Preparer’),
-‘Zim’: (‘Irk’, ‘Invader’),
-‘Lrrr’: (‘Omicron Persei 8’, ‘Emperor’)}</p>
-<p>If a key from the keys argument is missing from the dictionary,
-then that row was not found in the table.</p>
+fetched. Each row is represented as a tuple of strings.</p>
+<p>{‘Layer1’: (‘CNN’, ‘LSTM’),
+‘Layer2’: (‘Ridge’, ‘Regression’)}</p>
 </p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>IOError</strong> – An error occurred accessing the bigtable.Table object.</p>
+<dd class="field-odd"><p><strong>IOError</strong> – An error occurred accessing the data.Table object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<span class="target" id="module-libs.function"></span><div class="section" id="function-py">
+<h2>function.py<a class="headerlink" href="#function-py" title="Permalink to this headline">¶</a></h2>
+<p>The core module of my example project</p>
+<dl class="function">
+<dt id="libs.function.fetch_ml_model">
+<code class="sig-prename descclassname">libs.function.</code><code class="sig-name descname">fetch_ml_model</code><span class="sig-paren">(</span><em class="sig-param">big_value</em>, <em class="sig-param">keys</em>, <em class="sig-param">other_variable=None</em><span class="sig-paren">)</span><a class="headerlink" href="#libs.function.fetch_ml_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches rows from a ML model.</p>
+<p>Retrieves rows pertaining to the given keys from the Table instance
+represented by ML model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>big_table</strong> – An open ML model Table instance.</p></li>
+<li><p><strong>keys</strong> – A sequence of strings representing the key of each table row
+to fetch.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dict mapping keys to the corresponding table row data
+fetched. Each row is represented as a tuple of strings.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>IOError</strong> – An error occurred accessing the ML model.Table object.</p>
 </dd>
 </dl>
 </dd></dl>

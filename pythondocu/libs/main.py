@@ -5,36 +5,30 @@ The core module of my example project
 """
 
 
-def fetch_bigtable_rows(big_table, keys, other_silly_variable=None):
-    """Fetches rows from a Bigtable.
+def fetch_data_rows(ml_layer, keys, other_variable=None):
+    """Fetches rows from a data.
 
     Retrieves rows pertaining to the given keys from the Table instance
-    represented by big_table.  Silly things may happen if
-    other_silly_variable is not None.
+    represented by ml_layer. 
 
     Args:
-        big_table: An open Bigtable Table instance.
+        ml_layer: An open data Table instance.
         keys: A sequence of strings representing the key of each table row
             to fetch.
-        other_silly_variable: Another optional variable, that has a much
-            longer name than the other args, and which does nothing.
+        other_variable: Another optional variable, that has a much
+            longer name than the other args.
 
     Returns:
         dict mapping keys to the corresponding table row data
-        fetched. Each row is represented as a tuple of strings. For
-        example:
+        fetched. Each row is represented as a tuple of strings. 
 
-        {'Serak': ('Rigel VII', 'Preparer'),
-        'Zim': ('Irk', 'Invader'),
-        'Lrrr': ('Omicron Persei 8', 'Emperor')}
-
-        If a key from the keys argument is missing from the dictionary,
-        then that row was not found in the table.
+        {'Layer1': ('CNN', 'LSTM'),
+        'Layer2': ('Ridge', 'Regression')}
 
     Raises:
-        IOError: An error occurred accessing the bigtable.Table object.
+        IOError: An error occurred accessing the data.Table object.
     """
-    return "The wise {} loves Python.".format(big_table)
+    return "The wise {} loves Python.".format(ml_layer)
 
 class SampleClass(object):
     """Summary of class here.
@@ -43,15 +37,15 @@ class SampleClass(object):
     Longer class information....
 
     Attributes:
-        likes_spam: A boolean indicating if we like SPAM or not.
-        eggs: An integer count of the eggs we have laid.
+        likes_spam: A boolean indicating if we like spam or not.
+        eggs: An integer count of the eggs.
     """
 
     def __init__(self, likes_spam=False):
-        """Inits SampleClass with blah."""
+        """Inits SampleClass with bla."""
         self.likes_spam = likes_spam
         self.eggs = 0
 
     def public_method(self):
-        """Performs operation blah."""    
-        return "I am a very smart {} object.".format(self.eggs)
+        """Performs operation multiplication."""    
+        return "I am a {} object.".format(self.eggs)
