@@ -111,17 +111,17 @@ int main(int argc, char **argv)
      * make sure that everyone knows the scaling factors
      */
     /**** your code here ****/
-
+    MPI_Bcast(scalings, N, MPI_DOUBLE, piv, comm);
     /*
      * Now update the matrix.
      * Answer for yourself: why is there no loop over the columns?
      */
     for (int row = 0; row < N; row++)
     {
-      if (row == piv)
+      if (row == piv){
         continue;
-      matrix[row] =
-          matrix[row] - scalings[row] * matrix[piv];
+      }
+      matrix[row] = matrix[row] - scalings[row] * matrix[piv];
     }
     // update the right hand side
     for (int row = 0; row < N; row++)
@@ -131,7 +131,7 @@ int main(int argc, char **argv)
       rhs[row] = rhs[row] - scalings[row] * rhs[piv];
     }
   }
-  //printf("swept=["); for (int i=0; i<N; i++) printf("%e,",rhs[i]); printf("]\n");
+  // printf("swept=["); for (int i=0; i<N; i++) printf("%e,",rhs[i]); printf("]\n");
 
   // check that we have swept
   for (int row = 0; row < N; row++)
@@ -141,7 +141,8 @@ int main(int argc, char **argv)
     if (abs(matrix[row]) > 1.e-14)
       printf("Wrong value at [%d,%d]: %e\n", row, procno, matrix[row]);
   }
-  //printf("Diagonal element %d: %e\n",procno,matrix[procno]);
+  // printf("Diagonal element %d: %e\n",procno,matrix[procno]);
+  // printf("Procno=%d, swept=[",procno); for (int i=0; i<N; i++) printf("%e,",matrix[i]); printf("]\n");
 
   /*
    * Solve the system
@@ -164,6 +165,5 @@ int main(int argc, char **argv)
   }
 
   MPI_Finalize();
-
   return 0;
 }
