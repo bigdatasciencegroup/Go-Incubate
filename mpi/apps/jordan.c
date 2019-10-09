@@ -164,6 +164,18 @@ int main(int argc, char **argv)
       printf("Success\n");
   }
 
+  int datatype_size;
+  MPI_Type_size(MPI_DOUBLE, &datatype_size);
+  void *gathered_numbers;
+  if (procno == 0) {
+    gathered_numbers = (double*)malloc(datatype_size * nprocs);
+  }
+  ((double*)(gathered_numbers))[0] = 2.3;
+  // gathered_numbers[1] = 3.3;
+  for (int ii = 0; ii< 1; ii++){
+    printf("%f",((double*)gathered_numbers)[ii]);            
+  }
+
   MPI_Finalize();
   return 0;
 }
