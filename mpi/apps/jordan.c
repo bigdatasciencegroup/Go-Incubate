@@ -1,16 +1,3 @@
-/* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%%%
-   %%%% This program file is part of the book and course
-   %%%% "Parallel Computing"
-   %%%% by Victor Eijkhout, copyright 2013-8
-   %%%%
-   %%%% jordancol.c : Gauss-Jordan with matrix distributed by columns
-   %%%%
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-*/
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -162,18 +149,6 @@ int main(int argc, char **argv)
       }
     if (success > 0)
       printf("Success\n");
-  }
-
-  int datatype_size;
-  MPI_Type_size(MPI_DOUBLE, &datatype_size);
-  void *gathered_numbers;
-  if (procno == 0) {
-    gathered_numbers = (double*)malloc(datatype_size * nprocs);
-  }
-  ((double*)(gathered_numbers))[0] = 2.3;
-  // gathered_numbers[1] = 3.3;
-  for (int ii = 0; ii< 1; ii++){
-    printf("%f",((double*)gathered_numbers)[ii]);            
   }
 
   MPI_Finalize();
